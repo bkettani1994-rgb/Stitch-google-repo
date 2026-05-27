@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NexaCore — Enterprise ERP Solutions</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:   #0a1628;
+      --blue:   #1a56db;
+      --blue-light: #3b82f6;
+      --accent: #06b6d4;
+      --gray-100: #f1f5f9;
+      --gray-200: #e2e8f0;
+      --gray-500: #64748b;
+      --gray-700: #334155;
+      --white:  #ffffff;
+      --radius: 12px;
+      --shadow: 0 4px 24px rgba(10,22,40,.10);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      color: var(--navy);
+      background: var(--white);
+      line-height: 1.6;
+    }
+
+    a { text-decoration: none; color: inherit; }
+
+    /* ── NAV ─────────────────────────────────────────── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 6vw;
+      height: 68px;
+      background: rgba(255,255,255,.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--gray-200);
+    }
+
+    .logo {
+      font-size: 1.4rem; font-weight: 800; letter-spacing: -.5px;
+      color: var(--navy);
+    }
+    .logo span { color: var(--blue); }
+
+    .nav-links { display: flex; gap: 2rem; font-size: .93rem; font-weight: 500; color: var(--gray-700); }
+    .nav-links a:hover { color: var(--blue); }
+
+    .nav-cta {
+      display: flex; gap: .75rem; align-items: center;
+    }
+    .btn-outline {
+      padding: .5rem 1.2rem; border: 1.5px solid var(--blue);
+      border-radius: 8px; font-weight: 600; font-size: .88rem;
+      color: var(--blue); transition: background .2s, color .2s;
+    }
+    .btn-outline:hover { background: var(--blue); color: var(--white); }
+
+    .btn-primary {
+      padding: .55rem 1.4rem; background: var(--blue);
+      border-radius: 8px; font-weight: 600; font-size: .88rem;
+      color: var(--white); transition: background .2s, transform .15s;
+      border: none; cursor: pointer;
+    }
+    .btn-primary:hover { background: #1546b8; transform: translateY(-1px); }
+
+    /* ── HERO ────────────────────────────────────────── */
+    .hero {
+      display: flex; flex-direction: column; align-items: center;
+      text-align: center;
+      padding: 6rem 6vw 5rem;
+      background: linear-gradient(160deg, #f0f7ff 0%, #ffffff 60%);
+      position: relative; overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute; top: -120px; right: -160px;
+      width: 560px; height: 560px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(26,86,219,.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: #e0eaff; color: var(--blue);
+      padding: .35rem 1rem; border-radius: 999px;
+      font-size: .8rem; font-weight: 600; letter-spacing: .4px;
+      margin-bottom: 1.5rem; text-transform: uppercase;
+    }
+    .hero-badge span { width: 7px; height: 7px; border-radius: 50%; background: var(--blue); }
+
+    .hero h1 {
+      font-size: clamp(2.4rem, 5vw, 3.6rem);
+      font-weight: 900; line-height: 1.15;
+      letter-spacing: -1.5px; max-width: 780px;
+      color: var(--navy);
+    }
+    .hero h1 em { font-style: normal; color: var(--blue); }
+
+    .hero p {
+      margin-top: 1.25rem; max-width: 580px;
+      font-size: 1.1rem; color: var(--gray-500);
+    }
+
+    .hero-actions {
+      display: flex; gap: 1rem; margin-top: 2.5rem; flex-wrap: wrap; justify-content: center;
+    }
+    .hero-actions .btn-primary { padding: .85rem 2rem; font-size: 1rem; border-radius: 10px; }
+    .hero-actions .btn-outline  { padding: .85rem 2rem; font-size: 1rem; border-radius: 10px; }
+
+    .hero-stats {
+      display: flex; gap: 3rem; margin-top: 4rem; flex-wrap: wrap; justify-content: center;
+    }
+    .stat { text-align: center; }
+    .stat-num { font-size: 2rem; font-weight: 800; color: var(--navy); line-height: 1; }
+    .stat-num sup { font-size: 1rem; }
+    .stat-label { font-size: .82rem; color: var(--gray-500); margin-top: .25rem; }
+
+    .hero-img-wrap {
+      margin-top: 4rem; width: 100%; max-width: 900px;
+      border-radius: 18px; overflow: hidden;
+      box-shadow: 0 24px 60px rgba(10,22,40,.18);
+      border: 1px solid var(--gray-200);
+    }
+    .dashboard-mock {
+      width: 100%; background: #f8fafc;
+      padding: 1.5rem;
+    }
+    .mock-topbar {
+      display: flex; gap: .5rem; margin-bottom: 1rem;
+    }
+    .mock-dot { width: 12px; height: 12px; border-radius: 50%; }
+    .mock-sidebar {
+      display: flex; gap: 1rem;
+    }
+    .mock-nav-col {
+      width: 160px; flex-shrink: 0;
+      background: var(--navy); border-radius: 10px; padding: 1rem;
+      display: flex; flex-direction: column; gap: .6rem; min-height: 280px;
+    }
+    .mock-nav-item {
+      height: 10px; border-radius: 6px; background: rgba(255,255,255,.15);
+    }
+    .mock-nav-item.active { background: var(--blue); width: 70%; }
+    .mock-content { flex: 1; display: flex; flex-direction: column; gap: 1rem; }
+    .mock-cards { display: flex; gap: 1rem; }
+    .mock-card {
+      flex: 1; background: var(--white); border-radius: 10px;
+      padding: 1rem; border: 1px solid var(--gray-200);
+    }
+    .mock-card-val { height: 20px; border-radius: 5px; background: var(--blue); width: 55%; margin-bottom: .5rem; }
+    .mock-card-lbl { height: 9px; border-radius: 5px; background: var(--gray-200); width: 70%; }
+    .mock-card:nth-child(2) .mock-card-val { background: var(--accent); width: 45%; }
+    .mock-card:nth-child(3) .mock-card-val { background: #8b5cf6; width: 60%; }
+    .mock-chart { background: var(--white); border-radius: 10px; padding: 1rem; border: 1px solid var(--gray-200); }
+    .mock-chart-bars { display: flex; align-items: flex-end; gap: .5rem; height: 100px; padding-top: .5rem; }
+    .mock-bar { flex: 1; border-radius: 4px 4px 0 0; background: var(--blue); opacity: .7; }
+
+    /* ── LOGOS ───────────────────────────────────────── */
+    .logos-section {
+      padding: 2.5rem 6vw;
+      background: var(--gray-100);
+      text-align: center;
+    }
+    .logos-label { font-size: .8rem; font-weight: 600; color: var(--gray-500); letter-spacing: .8px; text-transform: uppercase; margin-bottom: 1.5rem; }
+    .logos-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 2.5rem; align-items: center; }
+    .logo-pill {
+      background: var(--white); border: 1px solid var(--gray-200);
+      border-radius: 8px; padding: .5rem 1.5rem;
+      font-weight: 700; font-size: .95rem; color: var(--gray-500);
+      letter-spacing: -.2px;
+    }
+
+    /* ── SECTION HEADER ──────────────────────────────── */
+    .section-header { text-align: center; max-width: 640px; margin: 0 auto 3rem; }
+    .section-tag {
+      display: inline-block; font-size: .75rem; font-weight: 700;
+      letter-spacing: .8px; text-transform: uppercase;
+      color: var(--blue); margin-bottom: .75rem;
+    }
+    .section-header h2 { font-size: clamp(1.8rem, 3.5vw, 2.6rem); font-weight: 800; letter-spacing: -.5px; line-height: 1.2; }
+    .section-header p { margin-top: .75rem; color: var(--gray-500); font-size: 1.05rem; }
+
+    /* ── FEATURES ────────────────────────────────────── */
+    .features { padding: 6rem 6vw; }
+    .features-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .feature-card {
+      background: var(--gray-100); border-radius: var(--radius);
+      padding: 2rem; transition: transform .2s, box-shadow .2s;
+    }
+    .feature-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+    .feature-icon {
+      width: 48px; height: 48px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem; margin-bottom: 1.25rem;
+    }
+    .feature-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: .5rem; }
+    .feature-card p { font-size: .92rem; color: var(--gray-500); }
+
+    /* ── MODULES ─────────────────────────────────────── */
+    .modules { padding: 6rem 6vw; background: var(--gray-100); }
+    .modules-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.25rem;
+    }
+    .module-card {
+      background: var(--white); border-radius: var(--radius);
+      padding: 1.75rem; border: 1px solid var(--gray-200);
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .module-card:hover { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(26,86,219,.08); }
+    .module-top { display: flex; align-items: center; gap: .75rem; margin-bottom: .75rem; }
+    .module-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .module-card h3 { font-size: 1rem; font-weight: 700; }
+    .module-card p { font-size: .88rem; color: var(--gray-500); }
+
+    /* ── HOW IT WORKS ────────────────────────────────── */
+    .how { padding: 6rem 6vw; }
+    .steps { display: flex; flex-direction: column; gap: 2rem; max-width: 720px; margin: 0 auto; }
+    .step { display: flex; gap: 1.5rem; align-items: flex-start; }
+    .step-num {
+      flex-shrink: 0; width: 44px; height: 44px; border-radius: 50%;
+      background: var(--blue); color: var(--white);
+      font-weight: 800; font-size: 1.1rem;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .step-body h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: .3rem; }
+    .step-body p { font-size: .92rem; color: var(--gray-500); }
+
+    /* ── TESTIMONIALS ────────────────────────────────── */
+    .testimonials { padding: 6rem 6vw; background: var(--navy); color: var(--white); }
+    .testimonials .section-tag { color: var(--accent); }
+    .testimonials .section-header h2 { color: var(--white); }
+    .testimonials .section-header p { color: rgba(255,255,255,.6); }
+    .testi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+    .testi-card {
+      background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1);
+      border-radius: var(--radius); padding: 2rem;
+    }
+    .testi-stars { color: #facc15; font-size: 1rem; margin-bottom: 1rem; }
+    .testi-text { font-size: .95rem; color: rgba(255,255,255,.8); line-height: 1.7; margin-bottom: 1.5rem; }
+    .testi-author { display: flex; align-items: center; gap: .75rem; }
+    .testi-avatar {
+      width: 40px; height: 40px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: .95rem; color: var(--white);
+    }
+    .testi-name { font-weight: 700; font-size: .9rem; }
+    .testi-role { font-size: .8rem; color: rgba(255,255,255,.5); }
+
+    /* ── PRICING ─────────────────────────────────────── */
+    .pricing { padding: 6rem 6vw; }
+    .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; max-width: 980px; margin: 0 auto; }
+    .pricing-card {
+      border: 1.5px solid var(--gray-200); border-radius: var(--radius);
+      padding: 2rem; position: relative;
+    }
+    .pricing-card.featured {
+      border-color: var(--blue);
+      background: #f0f7ff;
+      box-shadow: 0 0 0 4px rgba(26,86,219,.07);
+    }
+    .pricing-badge {
+      position: absolute; top: -13px; left: 50%; transform: translateX(-50%);
+      background: var(--blue); color: var(--white);
+      font-size: .72rem; font-weight: 700; letter-spacing: .5px; text-transform: uppercase;
+      padding: .2rem .9rem; border-radius: 999px;
+    }
+    .pricing-tier { font-size: .8rem; font-weight: 700; text-transform: uppercase; letter-spacing: .6px; color: var(--gray-500); margin-bottom: .5rem; }
+    .pricing-card.featured .pricing-tier { color: var(--blue); }
+    .price { font-size: 2.5rem; font-weight: 900; color: var(--navy); line-height: 1; }
+    .price span { font-size: 1rem; font-weight: 500; color: var(--gray-500); }
+    .pricing-desc { font-size: .88rem; color: var(--gray-500); margin: .5rem 0 1.5rem; }
+    .pricing-features { list-style: none; display: flex; flex-direction: column; gap: .6rem; margin-bottom: 2rem; }
+    .pricing-features li { font-size: .9rem; display: flex; gap: .5rem; align-items: flex-start; }
+    .pricing-features li::before { content: '✓'; color: var(--blue); font-weight: 700; flex-shrink: 0; }
+    .pricing-card .btn-primary { width: 100%; text-align: center; display: block; border-radius: 10px; padding: .75rem; font-size: .95rem; }
+    .pricing-card .btn-outline { width: 100%; text-align: center; display: block; border-radius: 10px; padding: .75rem; font-size: .95rem; }
+
+    /* ── CTA BANNER ──────────────────────────────────── */
+    .cta-banner {
+      margin: 0 6vw 6rem;
+      background: linear-gradient(135deg, var(--navy) 0%, #1a3a6e 100%);
+      border-radius: 20px; padding: 4rem 6vw;
+      display: flex; flex-direction: column; align-items: center; text-align: center;
+      color: var(--white);
+    }
+    .cta-banner h2 { font-size: clamp(1.8rem, 3.5vw, 2.4rem); font-weight: 800; max-width: 600px; }
+    .cta-banner p { margin-top: .75rem; color: rgba(255,255,255,.65); max-width: 520px; }
+    .cta-banner-actions { display: flex; gap: 1rem; margin-top: 2rem; flex-wrap: wrap; justify-content: center; }
+    .cta-banner-actions .btn-primary { background: var(--white); color: var(--blue); padding: .85rem 2rem; border-radius: 10px; font-size: 1rem; }
+    .cta-banner-actions .btn-primary:hover { background: #e0eaff; }
+    .cta-banner-actions .btn-ghost {
+      padding: .85rem 2rem; border-radius: 10px; font-size: 1rem; font-weight: 600;
+      border: 1.5px solid rgba(255,255,255,.35); color: var(--white);
+      transition: border-color .2s, background .2s;
+    }
+    .cta-banner-actions .btn-ghost:hover { background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.6); }
+
+    /* ── FOOTER ──────────────────────────────────────── */
+    footer {
+      background: var(--navy); color: rgba(255,255,255,.6);
+      padding: 4rem 6vw 2rem;
+    }
+    .footer-top {
+      display: grid; grid-template-columns: 2fr repeat(3, 1fr);
+      gap: 3rem; margin-bottom: 3rem;
+    }
+    .footer-brand .logo { font-size: 1.3rem; color: var(--white); display: block; margin-bottom: .75rem; }
+    .footer-brand p { font-size: .88rem; line-height: 1.7; max-width: 260px; }
+    .footer-col h4 { font-size: .85rem; font-weight: 700; text-transform: uppercase; letter-spacing: .6px; color: var(--white); margin-bottom: 1rem; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: .5rem; }
+    .footer-col li { font-size: .88rem; }
+    .footer-col a:hover { color: var(--white); }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,.1);
+      padding-top: 1.5rem;
+      display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+      font-size: .82rem;
+    }
+    .footer-bottom a:hover { color: var(--white); }
+
+    /* ── RESPONSIVE ──────────────────────────────────── */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .footer-top { grid-template-columns: 1fr 1fr; }
+      .mock-nav-col { display: none; }
+      .hero-stats { gap: 1.5rem; }
+    }
+    @media (max-width: 520px) {
+      .footer-top { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="logo">Nexa<span>Core</span></a>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#modules">Modules</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#testimonials">Customers</a>
+      <a href="#">Docs</a>
+    </div>
+    <div class="nav-cta">
+      <a href="#" class="btn-outline">Sign In</a>
+      <a href="#" class="btn-primary">Start Free Trial</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-badge"><span></span> Trusted by 2,400+ businesses worldwide</div>
+    <h1>Run Your Entire Business<br/>on <em>One Platform</em></h1>
+    <p>NexaCore unifies finance, operations, HR, and supply chain into a single, intelligent ERP — so your team spends less time switching tools and more time growing.</p>
+    <div class="hero-actions">
+      <a href="#" class="btn-primary">Get Started Free</a>
+      <a href="#" class="btn-outline">Watch Demo →</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-num">98<sup>%</sup></div><div class="stat-label">Customer retention rate</div></div>
+      <div class="stat"><div class="stat-num">3.5×</div><div class="stat-label">Avg. ROI in year one</div></div>
+      <div class="stat"><div class="stat-num">60<sup>+</sup></div><div class="stat-label">Integrations available</div></div>
+      <div class="stat"><div class="stat-num">14 days</div><div class="stat-label">Avg. time to go live</div></div>
+    </div>
+
+    <!-- Dashboard mockup -->
+    <div class="hero-img-wrap">
+      <div class="dashboard-mock">
+        <div class="mock-topbar">
+          <div class="mock-dot" style="background:#ff5f57"></div>
+          <div class="mock-dot" style="background:#febc2e"></div>
+          <div class="mock-dot" style="background:#28c840"></div>
+        </div>
+        <div class="mock-sidebar">
+          <div class="mock-nav-col">
+            <div class="mock-nav-item active"></div>
+            <div class="mock-nav-item" style="width:85%"></div>
+            <div class="mock-nav-item" style="width:60%"></div>
+            <div class="mock-nav-item" style="width:75%"></div>
+            <div class="mock-nav-item" style="width:50%"></div>
+            <div class="mock-nav-item" style="width:80%"></div>
+          </div>
+          <div class="mock-content">
+            <div class="mock-cards">
+              <div class="mock-card"><div class="mock-card-val"></div><div class="mock-card-lbl"></div></div>
+              <div class="mock-card"><div class="mock-card-val"></div><div class="mock-card-lbl"></div></div>
+              <div class="mock-card"><div class="mock-card-val"></div><div class="mock-card-lbl"></div></div>
+            </div>
+            <div class="mock-chart">
+              <div class="mock-chart-bars">
+                <div class="mock-bar" style="height:55%"></div>
+                <div class="mock-bar" style="height:70%"></div>
+                <div class="mock-bar" style="height:45%"></div>
+                <div class="mock-bar" style="height:85%"></div>
+                <div class="mock-bar" style="height:60%"></div>
+                <div class="mock-bar" style="height:95%"></div>
+                <div class="mock-bar" style="height:75%"></div>
+                <div class="mock-bar" style="height:80%"></div>
+                <div class="mock-bar" style="height:65%"></div>
+                <div class="mock-bar" style="height:90%"></div>
+                <div class="mock-bar" style="height:70%"></div>
+                <div class="mock-bar" style="height:88%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LOGOS -->
+  <section class="logos-section">
+    <div class="logos-label">Trusted by industry leaders</div>
+    <div class="logos-row">
+      <div class="logo-pill">Hartmann & Co.</div>
+      <div class="logo-pill">Veltrix Group</div>
+      <div class="logo-pill">Covalent Industries</div>
+      <div class="logo-pill">Arcline Logistics</div>
+      <div class="logo-pill">Meridian Health</div>
+      <div class="logo-pill">Stonegate Capital</div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="features" id="features">
+    <div class="section-header">
+      <div class="section-tag">Why NexaCore</div>
+      <h2>Everything your enterprise needs, built in</h2>
+      <p>From real-time analytics to automated workflows, NexaCore removes the friction between data, decisions, and action.</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon" style="background:#dbeafe">📊</div>
+        <h3>Real-Time Dashboards</h3>
+        <p>Live KPIs, custom reports, and drill-down analytics across every department — always up to date.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:#dcfce7">⚡</div>
+        <h3>Workflow Automation</h3>
+        <p>Design no-code automation rules for approvals, alerts, data sync, and recurring tasks in minutes.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:#f3e8ff">🔒</div>
+        <h3>Enterprise-Grade Security</h3>
+        <p>SOC 2 Type II, ISO 27001, role-based access control, and end-to-end encryption as standard.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:#cffafe">🔗</div>
+        <h3>60+ Integrations</h3>
+        <p>Connect Salesforce, Shopify, QuickBooks, AWS, Slack, and more via our open REST API and native connectors.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:#fef9c3">🤖</div>
+        <h3>AI-Powered Insights</h3>
+        <p>Predictive demand forecasting, anomaly detection, and natural-language queries surface insights automatically.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background:#ffe4e6">🌍</div>
+        <h3>Multi-Entity & Multi-Currency</h3>
+        <p>Manage subsidiaries, global tax compliance, and consolidated reporting across 150+ currencies.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- MODULES -->
+  <section class="modules" id="modules">
+    <div class="section-header">
+      <div class="section-tag">Modules</div>
+      <h2>A complete suite for every function</h2>
+      <p>Activate only the modules you need — each one works standalone or together as a unified system.</p>
+    </div>
+    <div class="modules-grid">
+      <div class="module-card">
+        <div class="module-top"><div class="module-dot" style="background:#1a56db"></div><h3>Financial Management</h3></div>
+        <p>GL, AP/AR, budgeting, consolidation, and audit trails for full financial control.</p>
+      </div>
+      <div class="module-card">
+        <div class="module-top"><div class="module-dot" style="background:#06b6d4"></div><h3>Supply Chain</h3></div>
+        <p>Procurement, inventory, warehouse management, and supplier collaboration in one place.</p>
+      </div>
+      <div class="module-card">
+        <div class="module-top"><div class="module-dot" style="background:#8b5cf6"></div><h3>HR & Payroll</h3></div>
+        <p>Employee lifecycle, time-tracking, payroll processing, and compliance reporting.</p>
+      </div>
+      <div class="module-card">
+        <div class="module-top"><div class="module-dot" style="background:#f59e0b"></div><h3>Manufacturing</h3></div>
+        <p>BOM, production scheduling, MRP, quality control, and shop-floor management.</p>
+      </div>
+      <div class="module-card">
+        <div class="module-top"><div class="module-dot" style="background:#10b981"></div><h3>CRM & Sales</h3></div>
+        <p>Pipeline management, order-to-cash, customer portals, and sales forecasting.</p>
+      </div>
+      <div class="module-card">
+        <div class="module-top"><div class="module-dot" style="background:#ef4444"></div><h3>Project Management</h3></div>
+        <p>Resource planning, milestone tracking, time billing, and profitability analysis per project.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="how" id="how">
+    <div class="section-header">
+      <div class="section-tag">Getting Started</div>
+      <h2>Up and running in days, not months</h2>
+      <p>Our guided onboarding process gets your team productive fast — with dedicated support every step of the way.</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <h3>Configure your workspace</h3>
+          <p>Answer a short questionnaire about your business. NexaCore auto-configures your chart of accounts, workflows, and user roles.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <h3>Migrate your data</h3>
+          <p>Import from spreadsheets, legacy systems, or connect live via API. Our migration wizard validates and maps every record automatically.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <h3>Train your team</h3>
+          <p>Contextual in-app guides, role-based onboarding flows, and live webinars get everyone up to speed without lengthy classroom training.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <h3>Go live and scale</h3>
+          <p>Deploy with confidence. Add modules, users, and entities as you grow — with no downtime or costly re-implementation.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="testimonials" id="testimonials">
+    <div class="section-header">
+      <div class="section-tag">Customer Stories</div>
+      <h2>Real results from real companies</h2>
+      <p>See how NexaCore customers cut costs, accelerate growth, and gain complete visibility.</p>
+    </div>
+    <div class="testi-grid">
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"We consolidated 6 disparate systems into NexaCore in under 3 weeks. Our month-end close went from 12 days to 3. It's the single best investment we've made."</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:#1a56db">SR</div>
+          <div>
+            <div class="testi-name">Sarah Reynolds</div>
+            <div class="testi-role">CFO, Hartmann & Co.</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"The supply chain module alone saved us $2.1M in excess inventory in the first year. The AI demand forecasting is genuinely impressive."</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:#06b6d4">MK</div>
+          <div>
+            <div class="testi-name">Marcus Kim</div>
+            <div class="testi-role">COO, Covalent Industries</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"We went from spreadsheet chaos to full real-time visibility across 4 entities in 14 countries. The multi-currency consolidation is flawless."</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:#8b5cf6">LP</div>
+          <div>
+            <div class="testi-name">Layla Patel</div>
+            <div class="testi-role">VP Finance, Arcline Logistics</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="pricing" id="pricing">
+    <div class="section-header">
+      <div class="section-tag">Pricing</div>
+      <h2>Transparent pricing, no surprises</h2>
+      <p>Choose the plan that fits your size. All plans include implementation support and 24/7 uptime SLA.</p>
+    </div>
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <div class="pricing-tier">Growth</div>
+        <div class="price">$299<span> /mo</span></div>
+        <p class="pricing-desc">For growing companies ready to replace spreadsheets.</p>
+        <ul class="pricing-features">
+          <li>Up to 25 users</li>
+          <li>Finance + HR modules</li>
+          <li>10 automation workflows</li>
+          <li>Standard reporting</li>
+          <li>Email support</li>
+        </ul>
+        <a href="#" class="btn-outline">Start Free Trial</a>
+      </div>
+      <div class="pricing-card featured">
+        <div class="pricing-badge">Most Popular</div>
+        <div class="pricing-tier">Business</div>
+        <div class="price">$799<span> /mo</span></div>
+        <p class="pricing-desc">For mid-market companies scaling operations across teams.</p>
+        <ul class="pricing-features">
+          <li>Up to 100 users</li>
+          <li>All core modules</li>
+          <li>Unlimited automations</li>
+          <li>Advanced analytics + AI</li>
+          <li>Priority support + CSM</li>
+          <li>API access + 20 integrations</li>
+        </ul>
+        <a href="#" class="btn-primary">Start Free Trial</a>
+      </div>
+      <div class="pricing-card">
+        <div class="pricing-tier">Enterprise</div>
+        <div class="price">Custom</div>
+        <p class="pricing-desc">For large enterprises with complex, multi-entity requirements.</p>
+        <ul class="pricing-features">
+          <li>Unlimited users</li>
+          <li>All modules + custom builds</li>
+          <li>Dedicated infrastructure</li>
+          <li>SLA 99.99% uptime</li>
+          <li>Dedicated implementation team</li>
+          <li>On-premise or private cloud</li>
+        </ul>
+        <a href="#" class="btn-outline">Contact Sales</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA BANNER -->
+  <div class="cta-banner">
+    <h2>Ready to transform how your business operates?</h2>
+    <p>Start a 14-day free trial — no credit card required. Our team will help you configure and go live fast.</p>
+    <div class="cta-banner-actions">
+      <a href="#" class="btn-primary">Start Free Trial</a>
+      <a href="#" class="btn-ghost">Talk to Sales</a>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="#" class="logo">Nexa<span style="color:var(--accent)">Core</span></a>
+        <p>The modern ERP platform built for businesses that refuse to be slowed down by legacy software.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Product</h4>
+        <ul>
+          <li><a href="#">Features</a></li>
+          <li><a href="#">Modules</a></li>
+          <li><a href="#">Integrations</a></li>
+          <li><a href="#">Pricing</a></li>
+          <li><a href="#">Changelog</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Customers</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Press</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="#">Documentation</a></li>
+          <li><a href="#">API Reference</a></li>
+          <li><a href="#">Community</a></li>
+          <li><a href="#">Security</a></li>
+          <li><a href="#">Status</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 NexaCore, Inc. All rights reserved.</span>
+      <div style="display:flex;gap:1.5rem">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Cookie Settings</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
