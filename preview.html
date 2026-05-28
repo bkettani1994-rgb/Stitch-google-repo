@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SplineSceneBasic – Preview</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #0f0f0f;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      padding: 2rem;
+    }
+
+    /* ── Card ──────────────────────────────────────────────── */
+    .card {
+      width: 100%;
+      max-width: 900px;
+      height: 500px;
+      background: rgba(0, 0, 0, 0.96);
+      border-radius: 0.5rem;
+      border: 1px solid rgba(255,255,255,0.08);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+    }
+
+    /* ── Spotlight SVG ─────────────────────────────────────── */
+    .spotlight {
+      pointer-events: none;
+      position: absolute;
+      z-index: 1;
+      width: 138%;
+      height: 169%;
+      top: -10rem;
+      left: 0;
+      animation: spotlight 2s ease 0.75s 1 forwards;
+      opacity: 0;
+    }
+    @media (min-width: 768px) {
+      .spotlight { left: 15rem; top: -5rem; width: 84%; }
+    }
+    @keyframes spotlight {
+      0%   { opacity: 0; transform: translate(-72%, -62%) scale(0.5); }
+      100% { opacity: 1; transform: translate(-50%, -40%) scale(1); }
+    }
+
+    /* ── Left panel ────────────────────────────────────────── */
+    .left {
+      flex: 1;
+      padding: 2rem;
+      position: relative;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .left h1 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 700;
+      line-height: 1.15;
+      background: linear-gradient(to bottom, #f5f5f5, #a3a3a3);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .left p {
+      margin-top: 1rem;
+      color: #d4d4d4;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      max-width: 380px;
+    }
+
+    /* ── Right panel – Spline placeholder ─────────────────── */
+    .right {
+      flex: 1;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    /* A CSS-only robot/3D scene stand-in */
+    .scene-placeholder {
+      position: relative;
+      width: 220px;
+      height: 280px;
+    }
+
+    /* Head */
+    .robot-head {
+      width: 100px;
+      height: 80px;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      border-radius: 16px;
+      margin: 0 auto;
+      position: relative;
+      box-shadow: 0 0 40px rgba(139,92,246,0.5);
+      animation: float 3s ease-in-out infinite;
+    }
+    .robot-head::before, .robot-head::after {
+      content: '';
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      background: #fff;
+      border-radius: 50%;
+      top: 22px;
+    }
+    .robot-head::before { left: 18px; box-shadow: 0 0 10px #a5b4fc; }
+    .robot-head::after  { right: 18px; box-shadow: 0 0 10px #a5b4fc; }
+
+    /* Mouth */
+    .robot-mouth {
+      width: 36px;
+      height: 8px;
+      background: rgba(255,255,255,0.3);
+      border-radius: 4px;
+      position: absolute;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    /* Body */
+    .robot-body {
+      width: 130px;
+      height: 110px;
+      background: linear-gradient(135deg, #4f46e5, #7c3aed);
+      border-radius: 12px;
+      margin: 10px auto 0;
+      position: relative;
+      box-shadow: 0 0 30px rgba(99,102,241,0.4);
+      animation: float 3s ease-in-out infinite;
+      animation-delay: 0.1s;
+    }
+    .robot-body::before {
+      content: '';
+      position: absolute;
+      width: 50px;
+      height: 30px;
+      border: 2px solid rgba(255,255,255,0.25);
+      border-radius: 6px;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    /* Arms */
+    .robot-arm {
+      width: 24px;
+      height: 80px;
+      background: linear-gradient(135deg, #4f46e5, #7c3aed);
+      border-radius: 10px;
+      position: absolute;
+      top: 0;
+      animation: float 3s ease-in-out infinite;
+      animation-delay: 0.2s;
+      box-shadow: 0 0 20px rgba(99,102,241,0.3);
+    }
+    .robot-arm.left  { left: -30px; transform: rotate(-10deg); }
+    .robot-arm.right { right: -30px; transform: rotate(10deg); }
+
+    /* Legs */
+    .robot-legs {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      margin-top: 8px;
+    }
+    .robot-leg {
+      width: 28px;
+      height: 50px;
+      background: linear-gradient(135deg, #4338ca, #6d28d9);
+      border-radius: 8px;
+      box-shadow: 0 0 15px rgba(99,102,241,0.3);
+    }
+
+    /* Glow ring under robot */
+    .glow-ring {
+      width: 160px;
+      height: 20px;
+      background: radial-gradient(ellipse, rgba(139,92,246,0.4) 0%, transparent 70%);
+      border-radius: 50%;
+      margin: 6px auto 0;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-12px); }
+    }
+
+    /* ── Label ─────────────────────────────────────────────── */
+    .preview-label {
+      position: absolute;
+      bottom: 10px;
+      right: 14px;
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.2);
+      letter-spacing: 0.05em;
+      z-index: 20;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+
+    <!-- Spotlight -->
+    <svg class="spotlight" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3787 2842" fill="none">
+      <g filter="url(#filter0)">
+        <ellipse cx="1924.71" cy="273.501" rx="1924.71" ry="273.501"
+          transform="matrix(-0.822377 -0.568943 -0.568943 0.822377 3631.88 2291.09)"
+          fill="white" fill-opacity="0.21"/>
+      </g>
+      <defs>
+        <filter id="filter0" x="0.860352" y="0.838989" width="3785.16" height="2840.26"
+          filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+          <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+          <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+          <feGaussianBlur stdDeviation="151" result="effect1_foregroundBlur"/>
+        </filter>
+      </defs>
+    </svg>
+
+    <!-- Left content -->
+    <div class="left">
+      <h1>Interactive 3D</h1>
+      <p>
+        Bring your UI to life with beautiful 3D scenes. Create immersive experiences
+        that capture attention and enhance your design.
+      </p>
+    </div>
+
+    <!-- Right content – CSS stand-in for the Spline robot scene -->
+    <div class="right">
+      <div class="scene-placeholder">
+        <div class="robot-head">
+          <div class="robot-mouth"></div>
+        </div>
+        <div class="robot-body">
+          <div class="robot-arm left"></div>
+          <div class="robot-arm right"></div>
+        </div>
+        <div class="robot-legs">
+          <div class="robot-leg"></div>
+          <div class="robot-leg"></div>
+        </div>
+        <div class="glow-ring"></div>
+      </div>
+    </div>
+
+    <span class="preview-label">3D scene: @splinetool/react-spline (live app)</span>
+  </div>
+
+</body>
+</html>
