@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lys d'Or — Centre Spa & Beauté</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+  :root {
+    --gold: #c9a84c;
+    --gold-light: #e8d5a3;
+    --gold-dark: #9a7a2e;
+    --cream: #faf6f0;
+    --dark: #1a1a1a;
+    --text: #4a4a4a;
+    --white: #ffffff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Montserrat', sans-serif;
+    color: var(--text);
+    background: var(--white);
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: 'Cormorant Garamond', serif;
+  }
+
+  /* ── NAVBAR ── */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 1000;
+    padding: 1.2rem 5%;
+    display: flex; align-items: center; justify-content: space-between;
+    transition: all 0.4s ease;
+    background: transparent;
+  }
+  nav.scrolled {
+    background: rgba(255,255,255,0.97);
+    box-shadow: 0 2px 20px rgba(0,0,0,0.08);
+    padding: 0.8rem 5%;
+  }
+  .logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem; font-weight: 600;
+    color: var(--white); text-decoration: none;
+    letter-spacing: 2px; transition: color 0.4s;
+  }
+  nav.scrolled .logo { color: var(--gold-dark); }
+  .nav-links { display: flex; gap: 2.2rem; list-style: none; }
+  .nav-links a {
+    text-decoration: none; font-size: 0.78rem; letter-spacing: 1.5px;
+    text-transform: uppercase; font-weight: 500;
+    color: rgba(255,255,255,0.9); transition: color 0.3s;
+    position: relative;
+  }
+  .nav-links a::after {
+    content: ''; position: absolute; bottom: -4px; left: 0;
+    width: 0; height: 1px; background: var(--gold);
+    transition: width 0.3s;
+  }
+  .nav-links a:hover::after { width: 100%; }
+  nav.scrolled .nav-links a { color: var(--text); }
+  .nav-links a:hover { color: var(--gold); }
+  .btn-nav {
+    background: var(--gold); color: var(--white) !important;
+    padding: 0.5rem 1.4rem; border-radius: 30px;
+    transition: background 0.3s, transform 0.2s !important;
+  }
+  .btn-nav::after { display: none !important; }
+  .btn-nav:hover { background: var(--gold-dark) !important; transform: scale(1.05); }
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+  .hamburger span { width: 26px; height: 2px; background: var(--white); transition: all 0.3s; display: block; }
+  nav.scrolled .hamburger span { background: var(--dark); }
+
+  /* ── HERO ── */
+  #hero {
+    height: 100vh; position: relative;
+    display: flex; align-items: center; justify-content: center;
+    text-align: center; overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, #1a1008 0%, #3d2b0e 40%, #6b4c1e 70%, #c9a84c 100%);
+    z-index: 0;
+  }
+  .hero-bg::before {
+    content: ''; position: absolute; inset: 0;
+    background: url('https://picsum.photos/seed/spa1/1600/900') center/cover no-repeat;
+    opacity: 0.25; animation: zoomBg 12s ease-in-out infinite alternate;
+  }
+  @keyframes zoomBg { from { transform: scale(1); } to { transform: scale(1.06); } }
+  .hero-particles {
+    position: absolute; inset: 0; overflow: hidden; z-index: 1;
+  }
+  .particle {
+    position: absolute; width: 4px; height: 4px;
+    background: var(--gold-light); border-radius: 50%; opacity: 0;
+    animation: floatUp 8s infinite;
+  }
+  @keyframes floatUp {
+    0% { opacity: 0; transform: translateY(0) scale(0); }
+    10% { opacity: 0.7; }
+    90% { opacity: 0.3; }
+    100% { opacity: 0; transform: translateY(-100vh) scale(1.5); }
+  }
+  .hero-content { position: relative; z-index: 2; padding: 0 1rem; }
+  .hero-tag {
+    display: inline-block; font-size: 0.72rem; letter-spacing: 4px;
+    text-transform: uppercase; color: var(--gold-light);
+    border: 1px solid var(--gold-light); padding: 0.4rem 1.5rem;
+    border-radius: 30px; margin-bottom: 1.5rem;
+    animation: fadeDown 1s ease 0.3s both;
+  }
+  .hero-content h1 {
+    font-size: clamp(3rem, 8vw, 6rem); font-weight: 300;
+    color: var(--white); line-height: 1.1;
+    animation: fadeDown 1s ease 0.5s both;
+  }
+  .hero-content h1 em {
+    font-style: italic; color: var(--gold-light);
+    display: block; font-weight: 300;
+  }
+  .hero-content p {
+    font-size: 1rem; color: rgba(255,255,255,0.75);
+    margin: 1.5rem auto; max-width: 480px; line-height: 1.8;
+    font-weight: 300; animation: fadeDown 1s ease 0.7s both;
+  }
+  .hero-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; animation: fadeDown 1s ease 0.9s both; }
+  .btn-primary {
+    background: var(--gold); color: var(--white); border: none;
+    padding: 0.9rem 2.5rem; border-radius: 40px; font-size: 0.82rem;
+    letter-spacing: 2px; text-transform: uppercase; font-family: 'Montserrat', sans-serif;
+    cursor: pointer; transition: all 0.3s; text-decoration: none;
+    display: inline-block; font-weight: 500;
+  }
+  .btn-primary:hover { background: var(--gold-dark); transform: translateY(-2px); box-shadow: 0 8px 25px rgba(201,168,76,0.4); }
+  .btn-outline {
+    background: transparent; color: var(--white);
+    border: 1px solid rgba(255,255,255,0.5);
+    padding: 0.9rem 2.5rem; border-radius: 40px; font-size: 0.82rem;
+    letter-spacing: 2px; text-transform: uppercase; font-family: 'Montserrat', sans-serif;
+    cursor: pointer; transition: all 0.3s; text-decoration: none; display: inline-block;
+  }
+  .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+  .hero-scroll {
+    position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+    z-index: 2; animation: bounce 2s infinite;
+  }
+  .hero-scroll span {
+    display: block; width: 22px; height: 36px; border: 1.5px solid rgba(255,255,255,0.4);
+    border-radius: 12px; position: relative; margin: 0 auto;
+  }
+  .hero-scroll span::before {
+    content: ''; position: absolute; top: 5px; left: 50%; transform: translateX(-50%);
+    width: 4px; height: 8px; background: var(--gold); border-radius: 2px;
+    animation: scrollDot 2s infinite;
+  }
+  @keyframes scrollDot { 0%,100% { opacity: 1; top: 5px; } 50% { opacity: 0; top: 18px; } }
+  @keyframes bounce { 0%,100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(-6px); } }
+  @keyframes fadeDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ── SECTIONS COMMONS ── */
+  section { padding: 6rem 5%; }
+  .section-header { text-align: center; margin-bottom: 4rem; }
+  .section-tag {
+    font-size: 0.7rem; letter-spacing: 4px; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 0.8rem; display: block; font-weight: 500;
+  }
+  .section-header h2 {
+    font-size: clamp(2rem, 4vw, 3rem); font-weight: 300; color: var(--dark);
+    line-height: 1.2;
+  }
+  .section-header h2 em { font-style: italic; color: var(--gold-dark); }
+  .divider {
+    width: 60px; height: 1px; background: var(--gold);
+    margin: 1.2rem auto; position: relative;
+  }
+  .divider::before, .divider::after {
+    content: ''; position: absolute; top: -2px;
+    width: 5px; height: 5px; background: var(--gold); border-radius: 50%;
+  }
+  .divider::before { left: -8px; }
+  .divider::after { right: -8px; }
+
+  /* ── ABOUT ── */
+  #about { background: var(--cream); }
+  .about-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 5rem; align-items: center; max-width: 1200px; margin: 0 auto;
+  }
+  .about-img { position: relative; }
+  .about-img img {
+    width: 100%; height: 520px; object-fit: cover;
+    border-radius: 2px; display: block;
+  }
+  .about-img-badge {
+    position: absolute; bottom: -1.5rem; right: -1.5rem;
+    background: var(--gold); color: var(--white);
+    padding: 1.5rem 2rem; text-align: center;
+    font-family: 'Cormorant Garamond', serif;
+  }
+  .about-img-badge strong { font-size: 2.5rem; display: block; font-weight: 300; }
+  .about-img-badge span { font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; }
+  .about-text h2 { font-size: 2.4rem; font-weight: 300; margin-bottom: 1.5rem; color: var(--dark); }
+  .about-text h2 em { font-style: italic; color: var(--gold-dark); }
+  .about-text p { line-height: 1.9; margin-bottom: 1.2rem; font-size: 0.92rem; color: var(--text); font-weight: 300; }
+  .about-stats { display: flex; gap: 2rem; margin: 2rem 0; }
+  .stat { text-align: center; }
+  .stat strong { font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; font-weight: 300; color: var(--gold-dark); display: block; }
+  .stat span { font-size: 0.72rem; letter-spacing: 2px; text-transform: uppercase; color: var(--text); }
+
+  /* ── SERVICES ── */
+  #services { background: var(--white); }
+  .services-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem; max-width: 1200px; margin: 0 auto;
+  }
+  .service-card {
+    border: 1px solid #f0e8d8; border-radius: 2px;
+    overflow: hidden; transition: all 0.4s;
+    cursor: pointer; position: relative;
+  }
+  .service-card:hover { transform: translateY(-8px); box-shadow: 0 20px 50px rgba(201,168,76,0.15); border-color: var(--gold-light); }
+  .service-card img { width: 100%; height: 220px; object-fit: cover; transition: transform 0.6s; display: block; }
+  .service-card:hover img { transform: scale(1.05); }
+  .service-card-body { padding: 1.8rem; }
+  .service-icon { color: var(--gold); font-size: 1.4rem; margin-bottom: 0.8rem; }
+  .service-card-body h3 { font-size: 1.4rem; font-weight: 400; margin-bottom: 0.5rem; color: var(--dark); }
+  .service-card-body p { font-size: 0.83rem; line-height: 1.7; color: var(--text); margin-bottom: 1.2rem; font-weight: 300; }
+  .service-card-footer { display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.8rem; background: var(--cream); }
+  .service-price { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; color: var(--gold-dark); font-weight: 600; }
+  .service-duration { font-size: 0.72rem; letter-spacing: 1.5px; color: var(--text); text-transform: uppercase; }
+  .btn-book-service {
+    background: none; border: 1px solid var(--gold); color: var(--gold);
+    padding: 0.4rem 1.2rem; font-size: 0.72rem; letter-spacing: 1.5px;
+    text-transform: uppercase; cursor: pointer; font-family: 'Montserrat', sans-serif;
+    transition: all 0.3s; border-radius: 30px;
+  }
+  .btn-book-service:hover { background: var(--gold); color: var(--white); }
+
+  /* ── BOOKING ── */
+  #booking {
+    background: linear-gradient(135deg, #1a1008 0%, #3d2b0e 60%, #6b4c1e 100%);
+    position: relative; overflow: hidden;
+  }
+  #booking::before {
+    content: ''; position: absolute; inset: 0;
+    background: url('https://picsum.photos/seed/spa3/1600/800') center/cover;
+    opacity: 0.1;
+  }
+  #booking .section-header h2 { color: var(--white); }
+  #booking .section-tag { color: var(--gold-light); }
+  .booking-form-wrap {
+    background: rgba(255,255,255,0.07); backdrop-filter: blur(10px);
+    border: 1px solid rgba(201,168,76,0.3); border-radius: 4px;
+    padding: 3rem; max-width: 750px; margin: 0 auto;
+    position: relative; z-index: 1;
+  }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+  .form-group.full { grid-column: 1 / -1; }
+  .form-group label { font-size: 0.72rem; letter-spacing: 2px; text-transform: uppercase; color: var(--gold-light); font-weight: 500; }
+  .form-group input, .form-group select, .form-group textarea {
+    background: rgba(255,255,255,0.08); border: 1px solid rgba(201,168,76,0.3);
+    color: var(--white); padding: 0.85rem 1rem; font-family: 'Montserrat', sans-serif;
+    font-size: 0.88rem; border-radius: 2px; outline: none;
+    transition: border-color 0.3s;
+  }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--gold); }
+  .form-group select option { background: #2a1e08; color: var(--white); }
+  .form-group textarea { resize: vertical; min-height: 100px; }
+  .form-group input::placeholder, .form-group textarea::placeholder { color: rgba(255,255,255,0.35); }
+  .form-submit { text-align: center; margin-top: 2rem; }
+  #form-success {
+    display: none; text-align: center; padding: 2rem;
+    color: var(--gold-light); font-family: 'Cormorant Garamond', serif; font-size: 1.4rem;
+  }
+  #form-success i { font-size: 3rem; color: var(--gold); display: block; margin-bottom: 1rem; }
+
+  /* ── GALLERY ── */
+  #gallery { background: var(--cream); }
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 220px;
+    gap: 0.8rem; max-width: 1200px; margin: 0 auto;
+  }
+  .gallery-item { overflow: hidden; position: relative; cursor: pointer; }
+  .gallery-item:nth-child(1) { grid-column: span 2; grid-row: span 2; }
+  .gallery-item:nth-child(4) { grid-column: span 2; }
+  .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s; display: block; }
+  .gallery-item:hover img { transform: scale(1.08); }
+  .gallery-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(26,16,8,0.7) 0%, transparent 60%);
+    opacity: 0; transition: opacity 0.4s;
+    display: flex; align-items: flex-end; padding: 1.5rem;
+  }
+  .gallery-item:hover .gallery-overlay { opacity: 1; }
+  .gallery-overlay span { color: var(--white); font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; }
+
+  /* ── TESTIMONIALS ── */
+  #testimonials { background: var(--white); }
+  .testimonials-slider { max-width: 800px; margin: 0 auto; position: relative; overflow: hidden; }
+  .testimonials-track { display: flex; transition: transform 0.5s ease; }
+  .testimonial {
+    min-width: 100%; padding: 0 1rem; text-align: center;
+  }
+  .testimonial-stars { color: var(--gold); font-size: 1.1rem; margin-bottom: 1.5rem; }
+  .testimonial blockquote {
+    font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 300;
+    font-style: italic; line-height: 1.7; color: var(--dark); margin-bottom: 2rem;
+  }
+  .testimonial-author img { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; margin: 0 auto 0.8rem; border: 2px solid var(--gold-light); display: block; }
+  .testimonial-author strong { display: block; font-size: 0.85rem; color: var(--dark); letter-spacing: 1px; }
+  .testimonial-author span { font-size: 0.75rem; color: var(--gold); letter-spacing: 1.5px; text-transform: uppercase; }
+  .slider-dots { display: flex; justify-content: center; gap: 0.6rem; margin-top: 2.5rem; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--gold-light); cursor: pointer; transition: all 0.3s; border: none; }
+  .dot.active { background: var(--gold); transform: scale(1.3); }
+
+  /* ── TEAM ── */
+  #team { background: var(--cream); }
+  .team-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 2rem; max-width: 1100px; margin: 0 auto;
+  }
+  .team-card { text-align: center; }
+  .team-img {
+    position: relative; width: 180px; height: 180px;
+    border-radius: 50%; margin: 0 auto 1.5rem; overflow: hidden;
+    border: 3px solid var(--gold-light); transition: border-color 0.3s;
+  }
+  .team-card:hover .team-img { border-color: var(--gold); }
+  .team-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; }
+  .team-card:hover .team-img img { transform: scale(1.08); }
+  .team-card h3 { font-size: 1.3rem; font-weight: 400; color: var(--dark); }
+  .team-card .role { font-size: 0.72rem; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin: 0.3rem 0 0.8rem; display: block; }
+  .team-card p { font-size: 0.82rem; color: var(--text); font-weight: 300; line-height: 1.7; max-width: 200px; margin: 0 auto; }
+  .team-social { display: flex; justify-content: center; gap: 0.8rem; margin-top: 1rem; }
+  .team-social a { width: 34px; height: 34px; border: 1px solid var(--gold-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--gold); font-size: 0.75rem; transition: all 0.3s; text-decoration: none; }
+  .team-social a:hover { background: var(--gold); color: var(--white); border-color: var(--gold); }
+
+  /* ── CONTACT ── */
+  #contact { background: var(--white); }
+  .contact-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 4rem; max-width: 1100px; margin: 0 auto; align-items: start;
+  }
+  .contact-info h3 { font-size: 1.8rem; font-weight: 300; margin-bottom: 2rem; color: var(--dark); }
+  .contact-item { display: flex; gap: 1.2rem; margin-bottom: 1.8rem; align-items: flex-start; }
+  .contact-icon { width: 44px; height: 44px; background: var(--cream); border: 1px solid var(--gold-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--gold); font-size: 0.9rem; flex-shrink: 0; }
+  .contact-item h4 { font-size: 0.72rem; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 0.3rem; }
+  .contact-item p { font-size: 0.88rem; color: var(--text); line-height: 1.6; font-weight: 300; }
+  .hours-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem 2rem; margin-top: 0.5rem; font-size: 0.83rem; }
+  .hours-grid .day { color: var(--text); font-weight: 500; }
+  .hours-grid .time { color: var(--gold-dark); }
+  .map-placeholder {
+    width: 100%; height: 360px; background: var(--cream);
+    border: 1px solid #f0e8d8; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; border-radius: 2px;
+    color: var(--gold); gap: 0.8rem;
+  }
+  .map-placeholder i { font-size: 2.5rem; }
+  .map-placeholder p { font-size: 0.82rem; color: var(--text); letter-spacing: 1px; }
+
+  /* ── NEWSLETTER ── */
+  .newsletter {
+    background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+    padding: 4rem 5%; text-align: center;
+  }
+  .newsletter h2 { font-size: 2rem; font-weight: 300; color: var(--white); margin-bottom: 0.5rem; }
+  .newsletter p { color: rgba(255,255,255,0.8); font-size: 0.88rem; margin-bottom: 2rem; font-weight: 300; }
+  .newsletter-form { display: flex; gap: 0; max-width: 460px; margin: 0 auto; }
+  .newsletter-form input {
+    flex: 1; padding: 0.9rem 1.5rem; border: none; outline: none;
+    font-family: 'Montserrat', sans-serif; font-size: 0.85rem; border-radius: 30px 0 0 30px;
+  }
+  .newsletter-form button {
+    background: var(--dark); color: var(--white); border: none;
+    padding: 0.9rem 1.8rem; cursor: pointer; font-family: 'Montserrat', sans-serif;
+    font-size: 0.78rem; letter-spacing: 1.5px; text-transform: uppercase;
+    border-radius: 0 30px 30px 0; transition: background 0.3s;
+  }
+  .newsletter-form button:hover { background: #333; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--dark); color: rgba(255,255,255,0.6);
+    padding: 4rem 5% 2rem;
+  }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
+  .footer-brand .logo-footer { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; color: var(--gold-light); letter-spacing: 2px; display: block; margin-bottom: 1rem; }
+  .footer-brand p { font-size: 0.83rem; line-height: 1.8; font-weight: 300; max-width: 240px; }
+  .footer-social { display: flex; gap: 0.8rem; margin-top: 1.5rem; }
+  .footer-social a { width: 36px; height: 36px; border: 1px solid rgba(201,168,76,0.3); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--gold-light); font-size: 0.8rem; transition: all 0.3s; text-decoration: none; }
+  .footer-social a:hover { background: var(--gold); border-color: var(--gold); color: var(--white); }
+  .footer-col h4 { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: var(--gold-light); margin-bottom: 1.2rem; letter-spacing: 1px; }
+  .footer-col ul { list-style: none; }
+  .footer-col ul li { margin-bottom: 0.6rem; }
+  .footer-col ul li a { text-decoration: none; color: rgba(255,255,255,0.55); font-size: 0.82rem; transition: color 0.3s; font-weight: 300; }
+  .footer-col ul li a:hover { color: var(--gold-light); }
+  .footer-bottom { border-top: 1px solid rgba(255,255,255,0.08); padding-top: 1.5rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; }
+
+  /* ── SCROLL ANIMATIONS ── */
+  .reveal { opacity: 0; transform: translateY(30px); transition: all 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-left { opacity: 0; transform: translateX(-30px); transition: all 0.7s ease; }
+  .reveal-left.visible { opacity: 1; transform: translateX(0); }
+  .reveal-right { opacity: 0; transform: translateX(30px); transition: all 0.7s ease; }
+  .reveal-right.visible { opacity: 1; transform: translateX(0); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .about-img-badge { right: 0; bottom: -1rem; }
+    .contact-grid { grid-template-columns: 1fr; }
+    .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+    .gallery-item:nth-child(1) { grid-column: span 2; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    .form-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 600px) {
+    .nav-links { display: none; flex-direction: column; position: fixed; top: 0; right: 0; width: 75%; height: 100vh; background: rgba(255,255,255,0.98); padding: 5rem 2rem; gap: 1.5rem; box-shadow: -5px 0 30px rgba(0,0,0,0.1); transition: transform 0.4s; transform: translateX(100%); }
+    .nav-links.open { display: flex; transform: translateX(0); }
+    .nav-links a { color: var(--dark) !important; font-size: 0.95rem; }
+    .hamburger { display: flex; }
+    .about-stats { gap: 1rem; }
+    .gallery-grid { grid-template-columns: 1fr 1fr; grid-auto-rows: 160px; }
+    .footer-grid { grid-template-columns: 1fr; }
+    .footer-bottom { flex-direction: column; gap: 0.5rem; text-align: center; }
+    .hero-btns { flex-direction: column; align-items: center; }
+    section { padding: 4rem 5%; }
+    .newsletter-form { flex-direction: column; }
+    .newsletter-form input { border-radius: 30px; }
+    .newsletter-form button { border-radius: 30px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <a href="#hero" class="logo">Lys d'Or</a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#about">À Propos</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#gallery">Galerie</a></li>
+    <li><a href="#team">Équipe</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#booking" class="btn-nav">Réserver</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-particles" id="particles"></div>
+  <div class="hero-content">
+    <div class="hero-tag"><i class="fas fa-spa"></i> &nbsp; Centre Spa & Beauté</div>
+    <h1>L'Art du Soin,<em>Le Luxe du Calme</em></h1>
+    <p>Découvrez une oasis de bien-être au cœur de la ville. Chaque soin est une invitation à vous reconnecter à vous-même.</p>
+    <div class="hero-btns">
+      <a href="#booking" class="btn-primary">Prendre Rendez-vous</a>
+      <a href="#services" class="btn-outline">Découvrir nos soins</a>
+    </div>
+  </div>
+  <div class="hero-scroll"><span></span></div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-grid">
+    <div class="about-img reveal-left">
+      <img src="https://picsum.photos/seed/spa10/600/700" alt="Intérieur spa">
+      <div class="about-img-badge">
+        <strong>10</strong>
+        <span>Ans d'expertise</span>
+      </div>
+    </div>
+    <div class="about-text reveal-right">
+      <span class="section-tag">Notre Histoire</span>
+      <h2>Un Refuge de <em>Beauté & Sérénité</em></h2>
+      <div class="divider"></div>
+      <p>Fondé avec la passion du bien-être authentique, Lys d'Or est bien plus qu'un centre de beauté — c'est un sanctuaire où le temps s'arrête et où chaque visiteur est traité comme un invité de marque.</p>
+      <p>Nos thérapeutes certifiés combinent des techniques ancestrales et des innovations modernes pour offrir des soins d'exception, personnalisés selon vos besoins uniques.</p>
+      <div class="about-stats">
+        <div class="stat"><strong>2 500+</strong><span>Clientes fidèles</span></div>
+        <div class="stat"><strong>15+</strong><span>Soins exclusifs</span></div>
+        <div class="stat"><strong>98%</strong><span>Satisfaction</span></div>
+      </div>
+      <a href="#services" class="btn-primary">Voir nos soins</a>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="section-header reveal">
+    <span class="section-tag">Notre Catalogue</span>
+    <h2>Soins & <em>Prestations</em></h2>
+    <div class="divider"></div>
+  </div>
+  <div class="services-grid">
+    <div class="service-card reveal">
+      <img src="https://picsum.photos/seed/massage1/400/300" alt="Massage">
+      <div class="service-card-body">
+        <div class="service-icon"><i class="fas fa-hands"></i></div>
+        <h3>Massage Signature</h3>
+        <p>Un voyage sensoriel unique combinant techniques suédoises et huiles essentielles précieuses pour une relaxation profonde du corps et de l'esprit.</p>
+      </div>
+      <div class="service-card-footer">
+        <span class="service-price">350 MAD</span>
+        <span class="service-duration">60 min</span>
+        <button class="btn-book-service" onclick="openBooking('Massage Signature')">Réserver</button>
+      </div>
+    </div>
+    <div class="service-card reveal" style="transition-delay:0.1s">
+      <img src="https://picsum.photos/seed/facial1/400/300" alt="Soin visage">
+      <div class="service-card-body">
+        <div class="service-icon"><i class="fas fa-leaf"></i></div>
+        <h3>Soin Visage Or</h3>
+        <p>Traitement luxueux à base de particules d'or 24k et d'actifs anti-âge pour une peau lumineuse, ferme et éclatante de jeunesse.</p>
+      </div>
+      <div class="service-card-footer">
+        <span class="service-price">480 MAD</span>
+        <span class="service-duration">75 min</span>
+        <button class="btn-book-service" onclick="openBooking('Soin Visage Or')">Réserver</button>
+      </div>
+    </div>
+    <div class="service-card reveal" style="transition-delay:0.2s">
+      <img src="https://picsum.photos/seed/nails1/400/300" alt="Manucure">
+      <div class="service-card-body">
+        <div class="service-icon"><i class="fas fa-gem"></i></div>
+        <h3>Manucure Prestige</h3>
+        <p>Soin complet des mains incluant gommage, masque hydratant, modelage et pose de vernis semi-permanent longue durée.</p>
+      </div>
+      <div class="service-card-footer">
+        <span class="service-price">180 MAD</span>
+        <span class="service-duration">45 min</span>
+        <button class="btn-book-service" onclick="openBooking('Manucure Prestige')">Réserver</button>
+      </div>
+    </div>
+    <div class="service-card reveal" style="transition-delay:0.3s">
+      <img src="https://picsum.photos/seed/hammam2/400/300" alt="Hammam">
+      <div class="service-card-body">
+        <div class="service-icon"><i class="fas fa-fire"></i></div>
+        <h3>Hammam Royal</h3>
+        <p>Rituel traditionnel marocain avec vapeur parfumée, savon beldi artisanal et gommage au kessa pour une peau soyeuse et purifiée.</p>
+      </div>
+      <div class="service-card-footer">
+        <span class="service-price">290 MAD</span>
+        <span class="service-duration">90 min</span>
+        <button class="btn-book-service" onclick="openBooking('Hammam Royal')">Réserver</button>
+      </div>
+    </div>
+    <div class="service-card reveal" style="transition-delay:0.4s">
+      <img src="https://picsum.photos/seed/hair2/400/300" alt="Coiffure">
+      <div class="service-card-body">
+        <div class="service-icon"><i class="fas fa-star"></i></div>
+        <h3>Coiffure & Style</h3>
+        <p>De la coupe à la couleur, nos stylistes experts subliment votre chevelure avec des techniques tendance et des produits haut de gamme.</p>
+      </div>
+      <div class="service-card-footer">
+        <span class="service-price">220 MAD</span>
+        <span class="service-duration">60 min</span>
+        <button class="btn-book-service" onclick="openBooking('Coiffure & Style')">Réserver</button>
+      </div>
+    </div>
+    <div class="service-card reveal" style="transition-delay:0.5s">
+      <img src="https://picsum.photos/seed/body2/400/300" alt="Enveloppement">
+      <div class="service-card-body">
+        <div class="service-icon"><i class="fas fa-spa"></i></div>
+        <h3>Enveloppement Corps</h3>
+        <p>Rituel enveloppant à l'argile rose et aux huiles botaniques, suivi d'un massage drainant pour une silhouette affinée et une peau nourrie.</p>
+      </div>
+      <div class="service-card-footer">
+        <span class="service-price">420 MAD</span>
+        <span class="service-duration">80 min</span>
+        <button class="btn-book-service" onclick="openBooking('Enveloppement Corps')">Réserver</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BOOKING -->
+<section id="booking">
+  <div class="section-header reveal">
+    <span class="section-tag">Réservation</span>
+    <h2 style="color:#fff">Prenez Votre <em style="color:var(--gold-light)">Rendez-vous</em></h2>
+    <div class="divider"></div>
+  </div>
+  <div class="booking-form-wrap reveal">
+    <div id="form-success">
+      <i class="fas fa-check-circle"></i>
+      Votre réservation a été envoyée avec succès !<br>
+      <small style="font-size:0.9rem; font-family:'Montserrat',sans-serif; color:rgba(255,255,255,0.6); font-weight:300;">Nous vous confirmerons par email sous 24h.</small>
+    </div>
+    <form id="bookingForm" onsubmit="submitBooking(event)">
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Prénom & Nom</label>
+          <input type="text" placeholder="Votre nom complet" required>
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" placeholder="votre@email.com" required>
+        </div>
+        <div class="form-group">
+          <label>Téléphone</label>
+          <input type="tel" placeholder="+212 6XX XXX XXX" required>
+        </div>
+        <div class="form-group">
+          <label>Service souhaité</label>
+          <select id="serviceSelect" required>
+            <option value="">— Choisir un soin —</option>
+            <option>Massage Signature — 350 MAD</option>
+            <option>Soin Visage Or — 480 MAD</option>
+            <option>Manucure Prestige — 180 MAD</option>
+            <option>Hammam Royal — 290 MAD</option>
+            <option>Coiffure & Style — 220 MAD</option>
+            <option>Enveloppement Corps — 420 MAD</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Date souhaitée</label>
+          <input type="date" required>
+        </div>
+        <div class="form-group">
+          <label>Heure préférée</label>
+          <select required>
+            <option value="">— Choisir —</option>
+            <option>09:00</option><option>10:00</option><option>11:00</option>
+            <option>12:00</option><option>14:00</option><option>15:00</option>
+            <option>16:00</option><option>17:00</option><option>18:00</option>
+          </select>
+        </div>
+        <div class="form-group full">
+          <label>Message / Demandes spéciales</label>
+          <textarea placeholder="Allergies, préférences, occasions spéciales..."></textarea>
+        </div>
+      </div>
+      <div class="form-submit">
+        <button type="submit" class="btn-primary">
+          <i class="fas fa-calendar-check"></i> &nbsp; Confirmer la Réservation
+        </button>
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+  <div class="section-header reveal">
+    <span class="section-tag">Galerie</span>
+    <h2>Notre <em>Univers</em></h2>
+    <div class="divider"></div>
+  </div>
+  <div class="gallery-grid">
+    <div class="gallery-item reveal"><img src="https://picsum.photos/seed/spa20/800/600" alt="Spa"><div class="gallery-overlay"><span>Espace Détente</span></div></div>
+    <div class="gallery-item reveal"><img src="https://picsum.photos/seed/spa21/400/300" alt="Soin"><div class="gallery-overlay"><span>Soins Visage</span></div></div>
+    <div class="gallery-item reveal"><img src="https://picsum.photos/seed/spa22/400/300" alt="Massage"><div class="gallery-overlay"><span>Massages</span></div></div>
+    <div class="gallery-item reveal"><img src="https://picsum.photos/seed/spa23/800/300" alt="Hammam"><div class="gallery-overlay"><span>Hammam</span></div></div>
+    <div class="gallery-item reveal"><img src="https://picsum.photos/seed/spa24/400/300" alt="Produits"><div class="gallery-overlay"><span>Nos Produits</span></div></div>
+    <div class="gallery-item reveal"><img src="https://picsum.photos/seed/spa25/400/300" alt="Ambiance"><div class="gallery-overlay"><span>Ambiance</span></div></div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="section-header reveal">
+    <span class="section-tag">Témoignages</span>
+    <h2>Ce Que Disent <em>Nos Clientes</em></h2>
+    <div class="divider"></div>
+  </div>
+  <div class="testimonials-slider reveal">
+    <div class="testimonials-track" id="testimonialTrack">
+      <div class="testimonial">
+        <div class="testimonial-stars">★★★★★</div>
+        <blockquote>"Une expérience absolument divine. Le massage signature m'a transportée dans un état de relaxation que je n'avais jamais connu. L'équipe est professionnelle, attentionnée et l'ambiance est feutrée à souhait."</blockquote>
+        <div class="testimonial-author">
+          <img src="https://picsum.photos/seed/woman1/100/100" alt="Samia">
+          <strong>Samia Benali</strong>
+          <span>Cliente fidèle depuis 3 ans</span>
+        </div>
+      </div>
+      <div class="testimonial">
+        <div class="testimonial-stars">★★★★★</div>
+        <blockquote>"Le soin visage à l'or 24k est tout simplement exceptionnel. Ma peau n'a jamais été aussi lumineuse. Je ne peux plus m'en passer ! Lys d'Or est devenu mon petit coin de paradis."</blockquote>
+        <div class="testimonial-author">
+          <img src="https://picsum.photos/seed/woman2/100/100" alt="Nadia">
+          <strong>Nadia Chraibi</strong>
+          <span>Cliente VIP</span>
+        </div>
+      </div>
+      <div class="testimonial">
+        <div class="testimonial-stars">★★★★★</div>
+        <blockquote>"J'ai offert un hammam royal à ma mère pour son anniversaire et elle en parle encore ! L'accueil était chaleureux, les soins irréprochables. Un vrai moment de luxe accessible."</blockquote>
+        <div class="testimonial-author">
+          <img src="https://picsum.photos/seed/woman3/100/100" alt="Fatima">
+          <strong>Fatima Zahrae</strong>
+          <span>Nouvelle cliente</span>
+        </div>
+      </div>
+    </div>
+    <div class="slider-dots" id="sliderDots">
+      <button class="dot active" onclick="goToSlide(0)"></button>
+      <button class="dot" onclick="goToSlide(1)"></button>
+      <button class="dot" onclick="goToSlide(2)"></button>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section id="team">
+  <div class="section-header reveal">
+    <span class="section-tag">Notre Équipe</span>
+    <h2>Des Expertes <em>Passionnées</em></h2>
+    <div class="divider"></div>
+  </div>
+  <div class="team-grid">
+    <div class="team-card reveal">
+      <div class="team-img"><img src="https://picsum.photos/seed/team1/300/300" alt="Yasmine"></div>
+      <h3>Yasmine Alaoui</h3>
+      <span class="role">Directrice & Fondatrice</span>
+      <p>15 ans d'expertise en soins de luxe, formée à Paris et Dubaï.</p>
+      <div class="team-social">
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-linkedin"></i></a>
+      </div>
+    </div>
+    <div class="team-card reveal" style="transition-delay:0.15s">
+      <div class="team-img"><img src="https://picsum.photos/seed/team2/300/300" alt="Khadija"></div>
+      <h3>Khadija Mansouri</h3>
+      <span class="role">Thérapeute Senior</span>
+      <p>Spécialiste en massages thérapeutiques et médecine douce.</p>
+      <div class="team-social">
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-linkedin"></i></a>
+      </div>
+    </div>
+    <div class="team-card reveal" style="transition-delay:0.3s">
+      <div class="team-img"><img src="https://picsum.photos/seed/team3/300/300" alt="Sara"></div>
+      <h3>Sara Benjelloun</h3>
+      <span class="role">Esthéticienne</span>
+      <p>Experte en soins du visage et techniques anti-âge de pointe.</p>
+      <div class="team-social">
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-linkedin"></i></a>
+      </div>
+    </div>
+    <div class="team-card reveal" style="transition-delay:0.45s">
+      <div class="team-img"><img src="https://picsum.photos/seed/team4/300/300" alt="Houda"></div>
+      <h3>Houda Tazi</h3>
+      <span class="role">Styliste & Coloriste</span>
+      <p>Créatrice de looks sublimes, certifiée L'Oréal Professionnel.</p>
+      <div class="team-social">
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-linkedin"></i></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-header reveal">
+    <span class="section-tag">Nous Trouver</span>
+    <h2>Contact & <em>Horaires</em></h2>
+    <div class="divider"></div>
+  </div>
+  <div class="contact-grid">
+    <div class="contact-info reveal-left">
+      <h3>Venez nous rendre visite</h3>
+      <div class="contact-item">
+        <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+        <div><h4>Adresse</h4><p>123 Boulevard Mohammed V<br>Casablanca, Maroc</p></div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon"><i class="fas fa-phone"></i></div>
+        <div><h4>Téléphone</h4><p>+212 5 22 XX XX XX<br>+212 6 XX XX XX XX</p></div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+        <div><h4>Email</h4><p>contact@lysdor-spa.ma<br>reservation@lysdor-spa.ma</p></div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon"><i class="fas fa-clock"></i></div>
+        <div>
+          <h4>Horaires d'ouverture</h4>
+          <div class="hours-grid">
+            <span class="day">Lun – Ven</span><span class="time">09:00 – 20:00</span>
+            <span class="day">Samedi</span><span class="time">09:00 – 19:00</span>
+            <span class="day">Dimanche</span><span class="time">10:00 – 17:00</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="reveal-right">
+      <div class="map-placeholder">
+        <i class="fas fa-map-marked-alt"></i>
+        <p>123 Boulevard Mohammed V, Casablanca</p>
+        <a href="#" class="btn-primary" style="margin-top:0.5rem; font-size:0.75rem; padding:0.6rem 1.5rem;">
+          <i class="fas fa-directions"></i> &nbsp; Itinéraire
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<div class="newsletter">
+  <h2>Restez Informée de Nos <em>Offres Exclusives</em></h2>
+  <p>Abonnez-vous à notre newsletter et recevez nos promotions en avant-première</p>
+  <form class="newsletter-form" onsubmit="return false;">
+    <input type="email" placeholder="Votre adresse email...">
+    <button type="submit"><i class="fas fa-paper-plane"></i> &nbsp; S'abonner</button>
+  </form>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <span class="logo-footer">Lys d'Or</span>
+      <p>Votre centre de spa & beauté haut de gamme à Casablanca. Un espace dédié à votre bien-être et à votre sérénité.</p>
+      <div class="footer-social">
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-tiktok"></i></a>
+        <a href="#"><i class="fab fa-whatsapp"></i></a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Services</h4>
+      <ul>
+        <li><a href="#">Massages</a></li>
+        <li><a href="#">Soins Visage</a></li>
+        <li><a href="#">Hammam</a></li>
+        <li><a href="#">Manucure</a></li>
+        <li><a href="#">Coiffure</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Liens Utiles</h4>
+      <ul>
+        <li><a href="#">À Propos</a></li>
+        <li><a href="#">Notre Équipe</a></li>
+        <li><a href="#">Galerie</a></li>
+        <li><a href="#">Carte Cadeau</a></li>
+        <li><a href="#">Blog Beauté</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Informations</h4>
+      <ul>
+        <li><a href="#">Politique de confidentialité</a></li>
+        <li><a href="#">CGV</a></li>
+        <li><a href="#">FAQ</a></li>
+        <li><a href="#">Programme fidélité</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 Lys d'Or — Tous droits réservés</span>
+    <span>Fait avec <span style="color:var(--gold)">♥</span> à Casablanca</span>
+  </div>
+</footer>
+
+<script>
+  // Particles
+  const container = document.getElementById('particles');
+  for (let i = 0; i < 30; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.left = Math.random() * 100 + '%';
+    p.style.animationDelay = Math.random() * 8 + 's';
+    p.style.animationDuration = (6 + Math.random() * 6) + 's';
+    container.appendChild(p);
+  }
+
+  // Navbar scroll
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // Mobile menu
+  function toggleMenu() {
+    document.getElementById('navLinks').classList.toggle('open');
+  }
+  document.querySelectorAll('.nav-links a').forEach(a => a.addEventListener('click', () => {
+    document.getElementById('navLinks').classList.remove('open');
+  }));
+
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => observer.observe(el));
+
+  // Testimonials slider
+  let currentSlide = 0;
+  function goToSlide(n) {
+    currentSlide = n;
+    document.getElementById('testimonialTrack').style.transform = `translateX(-${n * 100}%)`;
+    document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === n));
+  }
+  setInterval(() => goToSlide((currentSlide + 1) % 3), 5000);
+
+  // Open booking with pre-selected service
+  function openBooking(service) {
+    document.getElementById('serviceSelect').value =
+      [...document.getElementById('serviceSelect').options].find(o => o.text.startsWith(service))?.value || '';
+    document.getElementById('booking').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  // Form submit
+  function submitBooking(e) {
+    e.preventDefault();
+    document.getElementById('bookingForm').style.display = 'none';
+    document.getElementById('form-success').style.display = 'block';
+  }
+
+  // Set min date to today
+  const dateInputs = document.querySelectorAll('input[type="date"]');
+  dateInputs.forEach(d => d.min = new Date().toISOString().split('T')[0]);
+</script>
+</body>
+</html>
