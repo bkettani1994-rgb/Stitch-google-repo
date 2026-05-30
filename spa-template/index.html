@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lys d'Or — Centre Spa & Beauté</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,200;0,300;0,400;0,600;1,200;1,300&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
 :root {
@@ -12,356 +12,543 @@
   --gold-light: #e8d5a3;
   --gold-dark: #9a7a2e;
   --cream: #faf6f0;
-  --dark: #0d0a06;
+  --dark: #0a0806;
   --text: #4a4a4a;
-  --white: #ffffff;
 }
-*{margin:0;padding:0;box-sizing:border-box;}
-html{scroll-behavior:smooth;}
-body{font-family:'Montserrat',sans-serif;color:var(--text);background:var(--dark);overflow-x:hidden;}
-h1,h2,h3,h4{font-family:'Cormorant Garamond',serif;}
 
-/* ─── CURSOR ─── */
-.cursor{position:fixed;width:10px;height:10px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:9999;transition:transform .15s,opacity .3s;mix-blend-mode:difference;}
-.cursor-ring{position:fixed;width:36px;height:36px;border:1px solid var(--gold);border-radius:50%;pointer-events:none;z-index:9998;transition:transform .35s cubic-bezier(.23,1,.32,1),opacity .3s;opacity:.6;}
-
-/* ─── LOADER ─── */
-#loader{position:fixed;inset:0;background:var(--dark);z-index:9997;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1.5rem;transition:opacity .8s,visibility .8s;}
-#loader.hide{opacity:0;visibility:hidden;}
-.loader-logo{font-family:'Cormorant Garamond',serif;font-size:3rem;font-weight:300;color:var(--gold-light);letter-spacing:6px;animation:pulse 1.5s ease-in-out infinite;}
-.loader-bar{width:200px;height:1px;background:rgba(201,168,76,.2);position:relative;overflow:hidden;}
-.loader-bar::after{content:'';position:absolute;left:-100%;top:0;width:100%;height:100%;background:var(--gold);animation:loadBar 1.8s ease forwards;}
-@keyframes loadBar{to{left:100%;}}
-@keyframes pulse{0%,100%{opacity:.4;}50%{opacity:1;}}
-
-/* ─── NAVBAR ─── */
-nav{position:fixed;top:0;width:100%;z-index:1000;padding:1.5rem 5%;display:flex;align-items:center;justify-content:space-between;transition:all .5s ease;}
-nav.scrolled{background:rgba(13,10,6,.92);backdrop-filter:blur(20px);padding:1rem 5%;border-bottom:1px solid rgba(201,168,76,.1);}
-.logo{font-family:'Cormorant Garamond',serif;font-size:1.9rem;font-weight:300;color:var(--white);text-decoration:none;letter-spacing:4px;position:relative;}
-.logo::before{content:'✦';position:absolute;top:50%;left:-1.5rem;transform:translateY(-50%);font-size:.6rem;color:var(--gold);animation:rotateStar 4s linear infinite;}
-@keyframes rotateStar{to{transform:translateY(-50%) rotate(360deg);}}
-.nav-links{display:flex;gap:2.5rem;list-style:none;}
-.nav-links a{text-decoration:none;font-size:.72rem;letter-spacing:2px;text-transform:uppercase;font-weight:400;color:rgba(255,255,255,.7);transition:color .3s;position:relative;}
-.nav-links a::after{content:'';position:absolute;bottom:-4px;left:50%;transform:translateX(-50%);width:0;height:1px;background:var(--gold);transition:width .3s;}
-.nav-links a:hover{color:var(--gold);}
-.nav-links a:hover::after{width:100%;}
-.btn-nav{background:linear-gradient(135deg,var(--gold),var(--gold-dark)) !important;color:var(--white) !important;padding:.55rem 1.6rem !important;border-radius:30px !important;font-weight:500 !important;}
-.btn-nav::after{display:none !important;}
-.btn-nav:hover{transform:scale(1.05);box-shadow:0 5px 20px rgba(201,168,76,.4);}
-.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;z-index:10;}
-.hamburger span{width:26px;height:1.5px;background:var(--white);transition:all .3s;display:block;}
-
-/* ─── HERO ─── */
-#hero{height:100vh;position:relative;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden;}
-.hero-bg{position:absolute;inset:0;background:#0d0a06;}
-.hero-bg img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.2;animation:slowZoom 18s ease-in-out infinite alternate;}
-@keyframes slowZoom{from{transform:scale(1) rotate(0deg);}to{transform:scale(1.08) rotate(.5deg);}}
-
-/* Animated gradient orbs */
-.orb{position:absolute;border-radius:50%;filter:blur(80px);animation:orbFloat 10s ease-in-out infinite;}
-.orb1{width:500px;height:500px;background:radial-gradient(circle,rgba(201,168,76,.25),transparent 70%);top:-10%;left:-10%;animation-delay:0s;}
-.orb2{width:400px;height:400px;background:radial-gradient(circle,rgba(154,122,46,.2),transparent 70%);bottom:-10%;right:-5%;animation-delay:-4s;}
-.orb3{width:300px;height:300px;background:radial-gradient(circle,rgba(232,213,163,.15),transparent 70%);top:40%;left:60%;animation-delay:-7s;}
-@keyframes orbFloat{0%,100%{transform:translate(0,0) scale(1);}33%{transform:translate(30px,-20px) scale(1.05);}66%{transform:translate(-20px,30px) scale(.95);}}
-
-/* Grid lines */
-.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(201,168,76,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,.04) 1px,transparent 1px);background-size:60px 60px;animation:gridSlide 20s linear infinite;}
-@keyframes gridSlide{to{background-position:60px 60px;}}
-
-.hero-content{position:relative;z-index:2;padding:0 1rem;}
-.hero-eyebrow{display:flex;align-items:center;justify-content:center;gap:1rem;margin-bottom:2rem;animation:fadeUp 1s ease .4s both;}
-.hero-eyebrow::before,.hero-eyebrow::after{content:'';width:40px;height:1px;background:linear-gradient(90deg,transparent,var(--gold));}
-.hero-eyebrow::after{transform:scaleX(-1);}
-.hero-eyebrow span{font-size:.65rem;letter-spacing:5px;text-transform:uppercase;color:var(--gold-light);font-weight:400;}
-.hero-content h1{font-size:clamp(3.5rem,9vw,7rem);font-weight:200;color:var(--white);line-height:1.05;animation:fadeUp 1s ease .6s both;letter-spacing:-1px;}
-.hero-content h1 em{font-style:italic;background:linear-gradient(135deg,var(--gold-light),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;display:block;font-weight:300;}
-.hero-content p{font-size:.92rem;color:rgba(255,255,255,.55);margin:2rem auto;max-width:500px;line-height:2;font-weight:200;animation:fadeUp 1s ease .8s both;letter-spacing:.5px;}
-.hero-btns{display:flex;gap:1.2rem;justify-content:center;flex-wrap:wrap;animation:fadeUp 1s ease 1s both;}
-
-.btn-primary{background:linear-gradient(135deg,var(--gold) 0%,var(--gold-dark) 100%);color:var(--white);border:none;padding:1rem 2.8rem;border-radius:40px;font-size:.75rem;letter-spacing:2.5px;text-transform:uppercase;font-family:'Montserrat',sans-serif;cursor:pointer;transition:all .3s;text-decoration:none;display:inline-block;font-weight:500;position:relative;overflow:hidden;}
-.btn-primary::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.2),transparent);transform:translateX(-100%);transition:transform .4s;}
-.btn-primary:hover::before{transform:translateX(100%);}
-.btn-primary:hover{transform:translateY(-3px);box-shadow:0 12px 35px rgba(201,168,76,.45);}
-.btn-outline{background:transparent;color:var(--white);border:1px solid rgba(255,255,255,.25);padding:1rem 2.8rem;border-radius:40px;font-size:.75rem;letter-spacing:2.5px;text-transform:uppercase;font-family:'Montserrat',sans-serif;cursor:pointer;transition:all .3s;text-decoration:none;display:inline-block;backdrop-filter:blur(10px);}
-.btn-outline:hover{border-color:var(--gold);color:var(--gold);background:rgba(201,168,76,.08);}
-
-/* Floating badges */
-.hero-badge{position:absolute;background:rgba(255,255,255,.06);backdrop-filter:blur(20px);border:1px solid rgba(201,168,76,.2);padding:1rem 1.5rem;border-radius:4px;animation:badgeFloat 6s ease-in-out infinite;}
-.hero-badge-left{left:5%;top:30%;animation-delay:-2s;}
-.hero-badge-right{right:5%;top:40%;animation-delay:-4s;}
-@keyframes badgeFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-12px);}}
-.hero-badge i{color:var(--gold);font-size:1.2rem;margin-bottom:.5rem;display:block;}
-.hero-badge strong{display:block;font-family:'Cormorant Garamond',serif;font-size:1.4rem;color:var(--white);font-weight:300;}
-.hero-badge span{font-size:.65rem;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.5);}
-
-.scroll-indicator{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);z-index:2;display:flex;flex-direction:column;align-items:center;gap:.8rem;animation:fadeUp 1s ease 1.4s both;}
-.scroll-line{width:1px;height:60px;background:linear-gradient(to bottom,transparent,var(--gold),transparent);animation:scrollLine 2s ease-in-out infinite;}
-@keyframes scrollLine{0%{transform:scaleY(0);transform-origin:top;}50%{transform:scaleY(1);transform-origin:top;}51%{transform:scaleY(1);transform-origin:bottom;}100%{transform:scaleY(0);transform-origin:bottom;}}
-.scroll-indicator span{font-size:.6rem;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.4);}
-
-@keyframes fadeUp{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
-
-/* ─── MARQUEE STRIP ─── */
-.marquee-strip{background:var(--gold);padding:.7rem 0;overflow:hidden;white-space:nowrap;}
-.marquee-track{display:inline-flex;animation:marquee 20s linear infinite;}
-.marquee-item{display:inline-flex;align-items:center;gap:1.5rem;padding:0 2rem;font-size:.7rem;letter-spacing:3px;text-transform:uppercase;color:var(--dark);font-weight:600;}
-.marquee-item i{font-size:.5rem;}
-@keyframes marquee{to{transform:translateX(-50%);}}
-
-/* ─── SECTIONS ─── */
-section{padding:7rem 5%;}
-.section-header{text-align:center;margin-bottom:5rem;}
-.section-tag{font-size:.65rem;letter-spacing:5px;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;display:flex;align-items:center;justify-content:center;gap:.8rem;font-weight:500;}
-.section-tag::before,.section-tag::after{content:'';width:30px;height:1px;background:var(--gold);opacity:.5;}
-.section-header h2{font-size:clamp(2.2rem,4.5vw,3.5rem);font-weight:200;line-height:1.15;letter-spacing:-0.5px;}
-.section-header h2 em{font-style:italic;color:var(--gold-dark);}
-.gold-line{display:flex;align-items:center;justify-content:center;gap:.8rem;margin-top:1.5rem;}
-.gold-line::before,.gold-line::after{content:'';flex:1;max-width:60px;height:1px;background:linear-gradient(90deg,transparent,var(--gold));}
-.gold-line::after{transform:scaleX(-1);}
-.gold-line i{color:var(--gold);font-size:.7rem;}
-
-/* ─── ABOUT ─── */
-#about{background:var(--cream);position:relative;overflow:hidden;}
-#about::before{content:'';position:absolute;top:-100px;right:-100px;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(201,168,76,.08),transparent 70%);}
-.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center;max-width:1200px;margin:0 auto;}
-.about-visual{position:relative;}
-.about-img-main{width:100%;height:540px;object-fit:cover;display:block;}
-.about-img-frame{position:absolute;inset:0;border:1px solid rgba(201,168,76,.3);transform:translate(12px,12px);transition:transform .5s;}
-.about-visual:hover .about-img-frame{transform:translate(18px,18px);}
-.about-img-accent{position:absolute;bottom:-2rem;left:-2rem;width:180px;height:180px;object-fit:cover;border:4px solid var(--cream);}
-.about-badge{position:absolute;top:2rem;right:-1.5rem;background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:var(--white);padding:1.5rem;text-align:center;width:100px;}
-.about-badge strong{font-family:'Cormorant Garamond',serif;font-size:2.8rem;display:block;font-weight:200;line-height:1;}
-.about-badge span{font-size:.6rem;letter-spacing:2px;text-transform:uppercase;opacity:.8;}
-.about-text .section-tag{justify-content:flex-start;}
-.about-text .section-tag::before{display:none;}
-.about-text h2{font-size:2.8rem;font-weight:200;margin-bottom:1.5rem;color:var(--dark);line-height:1.2;}
-.about-text h2 em{font-style:italic;color:var(--gold-dark);}
-.about-text p{line-height:2;margin-bottom:1.2rem;font-size:.88rem;color:var(--text);font-weight:300;}
-.about-features{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:2rem 0;}
-.feature-item{display:flex;align-items:center;gap:.8rem;font-size:.8rem;color:var(--text);font-weight:300;}
-.feature-item i{color:var(--gold);font-size:.7rem;}
-.about-stats{display:flex;gap:2.5rem;margin:2rem 0 2.5rem;}
-.stat{text-align:center;padding:1rem 1.5rem;border:1px solid rgba(201,168,76,.2);position:relative;}
-.stat::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:0;height:2px;background:var(--gold);transition:width .4s;}
-.stat:hover::after{width:100%;}
-.stat strong{font-family:'Cormorant Garamond',serif;font-size:2.5rem;font-weight:200;color:var(--gold-dark);display:block;}
-.stat span{font-size:.65rem;letter-spacing:2px;text-transform:uppercase;color:var(--text);}
-
-/* ─── SERVICES ─── */
-#services{background:var(--dark);position:relative;overflow:hidden;}
-#services .section-header h2{color:var(--white);}
-#services .section-header h2 em{color:var(--gold-light);}
-.services-filter{display:flex;justify-content:center;gap:1rem;margin-bottom:3rem;flex-wrap:wrap;}
-.filter-btn{background:transparent;border:1px solid rgba(201,168,76,.2);color:rgba(255,255,255,.5);padding:.5rem 1.5rem;border-radius:30px;font-family:'Montserrat',sans-serif;font-size:.7rem;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .3s;}
-.filter-btn.active,.filter-btn:hover{background:var(--gold);border-color:var(--gold);color:var(--white);}
-.services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5px;max-width:1200px;margin:0 auto;background:rgba(201,168,76,.1);}
-.service-card{background:var(--dark);overflow:hidden;position:relative;cursor:pointer;transition:all .4s;}
-.service-card:hover{background:#1a1208;}
-.service-img{height:240px;overflow:hidden;position:relative;}
-.service-img img{width:100%;height:100%;object-fit:cover;transition:transform .7s cubic-bezier(.23,1,.32,1),filter .5s;}
-.service-card:hover .service-img img{transform:scale(1.08);filter:brightness(1.1);}
-.service-img-overlay{position:absolute;inset:0;background:linear-gradient(to top,var(--dark) 0%,transparent 50%);opacity:.7;}
-.service-number{position:absolute;top:1rem;right:1rem;font-family:'Cormorant Garamond',serif;font-size:3rem;font-weight:200;color:rgba(255,255,255,.08);line-height:1;}
-.service-body{padding:1.8rem 2rem 2rem;}
-.service-tag{font-size:.6rem;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:.6rem;display:block;}
-.service-body h3{font-size:1.6rem;font-weight:300;color:var(--white);margin-bottom:.8rem;}
-.service-body p{font-size:.82rem;line-height:1.8;color:rgba(255,255,255,.45);font-weight:200;margin-bottom:1.5rem;}
-.service-meta{display:flex;align-items:center;justify-content:space-between;}
-.service-price{font-family:'Cormorant Garamond',serif;font-size:1.8rem;color:var(--gold-light);font-weight:300;}
-.service-price small{font-size:.75rem;color:rgba(255,255,255,.3);font-family:'Montserrat',sans-serif;display:block;letter-spacing:1px;}
-.btn-book-service{background:transparent;border:1px solid rgba(201,168,76,.3);color:var(--gold);padding:.5rem 1.3rem;font-size:.65rem;letter-spacing:2px;text-transform:uppercase;cursor:pointer;font-family:'Montserrat',sans-serif;transition:all .3s;border-radius:30px;}
-.btn-book-service:hover{background:var(--gold);color:var(--white);border-color:var(--gold);}
-.service-hover-line{position:absolute;bottom:0;left:0;width:0;height:2px;background:linear-gradient(90deg,var(--gold),var(--gold-light));transition:width .5s cubic-bezier(.23,1,.32,1);}
-.service-card:hover .service-hover-line{width:100%;}
-
-/* ─── BOOKING ─── */
-#booking{background:var(--cream);position:relative;overflow:hidden;}
-#booking::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--gold),var(--gold-light),var(--gold));}
-.booking-layout{display:grid;grid-template-columns:1fr 1.6fr;gap:5rem;max-width:1200px;margin:0 auto;align-items:start;}
-.booking-info h3{font-size:2.5rem;font-weight:200;margin-bottom:1.5rem;color:var(--dark);line-height:1.2;}
-.booking-info h3 em{font-style:italic;color:var(--gold-dark);}
-.booking-info p{font-size:.85rem;line-height:1.9;color:var(--text);font-weight:300;margin-bottom:2rem;}
-.booking-perks{display:flex;flex-direction:column;gap:1.2rem;margin-bottom:2.5rem;}
-.perk{display:flex;align-items:center;gap:1rem;}
-.perk-icon{width:42px;height:42px;background:linear-gradient(135deg,var(--gold),var(--gold-dark));border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--white);font-size:.8rem;flex-shrink:0;}
-.perk-text strong{display:block;font-size:.85rem;color:var(--dark);margin-bottom:.1rem;}
-.perk-text span{font-size:.75rem;color:var(--text);font-weight:300;}
-.booking-form-card{background:var(--white);padding:3rem;box-shadow:0 30px 80px rgba(0,0,0,.08);position:relative;}
-.booking-form-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold-light));}
-.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.4rem;}
-.form-group{display:flex;flex-direction:column;gap:.5rem;}
-.form-group.full{grid-column:1/-1;}
-.form-group label{font-size:.65rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold-dark);font-weight:500;}
-.form-group input,.form-group select,.form-group textarea{background:transparent;border:none;border-bottom:1px solid #e8e0d0;color:var(--dark);padding:.7rem 0;font-family:'Montserrat',sans-serif;font-size:.88rem;outline:none;transition:border-color .3s;border-radius:0;}
-.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-bottom-color:var(--gold);}
-.form-group input::placeholder,.form-group textarea::placeholder{color:#c0b89a;font-weight:300;}
-.form-group textarea{resize:vertical;min-height:90px;}
-.form-group select{cursor:pointer;background:transparent;}
-.form-submit{text-align:center;margin-top:2.5rem;}
-#form-success{display:none;text-align:center;padding:3rem 1rem;}
-#form-success i{font-size:3.5rem;color:var(--gold);display:block;margin-bottom:1.5rem;animation:successPop .5s cubic-bezier(.34,1.56,.64,1);}
-@keyframes successPop{from{transform:scale(0);}to{transform:scale(1);}}
-#form-success h3{font-size:2rem;font-weight:300;color:var(--dark);margin-bottom:.8rem;}
-#form-success p{font-size:.85rem;color:var(--text);font-weight:300;}
-
-/* ─── GALLERY ─── */
-#gallery{background:var(--dark);padding:7rem 0;}
-#gallery .section-header{padding:0 5%;margin-bottom:3rem;}
-#gallery .section-header h2{color:var(--white);}
-.gallery-masonry{display:grid;grid-template-columns:repeat(5,1fr);grid-auto-rows:180px;gap:4px;padding:0 4px;}
-.g-item{overflow:hidden;position:relative;cursor:pointer;}
-.g-item:nth-child(1){grid-column:span 2;grid-row:span 2;}
-.g-item:nth-child(3){grid-row:span 2;}
-.g-item:nth-child(6){grid-column:span 2;}
-.g-item img{width:100%;height:100%;object-fit:cover;transition:transform .7s cubic-bezier(.23,1,.32,1),filter .5s;display:block;filter:brightness(.75) saturate(.8);}
-.g-item:hover img{transform:scale(1.1);filter:brightness(.9) saturate(1.1);}
-.g-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(13,10,6,.85) 0%,transparent 60%);opacity:0;transition:opacity .4s;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;padding:1.5rem;}
-.g-item:hover .g-overlay{opacity:1;}
-.g-overlay h4{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:300;color:var(--white);transform:translateY(10px);transition:transform .4s .05s;}
-.g-overlay span{font-size:.65rem;letter-spacing:2px;text-transform:uppercase;color:var(--gold);transform:translateY(10px);transition:transform .4s .1s;}
-.g-item:hover .g-overlay h4,.g-item:hover .g-overlay span{transform:translateY(0);}
-.g-corner{position:absolute;top:.8rem;right:.8rem;width:30px;height:30px;border-top:1px solid rgba(201,168,76,.5);border-right:1px solid rgba(201,168,76,.5);opacity:0;transition:opacity .4s;}
-.g-item:hover .g-corner{opacity:1;}
-
-/* ─── TESTIMONIALS ─── */
-#testimonials{background:var(--cream);overflow:hidden;}
-.testimonials-container{max-width:950px;margin:0 auto;position:relative;}
-.testimonials-bg-text{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:'Cormorant Garamond',serif;font-size:14rem;font-weight:200;color:rgba(201,168,76,.06);white-space:nowrap;pointer-events:none;letter-spacing:10px;line-height:1;}
-.testimonials-track{display:flex;transition:transform .6s cubic-bezier(.23,1,.32,1);}
-.testimonial{min-width:100%;padding:0 2rem;text-align:center;position:relative;}
-.quote-icon{font-family:'Cormorant Garamond',serif;font-size:5rem;color:var(--gold);opacity:.2;line-height:1;margin-bottom:.5rem;display:block;}
-.testimonial blockquote{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:300;font-style:italic;line-height:1.7;color:var(--dark);margin-bottom:2.5rem;max-width:700px;margin-left:auto;margin-right:auto;}
-.t-author{display:flex;align-items:center;justify-content:center;gap:1.2rem;}
-.t-author img{width:56px;height:56px;border-radius:50%;object-fit:cover;border:2px solid var(--gold-light);}
-.t-author-info strong{display:block;font-size:.85rem;color:var(--dark);letter-spacing:.5px;}
-.t-author-info span{font-size:.65rem;letter-spacing:2px;text-transform:uppercase;color:var(--gold);}
-.t-stars{color:var(--gold);font-size:.85rem;margin-bottom:1.5rem;letter-spacing:3px;}
-.slider-nav{display:flex;justify-content:center;align-items:center;gap:1.5rem;margin-top:3rem;}
-.nav-arrow{width:44px;height:44px;border:1px solid rgba(201,168,76,.3);border-radius:50%;background:transparent;color:var(--gold);cursor:pointer;transition:all .3s;display:flex;align-items:center;justify-content:center;font-size:.8rem;}
-.nav-arrow:hover{background:var(--gold);color:var(--white);border-color:var(--gold);}
-.slider-dots{display:flex;gap:.7rem;}
-.dot{width:6px;height:6px;border-radius:50%;background:rgba(201,168,76,.3);cursor:pointer;transition:all .3s;border:none;}
-.dot.active{background:var(--gold);width:24px;border-radius:3px;}
-
-/* ─── TEAM ─── */
-#team{background:var(--dark);}
-#team .section-header h2{color:var(--white);}
-.team-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:2px;max-width:1100px;margin:0 auto;background:rgba(201,168,76,.08);}
-.team-card{background:var(--dark);padding:3rem 2rem;text-align:center;position:relative;overflow:hidden;transition:background .4s;}
-.team-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(201,168,76,.05),transparent);opacity:0;transition:opacity .4s;}
-.team-card:hover{background:#0f0c07;}
-.team-card:hover::before{opacity:1;}
-.team-img{width:140px;height:140px;border-radius:50%;overflow:hidden;margin:0 auto 1.5rem;border:1px solid rgba(201,168,76,.2);position:relative;transition:border-color .4s;}
-.team-card:hover .team-img{border-color:var(--gold);}
-.team-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s;}
-.team-card:hover .team-img img{transform:scale(1.08);}
-.team-card h3{font-size:1.35rem;font-weight:300;color:var(--white);margin-bottom:.3rem;}
-.team-role{font-size:.62rem;letter-spacing:3px;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:1rem;}
-.team-card p{font-size:.78rem;color:rgba(255,255,255,.4);font-weight:200;line-height:1.7;max-width:190px;margin:0 auto 1.2rem;}
-.team-social{display:flex;justify-content:center;gap:.6rem;}
-.team-social a{width:32px;height:32px;border:1px solid rgba(201,168,76,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.4);font-size:.72rem;transition:all .3s;text-decoration:none;}
-.team-social a:hover{background:var(--gold);border-color:var(--gold);color:var(--white);}
-
-/* ─── PACKAGES ─── */
-#packages{background:var(--cream);}
-.packages-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;max-width:1100px;margin:0 auto;background:rgba(201,168,76,.1);}
-.pkg-card{background:var(--white);padding:3rem 2.5rem;position:relative;transition:all .4s;}
-.pkg-card.featured{background:linear-gradient(160deg,#1a1208,#0d0a06);color:var(--white);}
-.pkg-badge{position:absolute;top:-1px;left:50%;transform:translateX(-50%);background:var(--gold);color:var(--white);font-size:.6rem;letter-spacing:2px;text-transform:uppercase;padding:.35rem 1.2rem;white-space:nowrap;}
-.pkg-card h3{font-size:1.8rem;font-weight:300;margin-bottom:.5rem;}
-.pkg-card.featured h3{color:var(--gold-light);}
-.pkg-card .pkg-price{font-family:'Cormorant Garamond',serif;font-size:3.5rem;font-weight:200;color:var(--gold-dark);margin:1rem 0;line-height:1;}
-.pkg-card.featured .pkg-price{color:var(--gold-light);}
-.pkg-price small{font-size:1rem;color:var(--text);}
-.pkg-card.featured .pkg-price small{color:rgba(255,255,255,.4);}
-.pkg-subtitle{font-size:.72rem;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:2rem;display:block;}
-.pkg-features{list-style:none;margin-bottom:2.5rem;}
-.pkg-features li{display:flex;align-items:center;gap:.8rem;font-size:.83rem;padding:.6rem 0;border-bottom:1px solid rgba(201,168,76,.1);color:var(--text);font-weight:300;}
-.pkg-card.featured .pkg-features li{color:rgba(255,255,255,.6);border-bottom-color:rgba(255,255,255,.06);}
-.pkg-features li i{color:var(--gold);font-size:.65rem;flex-shrink:0;}
-.pkg-card .btn-primary{width:100%;text-align:center;display:block;}
-
-/* ─── CONTACT ─── */
-#contact{background:var(--dark);padding:7rem 5%;}
-#contact .section-header h2{color:var(--white);}
-.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;max-width:1200px;margin:0 auto;align-items:start;}
-.contact-left h3{font-size:2rem;font-weight:200;color:var(--white);margin-bottom:2.5rem;}
-.c-item{display:flex;gap:1.2rem;padding:1.5rem 0;border-bottom:1px solid rgba(255,255,255,.05);}
-.c-icon{width:46px;height:46px;border:1px solid rgba(201,168,76,.2);border-radius:2px;display:flex;align-items:center;justify-content:center;color:var(--gold);flex-shrink:0;font-size:.9rem;}
-.c-item h4{font-size:.62rem;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:.4rem;}
-.c-item p{font-size:.85rem;color:rgba(255,255,255,.5);font-weight:200;line-height:1.7;}
-.hours-table{display:grid;grid-template-columns:1fr 1fr;gap:.3rem .8rem;font-size:.8rem;margin-top:.5rem;}
-.hours-table .day{color:rgba(255,255,255,.4);}
-.hours-table .time{color:var(--gold-light);}
-.map-box{background:#121008;border:1px solid rgba(201,168,76,.1);height:100%;min-height:400px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;color:var(--gold);}
-.map-box i{font-size:3rem;opacity:.5;}
-.map-box p{font-size:.78rem;color:rgba(255,255,255,.3);letter-spacing:1px;}
-.map-box a{margin-top:.5rem;}
-
-/* ─── NEWSLETTER ─── */
-.newsletter-section{position:relative;overflow:hidden;padding:5rem;}
-.newsletter-bg{position:absolute;inset:0;background:linear-gradient(135deg,#c9a84c 0%,#9a7a2e 40%,#6b4c1e 100%);}
-.newsletter-bg::after{content:'';position:absolute;inset:0;background:url('https://picsum.photos/seed/texture1/1200/600') center/cover;opacity:.07;}
-.newsletter-content{position:relative;z-index:1;text-align:center;max-width:600px;margin:0 auto;}
-.newsletter-content h2{font-size:2.5rem;font-weight:200;color:var(--white);margin-bottom:.8rem;}
-.newsletter-content p{color:rgba(255,255,255,.7);font-size:.88rem;margin-bottom:2.5rem;font-weight:200;}
-.nl-form{display:flex;background:rgba(255,255,255,.12);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.2);border-radius:50px;overflow:hidden;max-width:450px;margin:0 auto;}
-.nl-form input{flex:1;background:transparent;border:none;padding:1rem 1.5rem;font-family:'Montserrat',sans-serif;font-size:.85rem;color:var(--white);outline:none;}
-.nl-form input::placeholder{color:rgba(255,255,255,.4);}
-.nl-form button{background:var(--dark);color:var(--white);border:none;padding:1rem 1.8rem;cursor:pointer;font-family:'Montserrat',sans-serif;font-size:.7rem;letter-spacing:2px;text-transform:uppercase;transition:background .3s;border-radius:0 50px 50px 0;flex-shrink:0;}
-.nl-form button:hover{background:#1a1208;}
-
-/* ─── FOOTER ─── */
-footer{background:#080603;padding:5rem 5% 2rem;}
-.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:4rem;margin-bottom:4rem;}
-.footer-brand-logo{font-family:'Cormorant Garamond',serif;font-size:2rem;color:var(--gold-light);letter-spacing:4px;display:block;margin-bottom:1rem;font-weight:300;}
-.footer-brand p{font-size:.78rem;line-height:1.9;color:rgba(255,255,255,.35);font-weight:200;max-width:230px;}
-.footer-social{display:flex;gap:.7rem;margin-top:1.5rem;}
-.footer-social a{width:36px;height:36px;border:1px solid rgba(201,168,76,.15);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.35);font-size:.75rem;transition:all .3s;text-decoration:none;}
-.footer-social a:hover{background:var(--gold);border-color:var(--gold);color:var(--white);}
-.footer-col h4{font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:rgba(255,255,255,.6);margin-bottom:1.5rem;font-weight:400;letter-spacing:1px;}
-.footer-col ul{list-style:none;}
-.footer-col ul li{margin-bottom:.7rem;}
-.footer-col ul li a{text-decoration:none;color:rgba(255,255,255,.3);font-size:.78rem;transition:color .3s;font-weight:200;}
-.footer-col ul li a:hover{color:var(--gold-light);}
-.footer-bottom{border-top:1px solid rgba(255,255,255,.05);padding-top:2rem;display:flex;justify-content:space-between;align-items:center;font-size:.72rem;color:rgba(255,255,255,.2);}
-
-/* ─── SCROLL ANIMATIONS ─── */
-.reveal{opacity:0;transform:translateY(40px);transition:all .8s cubic-bezier(.23,1,.32,1);}
-.reveal.v{opacity:1;transform:none;}
-.reveal-l{opacity:0;transform:translateX(-40px);transition:all .8s cubic-bezier(.23,1,.32,1);}
-.reveal-l.v{opacity:1;transform:none;}
-.reveal-r{opacity:0;transform:translateX(40px);transition:all .8s cubic-bezier(.23,1,.32,1);}
-.reveal-r.v{opacity:1;transform:none;}
-.reveal-s{opacity:0;transform:scale(.95);transition:all .8s cubic-bezier(.23,1,.32,1);}
-.reveal-s.v{opacity:1;transform:scale(1);}
-
-/* ─── RESPONSIVE ─── */
-@media(max-width:1024px){
-  .about-grid{grid-template-columns:1fr;gap:3rem;}
-  .booking-layout{grid-template-columns:1fr;}
-  .packages-grid{grid-template-columns:1fr;}
-  .gallery-masonry{grid-template-columns:repeat(3,1fr);}
-  .g-item:nth-child(1){grid-column:span 2;}
-  .g-item:nth-child(3){grid-row:span 1;}
-  .contact-grid{grid-template-columns:1fr;}
-  .footer-top{grid-template-columns:1fr 1fr;}
-  .hero-badge{display:none;}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Montserrat', sans-serif;
+  background: var(--dark);
+  color: var(--text);
+  overflow-x: hidden;
+  cursor: none;
 }
-@media(max-width:600px){
-  .nav-links{display:none;flex-direction:column;position:fixed;inset:0;background:rgba(13,10,6,.97);padding:5rem 2rem;gap:1.8rem;z-index:999;transition:opacity .3s;opacity:0;pointer-events:none;}
-  .nav-links.open{display:flex;opacity:1;pointer-events:all;}
-  .nav-links a{color:var(--white) !important;font-size:1.2rem;letter-spacing:3px;}
-  .hamburger{display:flex;}
-  section{padding:4rem 5%;}
-  .gallery-masonry{grid-template-columns:1fr 1fr;grid-auto-rows:140px;}
-  .g-item:nth-child(1){grid-column:span 2;}
-  .g-item:nth-child(3){grid-row:span 1;}
-  .footer-top{grid-template-columns:1fr;}
-  .footer-bottom{flex-direction:column;gap:.5rem;text-align:center;}
-  .services-grid{grid-template-columns:1fr;}
-  .form-grid{grid-template-columns:1fr;}
-  .team-grid{grid-template-columns:1fr 1fr;}
+
+/* ── CURSOR ── */
+#cur { position: fixed; width: 8px; height: 8px; background: var(--gold); border-radius: 50%; pointer-events: none; z-index: 9999; transition: transform .1s; mix-blend-mode: difference; }
+#cur-ring { position: fixed; width: 32px; height: 32px; border: 1px solid rgba(201,168,76,.6); border-radius: 50%; pointer-events: none; z-index: 9998; transition: transform .4s cubic-bezier(.23,1,.32,1); }
+
+/* ── LOADER ── */
+#loader {
+  position: fixed; inset: 0; z-index: 99999;
+  background: var(--dark);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 2rem; transition: opacity 1s ease, visibility 1s ease;
+}
+#loader.out { opacity: 0; visibility: hidden; }
+.ld-logo { font-family: 'Cormorant Garamond', serif; font-size: 3.5rem; font-weight: 200; color: var(--gold-light); letter-spacing: 8px; opacity: 0; animation: ldFade 1s ease .3s forwards; }
+.ld-bar { width: 220px; height: 1px; background: rgba(201,168,76,.15); overflow: hidden; }
+.ld-fill { height: 100%; width: 0; background: linear-gradient(90deg, var(--gold-dark), var(--gold-light)); animation: ldLoad 1.6s ease .5s forwards; }
+.ld-text { font-size: .6rem; letter-spacing: 5px; text-transform: uppercase; color: rgba(201,168,76,.4); animation: ldFade 1s ease .8s forwards; opacity: 0; }
+@keyframes ldFade { to { opacity: 1; } }
+@keyframes ldLoad { to { width: 100%; } }
+
+/* ── NAVBAR ── */
+nav {
+  position: fixed; top: 0; width: 100%; z-index: 1000;
+  padding: 1.5rem 5%;
+  display: flex; align-items: center; justify-content: space-between;
+  transition: all .5s;
+}
+nav.scrolled { background: rgba(10,8,6,.93); backdrop-filter: blur(20px); padding: 1rem 5%; border-bottom: 1px solid rgba(201,168,76,.1); }
+.logo { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; font-weight: 200; color: #fff; text-decoration: none; letter-spacing: 5px; }
+.nav-links { display: flex; gap: 2.5rem; list-style: none; }
+.nav-links a { text-decoration: none; font-size: .68rem; letter-spacing: 2.5px; text-transform: uppercase; color: rgba(255,255,255,.6); transition: color .3s; position: relative; }
+.nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 50%; transform: translateX(-50%); width: 0; height: 1px; background: var(--gold); transition: width .3s; }
+.nav-links a:hover { color: var(--gold); }
+.nav-links a:hover::after { width: 100%; }
+.btn-nav { background: linear-gradient(135deg, var(--gold), var(--gold-dark)) !important; color: #fff !important; padding: .5rem 1.5rem; border-radius: 30px; font-weight: 500; }
+.btn-nav::after { display: none !important; }
+.hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+.hamburger span { width: 24px; height: 1.5px; background: #fff; display: block; transition: all .3s; }
+
+/* ════════════════════════════════════════
+   HERO — DOORS OPENING ON SCROLL
+════════════════════════════════════════ */
+#hero-wrap {
+  position: relative;
+  height: 300vh; /* tall so scroll has room */
+}
+#hero-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Background: spa interior */
+.hero-interior {
+  position: absolute; inset: 0;
+  background: url('https://picsum.photos/seed/spa777/1800/1000') center / cover no-repeat;
+  transform: scale(1.05);
+  transition: transform .1s linear;
+}
+.hero-interior::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at center, rgba(10,8,6,0) 30%, rgba(10,8,6,.6) 100%);
+}
+
+/* Gold rays of light */
+.light-rays {
+  position: absolute; inset: 0; pointer-events: none; z-index: 1;
+  opacity: 0; transition: opacity .5s;
+}
+.light-rays.visible { opacity: 1; }
+.ray {
+  position: absolute; top: 0; width: 2px;
+  height: 100%; transform-origin: top center;
+  background: linear-gradient(to bottom, rgba(201,168,76,.25), transparent);
+  filter: blur(8px);
+}
+
+/* DOORS */
+.door-left, .door-right {
+  position: absolute; top: 0; height: 100%; width: 50%;
+  z-index: 10; overflow: hidden; transition: transform .05s linear;
+  will-change: transform;
+}
+.door-left  { left: 0; transform-origin: left center; }
+.door-right { right: 0; transform-origin: right center; }
+
+/* Door surface */
+.door-surface {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, #1a1208 0%, #0d0906 50%, #1a1208 100%);
+}
+/* Wood grain texture */
+.door-surface::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(
+    180deg,
+    transparent,
+    transparent 40px,
+    rgba(201,168,76,.03) 40px,
+    rgba(201,168,76,.03) 41px
+  );
+}
+/* Gold ornament frame on each door */
+.door-frame {
+  position: absolute; inset: 12px;
+  border: 1px solid rgba(201,168,76,.25);
+  pointer-events: none;
+}
+.door-frame::before {
+  content: '';
+  position: absolute; inset: 8px;
+  border: 1px solid rgba(201,168,76,.12);
+}
+/* Center divider line */
+.door-left .door-surface::after {
+  content: '';
+  position: absolute; right: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: linear-gradient(to bottom, transparent, rgba(201,168,76,.5) 30%, rgba(201,168,76,.8) 50%, rgba(201,168,76,.5) 70%, transparent);
+  box-shadow: 0 0 20px rgba(201,168,76,.3);
+}
+.door-right .door-surface::after {
+  content: '';
+  position: absolute; left: 0; top: 0; bottom: 0;
+  width: 3px;
+  background: linear-gradient(to bottom, transparent, rgba(201,168,76,.5) 30%, rgba(201,168,76,.8) 50%, rgba(201,168,76,.5) 70%, transparent);
+  box-shadow: 0 0 20px rgba(201,168,76,.3);
+}
+
+/* Door handle */
+.door-handle {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  width: 14px; height: 60px;
+  background: linear-gradient(180deg, var(--gold-light), var(--gold), var(--gold-dark));
+  border-radius: 7px;
+  box-shadow: 0 0 15px rgba(201,168,76,.4);
+}
+.door-left .door-handle  { right: 20px; }
+.door-right .door-handle { left: 20px; }
+.door-handle::before {
+  content: '';
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--gold-dark);
+  box-shadow: inset 0 0 3px rgba(0,0,0,.5);
+}
+
+/* Gold logo on door */
+.door-logo {
+  position: absolute;
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 200; font-style: italic;
+  color: rgba(201,168,76,.35);
+  letter-spacing: 4px;
+  text-align: center;
+  user-select: none;
+}
+.door-left .door-logo  { top: 30%; left: 50%; transform: translateX(-50%); font-size: clamp(2rem,5vw,4rem); }
+.door-right .door-logo { top: 30%; left: 50%; transform: translateX(-50%); font-size: clamp(2rem,5vw,4rem); }
+
+/* Gold floral corner ornaments */
+.corner {
+  position: absolute; width: 60px; height: 60px;
+  opacity: .3;
+}
+.corner svg { width: 100%; height: 100%; }
+.corner-tl { top: 20px; left: 20px; }
+.corner-tr { top: 20px; right: 20px; transform: scaleX(-1); }
+.corner-bl { bottom: 20px; left: 20px; transform: scaleY(-1); }
+.corner-br { bottom: 20px; right: 20px; transform: scale(-1); }
+
+/* Hero content (behind doors, revealed when open) */
+.hero-content {
+  position: absolute; inset: 0; z-index: 5;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; padding: 0 1rem;
+  opacity: 0; transition: opacity .4s;
+}
+.hero-content.visible { opacity: 1; }
+.h-eyebrow {
+  display: flex; align-items: center; gap: 1rem;
+  font-size: .62rem; letter-spacing: 5px; text-transform: uppercase;
+  color: var(--gold-light); margin-bottom: 1.5rem;
+  transform: translateY(20px); opacity: 0; transition: all .6s ease .2s;
+}
+.hero-content.visible .h-eyebrow { transform: none; opacity: 1; }
+.h-eyebrow::before, .h-eyebrow::after { content: ''; width: 40px; height: 1px; background: var(--gold); opacity: .5; }
+.hero-content h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(3rem, 8vw, 6.5rem);
+  font-weight: 200; color: #fff; line-height: 1.05;
+  letter-spacing: 2px;
+  transform: translateY(30px); opacity: 0; transition: all .7s ease .35s;
+}
+.hero-content.visible h1 { transform: none; opacity: 1; }
+.hero-content h1 em {
+  display: block; font-style: italic;
+  background: linear-gradient(135deg, var(--gold-light), var(--gold));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero-content p {
+  font-size: .88rem; color: rgba(255,255,255,.55); max-width: 480px;
+  line-height: 1.9; font-weight: 200; margin: 1.5rem auto 2rem;
+  transform: translateY(20px); opacity: 0; transition: all .6s ease .5s;
+}
+.hero-content.visible p { transform: none; opacity: 1; }
+.h-btns {
+  display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;
+  transform: translateY(20px); opacity: 0; transition: all .6s ease .65s;
+}
+.hero-content.visible .h-btns { transform: none; opacity: 1; }
+
+/* Scroll hint (before doors open) */
+.scroll-hint {
+  position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+  z-index: 20; text-align: center;
+  transition: opacity .4s;
+}
+.scroll-hint.hide { opacity: 0; pointer-events: none; }
+.scroll-hint span { font-size: .6rem; letter-spacing: 4px; text-transform: uppercase; color: rgba(255,255,255,.4); display: block; margin-bottom: .8rem; }
+.scroll-mouse { width: 22px; height: 36px; border: 1px solid rgba(201,168,76,.3); border-radius: 12px; margin: 0 auto; position: relative; }
+.scroll-mouse::after { content: ''; position: absolute; top: 5px; left: 50%; transform: translateX(-50%); width: 3px; height: 8px; background: var(--gold); border-radius: 2px; animation: mScroll 2s infinite; }
+@keyframes mScroll { 0%,100%{opacity:1;top:5px}50%{opacity:0;top:18px} }
+
+/* Opening flash/glow */
+.door-glow {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  width: 4px; height: 100%;
+  background: linear-gradient(to bottom, transparent, rgba(255,240,200,.8), transparent);
+  z-index: 9; filter: blur(12px);
+  opacity: 0; transition: opacity .3s;
+}
+.door-glow.on { opacity: 1; }
+
+/* ── BUTTONS ── */
+.btn-primary {
+  background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+  color: #fff; border: none; padding: .9rem 2.5rem; border-radius: 40px;
+  font-size: .72rem; letter-spacing: 2.5px; text-transform: uppercase;
+  font-family: 'Montserrat', sans-serif; cursor: pointer; transition: all .3s;
+  text-decoration: none; display: inline-block; font-weight: 500; position: relative; overflow: hidden;
+}
+.btn-primary::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(255,255,255,.2), transparent); transform: translateX(-100%); transition: transform .4s; }
+.btn-primary:hover::before { transform: translateX(100%); }
+.btn-primary:hover { transform: translateY(-3px); box-shadow: 0 12px 35px rgba(201,168,76,.45); }
+.btn-outline {
+  background: transparent; color: #fff; border: 1px solid rgba(255,255,255,.2);
+  padding: .9rem 2.5rem; border-radius: 40px; font-size: .72rem; letter-spacing: 2.5px;
+  text-transform: uppercase; font-family: 'Montserrat', sans-serif; cursor: pointer;
+  transition: all .3s; text-decoration: none; display: inline-block; backdrop-filter: blur(10px);
+}
+.btn-outline:hover { border-color: var(--gold); color: var(--gold); background: rgba(201,168,76,.08); }
+
+/* ── MARQUEE ── */
+.marquee-strip { background: var(--gold); padding: .65rem 0; overflow: hidden; white-space: nowrap; }
+.marquee-track { display: inline-flex; animation: marquee 25s linear infinite; }
+.marquee-item { display: inline-flex; align-items: center; gap: 1.2rem; padding: 0 2rem; font-size: .65rem; letter-spacing: 3px; text-transform: uppercase; color: var(--dark); font-weight: 600; }
+@keyframes marquee { to { transform: translateX(-50%); } }
+
+/* ── SECTION COMMONS ── */
+section { padding: 7rem 5%; }
+.s-tag { font-size: .62rem; letter-spacing: 5px; text-transform: uppercase; color: var(--gold); display: flex; align-items: center; justify-content: center; gap: .8rem; font-weight: 500; margin-bottom: 1rem; }
+.s-tag::before, .s-tag::after { content: ''; width: 28px; height: 1px; background: var(--gold); opacity: .4; }
+.s-head { text-align: center; margin-bottom: 5rem; }
+.s-head h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.2rem, 4.5vw, 3.5rem); font-weight: 200; line-height: 1.15; }
+.s-head h2 em { font-style: italic; color: var(--gold-dark); }
+.gold-divider { display: flex; align-items: center; justify-content: center; gap: .8rem; margin-top: 1.5rem; }
+.gold-divider::before, .gold-divider::after { content: ''; flex: 1; max-width: 50px; height: 1px; background: linear-gradient(90deg, transparent, var(--gold)); }
+.gold-divider::after { transform: scaleX(-1); }
+.gold-divider i { color: var(--gold); font-size: .65rem; }
+
+/* ── ABOUT ── */
+#about { background: var(--cream); position: relative; overflow: hidden; }
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center; max-width: 1200px; margin: 0 auto; }
+.about-visual { position: relative; }
+.a-main { width: 100%; height: 540px; object-fit: cover; display: block; }
+.a-frame { position: absolute; inset: 0; border: 1px solid rgba(201,168,76,.3); transform: translate(14px, 14px); transition: transform .5s; pointer-events: none; }
+.about-visual:hover .a-frame { transform: translate(20px, 20px); }
+.a-accent { position: absolute; bottom: -2rem; left: -2rem; width: 170px; height: 170px; object-fit: cover; border: 4px solid var(--cream); display: block; }
+.a-badge { position: absolute; top: 2rem; right: -1.5rem; background: linear-gradient(135deg, var(--gold), var(--gold-dark)); color: #fff; padding: 1.5rem; text-align: center; width: 95px; }
+.a-badge strong { font-family: 'Cormorant Garamond', serif; font-size: 2.8rem; font-weight: 200; display: block; line-height: 1; }
+.a-badge span { font-size: .55rem; letter-spacing: 2px; text-transform: uppercase; opacity: .8; }
+.about-text .s-tag { justify-content: flex-start; }
+.about-text .s-tag::before { display: none; }
+.about-text h2 { font-family: 'Cormorant Garamond', serif; font-size: 2.8rem; font-weight: 200; margin-bottom: 1.5rem; color: var(--dark); line-height: 1.2; }
+.about-text p { line-height: 2; margin-bottom: 1.2rem; font-size: .87rem; color: var(--text); font-weight: 300; }
+.a-features { display: grid; grid-template-columns: 1fr 1fr; gap: .8rem; margin: 1.5rem 0; }
+.a-feature { display: flex; align-items: center; gap: .7rem; font-size: .78rem; color: var(--text); font-weight: 300; }
+.a-feature i { color: var(--gold); font-size: .65rem; }
+.a-stats { display: flex; gap: 2rem; margin: 2rem 0 2.5rem; }
+.stat { text-align: center; padding: 1rem 1.5rem; border: 1px solid rgba(201,168,76,.2); position: relative; }
+.stat::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 0; height: 2px; background: var(--gold); transition: width .4s; }
+.stat:hover::after { width: 100%; }
+.stat strong { font-family: 'Cormorant Garamond', serif; font-size: 2.4rem; font-weight: 200; color: var(--gold-dark); display: block; }
+.stat span { font-size: .6rem; letter-spacing: 2px; text-transform: uppercase; }
+
+/* ── SERVICES ── */
+#services { background: var(--dark); }
+#services .s-head h2 { color: #fff; }
+#services .s-head h2 em { color: var(--gold-light); }
+.services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5px; max-width: 1200px; margin: 0 auto; background: rgba(201,168,76,.1); }
+.svc { background: var(--dark); overflow: hidden; position: relative; cursor: pointer; transition: background .4s; }
+.svc:hover { background: #15100a; }
+.svc-img { height: 230px; overflow: hidden; position: relative; }
+.svc-img img { width: 100%; height: 100%; object-fit: cover; transition: transform .7s cubic-bezier(.23,1,.32,1); display: block; filter: brightness(.7); }
+.svc:hover .svc-img img { transform: scale(1.08); filter: brightness(.85); }
+.svc-num { position: absolute; top: 1rem; right: 1rem; font-family: 'Cormorant Garamond', serif; font-size: 3.5rem; font-weight: 200; color: rgba(255,255,255,.06); line-height: 1; }
+.svc-body { padding: 1.8rem 2rem 2rem; }
+.svc-cat { font-size: .58rem; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); display: block; margin-bottom: .5rem; }
+.svc-body h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.55rem; font-weight: 300; color: #fff; margin-bottom: .7rem; }
+.svc-body p { font-size: .8rem; line-height: 1.8; color: rgba(255,255,255,.4); font-weight: 200; margin-bottom: 1.5rem; }
+.svc-footer { display: flex; align-items: center; justify-content: space-between; }
+.svc-price { font-family: 'Cormorant Garamond', serif; font-size: 1.7rem; color: var(--gold-light); font-weight: 200; }
+.svc-price small { font-size: .65rem; color: rgba(255,255,255,.25); font-family: 'Montserrat', sans-serif; display: block; letter-spacing: 1px; }
+.svc-btn { background: transparent; border: 1px solid rgba(201,168,76,.25); color: var(--gold); padding: .45rem 1.2rem; font-size: .62rem; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; font-family: 'Montserrat', sans-serif; transition: all .3s; border-radius: 30px; }
+.svc-btn:hover { background: var(--gold); color: #fff; border-color: var(--gold); }
+.svc-line { position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: linear-gradient(90deg, var(--gold), var(--gold-light)); transition: width .5s cubic-bezier(.23,1,.32,1); }
+.svc:hover .svc-line { width: 100%; }
+
+/* ── EXPERIENCE STRIP ── */
+.exp-strip {
+  background: var(--cream); padding: 5rem 5%;
+  display: flex; align-items: center; gap: 0;
+  overflow: hidden; position: relative;
+}
+.exp-strip::before { content: ''; position: absolute; inset: 0; background: url('https://picsum.photos/seed/spa999/1600/400') center/cover; opacity: .06; }
+.exp-items { display: flex; gap: 0; width: 100%; position: relative; z-index: 1; }
+.exp-item { flex: 1; text-align: center; padding: 2rem; border-right: 1px solid rgba(201,168,76,.15); }
+.exp-item:last-child { border-right: none; }
+.exp-icon { width: 56px; height: 56px; border: 1px solid rgba(201,168,76,.3); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--gold); font-size: 1.1rem; margin: 0 auto 1.2rem; transition: all .3s; }
+.exp-item:hover .exp-icon { background: var(--gold); color: #fff; border-color: var(--gold); }
+.exp-item h4 { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-weight: 300; color: var(--dark); margin-bottom: .4rem; }
+.exp-item p { font-size: .75rem; color: var(--text); font-weight: 300; line-height: 1.6; }
+
+/* ── BOOKING ── */
+#booking { background: var(--cream); position: relative; overflow: hidden; }
+#booking::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--gold-dark), var(--gold-light), var(--gold-dark)); }
+.booking-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 5rem; max-width: 1200px; margin: 0 auto; align-items: start; }
+.bk-info h3 { font-family: 'Cormorant Garamond', serif; font-size: 2.6rem; font-weight: 200; color: var(--dark); margin-bottom: 1.2rem; line-height: 1.2; }
+.bk-info h3 em { font-style: italic; color: var(--gold-dark); }
+.bk-info p { font-size: .85rem; line-height: 1.9; color: var(--text); font-weight: 300; margin-bottom: 2rem; }
+.bk-perks { display: flex; flex-direction: column; gap: 1rem; }
+.bk-perk { display: flex; align-items: center; gap: 1rem; }
+.bk-perk-icon { width: 40px; height: 40px; background: linear-gradient(135deg, var(--gold), var(--gold-dark)); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: .78rem; flex-shrink: 0; }
+.bk-perk strong { display: block; font-size: .83rem; color: var(--dark); }
+.bk-perk span { font-size: .73rem; color: var(--text); font-weight: 300; }
+.bk-card { background: #fff; padding: 3rem; box-shadow: 0 30px 80px rgba(0,0,0,.07); position: relative; }
+.bk-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--gold), var(--gold-light)); }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem; }
+.fg { display: flex; flex-direction: column; gap: .4rem; }
+.fg.full { grid-column: 1 / -1; }
+.fg label { font-size: .6rem; letter-spacing: 2.5px; text-transform: uppercase; color: var(--gold-dark); font-weight: 500; }
+.fg input, .fg select, .fg textarea { background: transparent; border: none; border-bottom: 1px solid #e5ddd0; color: var(--dark); padding: .65rem 0; font-family: 'Montserrat', sans-serif; font-size: .87rem; outline: none; transition: border-color .3s; }
+.fg input:focus, .fg select:focus, .fg textarea:focus { border-bottom-color: var(--gold); }
+.fg input::placeholder, .fg textarea::placeholder { color: #c5b89a; font-weight: 300; }
+.fg textarea { resize: vertical; min-height: 80px; }
+.fg select { cursor: pointer; }
+.f-submit { text-align: center; margin-top: 2rem; }
+#f-success { display: none; text-align: center; padding: 3rem 1rem; }
+#f-success i { font-size: 3rem; color: var(--gold); display: block; margin-bottom: 1.5rem; animation: pop .5s cubic-bezier(.34,1.56,.64,1); }
+@keyframes pop { from { transform: scale(0); } to { transform: scale(1); } }
+#f-success h3 { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 300; color: var(--dark); margin-bottom: .8rem; }
+#f-success p { font-size: .83rem; color: var(--text); font-weight: 300; }
+
+/* ── GALLERY ── */
+#gallery { background: var(--dark); padding: 7rem 0; }
+#gallery .s-head { padding: 0 5%; margin-bottom: 3rem; }
+#gallery .s-head h2 { color: #fff; }
+.gal-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-auto-rows: 200px;
+  gap: 3px; padding: 0 3px;
+}
+.gi { overflow: hidden; position: relative; cursor: pointer; }
+.gi:nth-child(1) { grid-column: span 2; grid-row: span 2; }
+.gi:nth-child(3) { grid-row: span 2; }
+.gi:nth-child(6) { grid-column: span 2; }
+.gi img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .7s cubic-bezier(.23,1,.32,1), filter .5s; filter: brightness(.65) saturate(.7); }
+.gi:hover img { transform: scale(1.1); filter: brightness(.9) saturate(1.1); }
+.gi-ov { position: absolute; inset: 0; background: linear-gradient(to top, rgba(10,8,6,.85) 0%, transparent 55%); opacity: 0; transition: opacity .4s; display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-end; padding: 1.5rem; }
+.gi:hover .gi-ov { opacity: 1; }
+.gi-ov h4 { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-weight: 300; color: #fff; transform: translateY(8px); transition: transform .4s; }
+.gi-ov span { font-size: .6rem; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); transform: translateY(8px); transition: transform .4s .07s; }
+.gi:hover .gi-ov h4, .gi:hover .gi-ov span { transform: none; }
+
+/* ── TESTIMONIALS ── */
+#testi { background: var(--cream); overflow: hidden; }
+.testi-wrap { max-width: 900px; margin: 0 auto; position: relative; }
+.testi-bg { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); font-family: 'Cormorant Garamond', serif; font-size: 14rem; font-weight: 200; color: rgba(201,168,76,.05); white-space: nowrap; pointer-events: none; letter-spacing: 8px; }
+.testi-slider { overflow: hidden; }
+.testi-track { display: flex; transition: transform .6s cubic-bezier(.23,1,.32,1); }
+.testi { min-width: 100%; text-align: center; padding: 0 2rem; }
+.t-stars { color: var(--gold); font-size: .85rem; letter-spacing: 3px; margin-bottom: 1rem; }
+.t-quote { font-family: 'Cormorant Garamond', serif; font-size: 6rem; color: var(--gold); opacity: .15; line-height: .8; display: block; }
+.testi blockquote { font-family: 'Cormorant Garamond', serif; font-size: 1.55rem; font-weight: 300; font-style: italic; line-height: 1.7; color: var(--dark); margin-bottom: 2.5rem; max-width: 680px; margin-left: auto; margin-right: auto; }
+.t-auth { display: flex; align-items: center; justify-content: center; gap: 1.2rem; }
+.t-auth img { width: 54px; height: 54px; border-radius: 50%; object-fit: cover; border: 2px solid var(--gold-light); }
+.t-auth strong { display: block; font-size: .83rem; color: var(--dark); }
+.t-auth span { font-size: .6rem; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); }
+.t-nav { display: flex; align-items: center; justify-content: center; gap: 1.5rem; margin-top: 3rem; }
+.t-arrow { width: 42px; height: 42px; border: 1px solid rgba(201,168,76,.3); border-radius: 50%; background: transparent; color: var(--gold); cursor: pointer; transition: all .3s; display: flex; align-items: center; justify-content: center; font-size: .75rem; }
+.t-arrow:hover { background: var(--gold); color: #fff; border-color: var(--gold); }
+.t-dots { display: flex; gap: .7rem; }
+.tdot { width: 6px; height: 6px; border-radius: 3px; background: rgba(201,168,76,.25); border: none; cursor: pointer; transition: all .3s; }
+.tdot.a { background: var(--gold); width: 22px; }
+
+/* ── TEAM ── */
+#team { background: var(--dark); }
+#team .s-head h2 { color: #fff; }
+.team-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; max-width: 1100px; margin: 0 auto; background: rgba(201,168,76,.06); }
+.tc { background: var(--dark); padding: 3rem 2rem; text-align: center; position: relative; overflow: hidden; transition: background .4s; }
+.tc:hover { background: #12100a; }
+.tc-img { width: 140px; height: 140px; border-radius: 50%; overflow: hidden; margin: 0 auto 1.5rem; border: 1px solid rgba(201,168,76,.2); transition: border-color .4s; }
+.tc:hover .tc-img { border-color: var(--gold); }
+.tc-img img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s; }
+.tc:hover .tc-img img { transform: scale(1.08); }
+.tc h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 300; color: #fff; }
+.tc-role { font-size: .6rem; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); display: block; margin: .3rem 0 .8rem; }
+.tc p { font-size: .76rem; color: rgba(255,255,255,.35); font-weight: 200; line-height: 1.7; max-width: 185px; margin: 0 auto 1.2rem; }
+.tc-soc { display: flex; justify-content: center; gap: .6rem; }
+.tc-soc a { width: 30px; height: 30px; border: 1px solid rgba(201,168,76,.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,.3); font-size: .68rem; transition: all .3s; text-decoration: none; }
+.tc-soc a:hover { background: var(--gold); border-color: var(--gold); color: #fff; }
+
+/* ── PACKAGES ── */
+#packages { background: var(--cream); }
+.pkg-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; max-width: 1100px; margin: 0 auto; background: rgba(201,168,76,.1); }
+.pkg { background: #fff; padding: 3rem 2.5rem; position: relative; transition: transform .3s; }
+.pkg:hover { transform: translateY(-5px); }
+.pkg.featured { background: linear-gradient(160deg, #1a1208, #0d0a06); }
+.pkg-top-badge { position: absolute; top: -1px; left: 50%; transform: translateX(-50%); background: var(--gold); color: #fff; font-size: .58rem; letter-spacing: 2px; text-transform: uppercase; padding: .3rem 1.2rem; white-space: nowrap; }
+.pkg h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.9rem; font-weight: 200; margin-bottom: .3rem; color: var(--dark); }
+.pkg.featured h3 { color: var(--gold-light); }
+.pkg-price { font-family: 'Cormorant Garamond', serif; font-size: 3.5rem; font-weight: 200; color: var(--gold-dark); margin: 1rem 0; line-height: 1; }
+.pkg.featured .pkg-price { color: var(--gold-light); }
+.pkg-price small { font-size: 1rem; }
+.pkg-sub { font-size: .65rem; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); display: block; margin-bottom: 2rem; }
+.pkg-list { list-style: none; margin-bottom: 2.5rem; }
+.pkg-list li { display: flex; align-items: center; gap: .8rem; font-size: .82rem; padding: .55rem 0; border-bottom: 1px solid rgba(201,168,76,.08); color: var(--text); font-weight: 300; }
+.pkg.featured .pkg-list li { color: rgba(255,255,255,.55); border-bottom-color: rgba(255,255,255,.05); }
+.pkg-list li i { color: var(--gold); font-size: .62rem; }
+.pkg .btn-primary { display: block; text-align: center; }
+
+/* ── CONTACT ── */
+#contact { background: var(--dark); }
+#contact .s-head h2 { color: #fff; }
+.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; max-width: 1200px; margin: 0 auto; align-items: start; }
+.c-left h3 { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 200; color: #fff; margin-bottom: 2.5rem; }
+.c-item { display: flex; gap: 1.2rem; padding: 1.5rem 0; border-bottom: 1px solid rgba(255,255,255,.04); }
+.c-icon { width: 44px; height: 44px; border: 1px solid rgba(201,168,76,.18); display: flex; align-items: center; justify-content: center; color: var(--gold); flex-shrink: 0; font-size: .85rem; }
+.c-item h4 { font-size: .58rem; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: .3rem; }
+.c-item p { font-size: .83rem; color: rgba(255,255,255,.4); font-weight: 200; line-height: 1.6; }
+.hrs { display: grid; grid-template-columns: 1fr 1fr; gap: .3rem .8rem; font-size: .78rem; }
+.hrs .d { color: rgba(255,255,255,.35); }
+.hrs .t { color: var(--gold-light); }
+.c-map { background: #0f0c08; border: 1px solid rgba(201,168,76,.08); height: 380px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem; color: var(--gold); }
+.c-map i { font-size: 2.5rem; opacity: .4; }
+.c-map p { font-size: .75rem; color: rgba(255,255,255,.25); letter-spacing: 1px; }
+
+/* ── NEWSLETTER ── */
+.nl { position: relative; overflow: hidden; padding: 5rem; text-align: center; }
+.nl-bg { position: absolute; inset: 0; background: linear-gradient(135deg, var(--gold-dark), var(--gold)); }
+.nl-bg::after { content: ''; position: absolute; inset: 0; background: url('https://picsum.photos/seed/nl1/1400/500') center/cover; opacity: .06; }
+.nl-inner { position: relative; z-index: 1; max-width: 560px; margin: 0 auto; }
+.nl-inner h2 { font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; font-weight: 200; color: #fff; margin-bottom: .6rem; }
+.nl-inner p { color: rgba(255,255,255,.65); font-size: .85rem; margin-bottom: 2rem; font-weight: 200; }
+.nl-form { display: flex; background: rgba(255,255,255,.1); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,.15); border-radius: 50px; overflow: hidden; }
+.nl-form input { flex: 1; background: transparent; border: none; padding: .95rem 1.5rem; font-family: 'Montserrat', sans-serif; font-size: .83rem; color: #fff; outline: none; }
+.nl-form input::placeholder { color: rgba(255,255,255,.35); }
+.nl-form button { background: var(--dark); color: #fff; border: none; padding: .95rem 1.8rem; cursor: pointer; font-family: 'Montserrat', sans-serif; font-size: .65rem; letter-spacing: 2px; text-transform: uppercase; transition: background .3s; flex-shrink: 0; border-radius: 0 50px 50px 0; }
+.nl-form button:hover { background: #1a1208; }
+
+/* ── FOOTER ── */
+footer { background: #060504; padding: 5rem 5% 2rem; }
+.ft { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 4rem; margin-bottom: 4rem; }
+.ft-logo { font-family: 'Cormorant Garamond', serif; font-size: 2rem; color: var(--gold-light); letter-spacing: 5px; display: block; margin-bottom: 1rem; font-weight: 200; }
+.ft-brand p { font-size: .77rem; line-height: 1.9; color: rgba(255,255,255,.25); font-weight: 200; max-width: 220px; }
+.ft-soc { display: flex; gap: .6rem; margin-top: 1.5rem; }
+.ft-soc a { width: 34px; height: 34px; border: 1px solid rgba(201,168,76,.12); display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,.25); font-size: .72rem; transition: all .3s; text-decoration: none; }
+.ft-soc a:hover { background: var(--gold); border-color: var(--gold); color: #fff; }
+.ft-col h4 { font-family: 'Cormorant Garamond', serif; font-size: 1rem; color: rgba(255,255,255,.4); margin-bottom: 1.5rem; letter-spacing: 1px; font-weight: 400; }
+.ft-col ul { list-style: none; }
+.ft-col ul li { margin-bottom: .6rem; }
+.ft-col ul li a { text-decoration: none; color: rgba(255,255,255,.2); font-size: .76rem; transition: color .3s; font-weight: 200; }
+.ft-col ul li a:hover { color: var(--gold-light); }
+.ft-bottom { border-top: 1px solid rgba(255,255,255,.04); padding-top: 1.5rem; display: flex; justify-content: space-between; font-size: .7rem; color: rgba(255,255,255,.15); }
+
+/* ── REVEAL ANIMATIONS ── */
+.rv { opacity: 0; transform: translateY(40px); transition: all .85s cubic-bezier(.23,1,.32,1); }
+.rv.on { opacity: 1; transform: none; }
+.rv-l { opacity: 0; transform: translateX(-40px); transition: all .85s cubic-bezier(.23,1,.32,1); }
+.rv-l.on { opacity: 1; transform: none; }
+.rv-r { opacity: 0; transform: translateX(40px); transition: all .85s cubic-bezier(.23,1,.32,1); }
+.rv-r.on { opacity: 1; transform: none; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1024px) {
+  .services-grid { grid-template-columns: 1fr 1fr; }
+  .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+  .booking-grid { grid-template-columns: 1fr; }
+  .pkg-grid { grid-template-columns: 1fr; }
+  .contact-grid { grid-template-columns: 1fr; }
+  .ft { grid-template-columns: 1fr 1fr; }
+  .team-grid { grid-template-columns: 1fr 1fr; }
+  .gal-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 600px) {
+  .nav-links { display: none; position: fixed; inset: 0; background: rgba(10,8,6,.97); flex-direction: column; padding: 5rem 2rem; gap: 1.8rem; z-index: 999; opacity: 0; pointer-events: none; transition: opacity .3s; }
+  .nav-links.open { display: flex; opacity: 1; pointer-events: all; }
+  .nav-links a { color: #fff !important; font-size: 1.1rem; }
+  .hamburger { display: flex; }
+  section { padding: 4rem 5%; }
+  .services-grid { grid-template-columns: 1fr; }
+  .team-grid { grid-template-columns: 1fr 1fr; }
+  .ft { grid-template-columns: 1fr; }
+  .ft-bottom { flex-direction: column; gap: .5rem; }
+  .gal-grid { grid-template-columns: 1fr 1fr; grid-auto-rows: 150px; }
+  .exp-items { flex-direction: column; }
+  .exp-item { border-right: none; border-bottom: 1px solid rgba(201,168,76,.1); }
+  .form-grid { grid-template-columns: 1fr; }
 }
 </style>
 </head>
@@ -369,17 +556,18 @@ footer{background:#080603;padding:5rem 5% 2rem;}
 
 <!-- LOADER -->
 <div id="loader">
-  <div class="loader-logo">Lys d'Or</div>
-  <div class="loader-bar"></div>
+  <div class="ld-logo">Lys d'Or</div>
+  <div class="ld-bar"><div class="ld-fill"></div></div>
+  <div class="ld-text">Bienvenue dans votre sanctuaire</div>
 </div>
 
 <!-- CURSOR -->
-<div class="cursor" id="cursor"></div>
-<div class="cursor-ring" id="cursorRing"></div>
+<div id="cur"></div>
+<div id="cur-ring"></div>
 
 <!-- NAVBAR -->
-<nav id="navbar">
-  <a href="#hero" class="logo">Lys d'Or</a>
+<nav id="nav">
+  <a href="#" class="logo">Lys d'Or</a>
   <ul class="nav-links" id="navLinks">
     <li><a href="#about">À Propos</a></li>
     <li><a href="#services">Services</a></li>
@@ -389,59 +577,105 @@ footer{background:#080603;padding:5rem 5% 2rem;}
     <li><a href="#contact">Contact</a></li>
     <li><a href="#booking" class="btn-nav">Réserver</a></li>
   </ul>
-  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+  <div class="hamburger" id="hbg" onclick="toggleMenu()">
     <span></span><span></span><span></span>
   </div>
 </nav>
 
-<!-- HERO -->
-<section id="hero">
-  <div class="hero-bg">
-    <img src="https://picsum.photos/seed/spa100/1800/1000" alt="">
-    <div class="orb orb1"></div>
-    <div class="orb orb2"></div>
-    <div class="orb orb3"></div>
-    <div class="hero-grid"></div>
-  </div>
+<!-- ════ HERO — DOOR OPENING ════ -->
+<div id="hero-wrap">
+  <div id="hero-sticky">
 
-  <div class="hero-badge hero-badge-left">
-    <i class="fas fa-award"></i>
-    <strong>#1</strong>
-    <span>Casablanca</span>
-  </div>
-  <div class="hero-badge hero-badge-right">
-    <i class="fas fa-star"></i>
-    <strong>4.9</strong>
-    <span>Note moyenne</span>
-  </div>
+    <!-- Interior (revealed behind doors) -->
+    <div class="hero-interior" id="heroInterior"></div>
 
-  <div class="hero-content">
-    <div class="hero-eyebrow"><span>Centre Spa & Beauté Premium</span></div>
-    <h1>L'Art du Soin,<em>Le Luxe du Calme</em></h1>
-    <p>Une oasis de bien-être et de beauté où chaque soin devient un rituel, chaque visite une parenthèse dorée hors du temps.</p>
-    <div class="hero-btns">
-      <a href="#booking" class="btn-primary"><i class="fas fa-calendar-star"></i> &nbsp;Prendre Rendez-vous</a>
-      <a href="#services" class="btn-outline">Découvrir nos soins</a>
+    <!-- Light rays -->
+    <div class="light-rays" id="lightRays">
+      <div class="ray" style="left:48%;transform:rotate(-3deg)"></div>
+      <div class="ray" style="left:50%;transform:rotate(0deg)"></div>
+      <div class="ray" style="left:52%;transform:rotate(3deg)"></div>
     </div>
-  </div>
 
-  <div class="scroll-indicator">
-    <div class="scroll-line"></div>
-    <span>Défiler</span>
+    <!-- Glow at door seam -->
+    <div class="door-glow" id="doorGlow"></div>
+
+    <!-- LEFT DOOR -->
+    <div class="door-left" id="doorL">
+      <div class="door-surface">
+        <div class="door-frame"></div>
+        <div class="door-logo">Lys</div>
+        <!-- Corners -->
+        <div class="corner corner-tl">
+          <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5 55 L5 5 L55 5" stroke="#c9a84c" stroke-width="1" fill="none"/>
+            <circle cx="5" cy="5" r="3" fill="#c9a84c"/>
+            <path d="M15 5 Q5 15 5 25" stroke="#c9a84c" stroke-width=".5" fill="none"/>
+          </svg>
+        </div>
+        <div class="corner corner-bl">
+          <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5 5 L5 55 L55 55" stroke="#c9a84c" stroke-width="1" fill="none"/>
+            <circle cx="5" cy="55" r="3" fill="#c9a84c"/>
+          </svg>
+        </div>
+      </div>
+      <div class="door-handle"></div>
+    </div>
+
+    <!-- RIGHT DOOR -->
+    <div class="door-right" id="doorR">
+      <div class="door-surface">
+        <div class="door-frame"></div>
+        <div class="door-logo">d'Or</div>
+        <div class="corner corner-tr">
+          <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5 55 L5 5 L55 5" stroke="#c9a84c" stroke-width="1" fill="none"/>
+            <circle cx="5" cy="5" r="3" fill="#c9a84c"/>
+            <path d="M15 5 Q5 15 5 25" stroke="#c9a84c" stroke-width=".5" fill="none"/>
+          </svg>
+        </div>
+        <div class="corner corner-br">
+          <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5 5 L5 55 L55 55" stroke="#c9a84c" stroke-width="1" fill="none"/>
+            <circle cx="5" cy="55" r="3" fill="#c9a84c"/>
+          </svg>
+        </div>
+      </div>
+      <div class="door-handle"></div>
+    </div>
+
+    <!-- Hero content (shown when doors open) -->
+    <div class="hero-content" id="heroContent">
+      <div class="h-eyebrow"><span>Centre Spa & Beauté Premium</span></div>
+      <h1>Bienvenue dans<em>Votre Sanctuaire</em></h1>
+      <p>Franchissez nos portes et laissez le monde extérieur s'effacer. Ici commence votre rituel de bien-être et de beauté.</p>
+      <div class="h-btns">
+        <a href="#booking" class="btn-primary"><i class="fas fa-calendar-check"></i>&nbsp; Prendre Rendez-vous</a>
+        <a href="#services" class="btn-outline">Découvrir nos soins</a>
+      </div>
+    </div>
+
+    <!-- Scroll hint -->
+    <div class="scroll-hint" id="scrollHint">
+      <span>Défiler pour entrer</span>
+      <div class="scroll-mouse"></div>
+    </div>
+
   </div>
-</section>
+</div>
+<!-- END HERO -->
 
 <!-- MARQUEE -->
 <div class="marquee-strip">
-  <div class="marquee-track" id="marqueeTrack">
+  <div class="marquee-track">
     <span class="marquee-item"><i class="fas fa-spa"></i> Massages Signature</span>
-    <span class="marquee-item"><i class="fas fa-gem"></i> Soins Visage Or 24k</span>
+    <span class="marquee-item"><i class="fas fa-gem"></i> Soins Or 24k</span>
     <span class="marquee-item"><i class="fas fa-fire"></i> Hammam Royal</span>
     <span class="marquee-item"><i class="fas fa-leaf"></i> Soins Naturels</span>
     <span class="marquee-item"><i class="fas fa-star"></i> Coiffure & Style</span>
     <span class="marquee-item"><i class="fas fa-heart"></i> Bien-être Total</span>
     <span class="marquee-item"><i class="fas fa-spa"></i> Massages Signature</span>
-    <span class="marquee-item"><i class="fas fa-gem"></i> Soins Visage Or 24k</span>
+    <span class="marquee-item"><i class="fas fa-gem"></i> Soins Or 24k</span>
     <span class="marquee-item"><i class="fas fa-fire"></i> Hammam Royal</span>
     <span class="marquee-item"><i class="fas fa-leaf"></i> Soins Naturels</span>
     <span class="marquee-item"><i class="fas fa-star"></i> Coiffure & Style</span>
@@ -452,190 +686,163 @@ footer{background:#080603;padding:5rem 5% 2rem;}
 <!-- ABOUT -->
 <section id="about">
   <div class="about-grid">
-    <div class="about-visual reveal-l">
-      <img class="about-img-main" src="https://picsum.photos/seed/spa200/700/700" alt="Intérieur spa">
-      <div class="about-img-frame"></div>
-      <img class="about-img-accent" src="https://picsum.photos/seed/spa201/300/300" alt="Détail">
-      <div class="about-badge"><strong>10</strong><span>Années</span></div>
+    <div class="about-visual rv-l">
+      <img class="a-main" src="https://picsum.photos/seed/spa300/700/700" alt="Intérieur spa">
+      <div class="a-frame"></div>
+      <img class="a-accent" src="https://picsum.photos/seed/spa301/300/300" alt="Détail">
+      <div class="a-badge"><strong>10</strong><span>Années</span></div>
     </div>
-    <div class="about-text reveal-r">
-      <div class="section-tag">Notre Histoire</div>
-      <h2>Un Sanctuaire de<br><em>Beauté & Sérénité</em></h2>
-      <div class="gold-line"><i class="fas fa-spa"></i></div>
-      <p style="margin-top:1.5rem">Fondé au cœur de Casablanca avec la passion du bien-être authentique, Lys d'Or transcende la définition du centre de beauté. C'est un sanctuaire où le temps s'arrête.</p>
-      <p>Nos thérapeutes certifiés combinent rituels ancestraux et innovations modernes pour des soins d'exception, personnalisés à votre image.</p>
-      <div class="about-features">
-        <div class="feature-item"><i class="fas fa-check"></i> Produits 100% naturels</div>
-        <div class="feature-item"><i class="fas fa-check"></i> Thérapeutes certifiés</div>
-        <div class="feature-item"><i class="fas fa-check"></i> Techniques exclusives</div>
-        <div class="feature-item"><i class="fas fa-check"></i> Ambiance luxueuse</div>
+    <div class="about-text rv-r">
+      <div class="s-tag">Notre Histoire</div>
+      <h2 style="font-family:'Cormorant Garamond',serif;font-size:2.8rem;font-weight:200;margin-bottom:1.5rem;color:var(--dark);line-height:1.2">Un Sanctuaire de<br><em>Beauté & Sérénité</em></h2>
+      <div class="gold-divider"><i class="fas fa-spa"></i></div>
+      <p style="margin-top:1.5rem">Fondé avec la passion du bien-être authentique, Lys d'Or est bien plus qu'un centre de beauté. C'est un sanctuaire où le temps s'arrête et où chaque visiteur est traité avec une attention absolue.</p>
+      <p>Nos thérapeutes certifiés combinent des techniques ancestrales et des innovations modernes pour offrir des soins d'exception, personnalisés selon vos besoins.</p>
+      <div class="a-features">
+        <div class="a-feature"><i class="fas fa-check"></i> Produits 100% naturels</div>
+        <div class="a-feature"><i class="fas fa-check"></i> Thérapeutes certifiés</div>
+        <div class="a-feature"><i class="fas fa-check"></i> Techniques exclusives</div>
+        <div class="a-feature"><i class="fas fa-check"></i> Ambiance luxueuse</div>
       </div>
-      <div class="about-stats">
-        <div class="stat"><strong>2 500+</strong><span>Clientes</span></div>
+      <div class="a-stats">
+        <div class="stat"><strong>2500+</strong><span>Clientes</span></div>
         <div class="stat"><strong>15+</strong><span>Soins</span></div>
-        <div class="stat"><strong>98%</strong><span>Satisfaites</span></div>
+        <div class="stat"><strong>98%</strong><span>Satisfaction</span></div>
       </div>
       <a href="#services" class="btn-primary">Explorer nos soins</a>
     </div>
   </div>
 </section>
 
+<!-- EXPERIENCE STRIP -->
+<div class="exp-strip">
+  <div class="exp-items">
+    <div class="exp-item rv"><div class="exp-icon"><i class="fas fa-leaf"></i></div><h4>100% Naturel</h4><p>Produits biologiques certifiés, sans parabènes ni colorants artificiels</p></div>
+    <div class="exp-item rv" style="transition-delay:.1s"><div class="exp-icon"><i class="fas fa-award"></i></div><h4>Expertise Certifiée</h4><p>Thérapeutes formés aux meilleures écoles européennes et orientales</p></div>
+    <div class="exp-item rv" style="transition-delay:.2s"><div class="exp-icon"><i class="fas fa-heart"></i></div><h4>Soin Personnalisé</h4><p>Chaque soin est adapté à votre type de peau et vos besoins du moment</p></div>
+    <div class="exp-item rv" style="transition-delay:.3s"><div class="exp-icon"><i class="fas fa-gem"></i></div><h4>Luxe Accessible</h4><p>Une expérience 5 étoiles à des tarifs pensés pour toutes les occasions</p></div>
+  </div>
+</div>
+
 <!-- SERVICES -->
 <section id="services">
-  <div class="section-header reveal">
-    <div class="section-tag">Notre Catalogue</div>
-    <h2>Soins &amp; <em>Prestations</em></h2>
-    <div class="gold-line"><i class="fas fa-gem"></i></div>
-  </div>
-  <div class="services-filter reveal">
-    <button class="filter-btn active">Tous</button>
-    <button class="filter-btn">Massages</button>
-    <button class="filter-btn">Visage</button>
-    <button class="filter-btn">Corps</button>
-    <button class="filter-btn">Beauté</button>
+  <div class="s-head rv">
+    <div class="s-tag">Notre Catalogue</div>
+    <h2 style="color:#fff">Soins & <em>Prestations</em></h2>
+    <div class="gold-divider"><i class="fas fa-gem"></i></div>
   </div>
   <div class="services-grid">
-    <div class="service-card reveal">
-      <div class="service-img">
-        <img src="https://picsum.photos/seed/mass1/500/350" alt="Massage">
-        <div class="service-img-overlay"></div>
-        <div class="service-number">01</div>
-      </div>
-      <div class="service-body">
-        <span class="service-tag">Massages</span>
+    <div class="svc rv">
+      <div class="svc-img"><img src="https://picsum.photos/seed/m1/500/400" alt="Massage"><div class="svc-num">01</div></div>
+      <div class="svc-body">
+        <span class="svc-cat">Massages</span>
         <h3>Massage Signature</h3>
-        <p>Voyage sensoriel alliant techniques suédoises et huiles essentielles précieuses. Relaxation profonde du corps et de l'esprit.</p>
-        <div class="service-meta">
-          <div class="service-price">350 MAD<small>60 minutes</small></div>
-          <button class="btn-book-service" onclick="openBooking('Massage Signature — 350 MAD')">Réserver</button>
+        <p>Voyage sensoriel alliant techniques suédoises et huiles essentielles. Relaxation profonde corps & esprit.</p>
+        <div class="svc-footer">
+          <div class="svc-price">350 MAD<small>60 minutes</small></div>
+          <button class="svc-btn" onclick="openBooking('Massage Signature — 350 MAD')">Réserver</button>
         </div>
       </div>
-      <div class="service-hover-line"></div>
+      <div class="svc-line"></div>
     </div>
-    <div class="service-card reveal" style="transition-delay:.08s">
-      <div class="service-img">
-        <img src="https://picsum.photos/seed/face1/500/350" alt="Soin visage">
-        <div class="service-img-overlay"></div>
-        <div class="service-number">02</div>
-      </div>
-      <div class="service-body">
-        <span class="service-tag">Visage</span>
+    <div class="svc rv" style="transition-delay:.08s">
+      <div class="svc-img"><img src="https://picsum.photos/seed/f1/500/400" alt="Visage"><div class="svc-num">02</div></div>
+      <div class="svc-body">
+        <span class="svc-cat">Visage</span>
         <h3>Soin Visage Or 24k</h3>
-        <p>Traitement luxueux à base de particules d'or et d'actifs anti-âge. Peau lumineuse, ferme et éclatante de jeunesse.</p>
-        <div class="service-meta">
-          <div class="service-price">480 MAD<small>75 minutes</small></div>
-          <button class="btn-book-service" onclick="openBooking('Soin Visage Or — 480 MAD')">Réserver</button>
+        <p>Traitement luxueux aux particules d'or et actifs anti-âge. Peau lumineuse, ferme, éclatante.</p>
+        <div class="svc-footer">
+          <div class="svc-price">480 MAD<small>75 minutes</small></div>
+          <button class="svc-btn" onclick="openBooking('Soin Visage Or — 480 MAD')">Réserver</button>
         </div>
       </div>
-      <div class="service-hover-line"></div>
+      <div class="svc-line"></div>
     </div>
-    <div class="service-card reveal" style="transition-delay:.16s">
-      <div class="service-img">
-        <img src="https://picsum.photos/seed/hamm1/500/350" alt="Hammam">
-        <div class="service-img-overlay"></div>
-        <div class="service-number">03</div>
-      </div>
-      <div class="service-body">
-        <span class="service-tag">Corps</span>
+    <div class="svc rv" style="transition-delay:.16s">
+      <div class="svc-img"><img src="https://picsum.photos/seed/h1/500/400" alt="Hammam"><div class="svc-num">03</div></div>
+      <div class="svc-body">
+        <span class="svc-cat">Corps</span>
         <h3>Hammam Royal</h3>
-        <p>Rituel traditionnel marocain — vapeur parfumée, savon beldi artisanal, gommage au kessa. Peau soyeuse et purifiée.</p>
-        <div class="service-meta">
-          <div class="service-price">290 MAD<small>90 minutes</small></div>
-          <button class="btn-book-service" onclick="openBooking('Hammam Royal — 290 MAD')">Réserver</button>
+        <p>Rituel marocain traditionnel — vapeur, savon beldi artisanal, gommage au kessa. Peau soyeuse.</p>
+        <div class="svc-footer">
+          <div class="svc-price">290 MAD<small>90 minutes</small></div>
+          <button class="svc-btn" onclick="openBooking('Hammam Royal — 290 MAD')">Réserver</button>
         </div>
       </div>
-      <div class="service-hover-line"></div>
+      <div class="svc-line"></div>
     </div>
-    <div class="service-card reveal" style="transition-delay:.24s">
-      <div class="service-img">
-        <img src="https://picsum.photos/seed/mani1/500/350" alt="Manucure">
-        <div class="service-img-overlay"></div>
-        <div class="service-number">04</div>
-      </div>
-      <div class="service-body">
-        <span class="service-tag">Beauté</span>
+    <div class="svc rv" style="transition-delay:.24s">
+      <div class="svc-img"><img src="https://picsum.photos/seed/n1/500/400" alt="Manucure"><div class="svc-num">04</div></div>
+      <div class="svc-body">
+        <span class="svc-cat">Beauté</span>
         <h3>Manucure Prestige</h3>
-        <p>Gommage, masque hydratant, modelage et pose de vernis semi-permanent longue durée. Des mains sublimes.</p>
-        <div class="service-meta">
-          <div class="service-price">180 MAD<small>45 minutes</small></div>
-          <button class="btn-book-service" onclick="openBooking('Manucure Prestige — 180 MAD')">Réserver</button>
+        <p>Gommage, masque hydratant, modelage et vernis semi-permanent longue durée. Mains sublimes.</p>
+        <div class="svc-footer">
+          <div class="svc-price">180 MAD<small>45 minutes</small></div>
+          <button class="svc-btn" onclick="openBooking('Manucure Prestige — 180 MAD')">Réserver</button>
         </div>
       </div>
-      <div class="service-hover-line"></div>
+      <div class="svc-line"></div>
     </div>
-    <div class="service-card reveal" style="transition-delay:.32s">
-      <div class="service-img">
-        <img src="https://picsum.photos/seed/body1/500/350" alt="Enveloppement">
-        <div class="service-img-overlay"></div>
-        <div class="service-number">05</div>
-      </div>
-      <div class="service-body">
-        <span class="service-tag">Corps</span>
+    <div class="svc rv" style="transition-delay:.32s">
+      <div class="svc-img"><img src="https://picsum.photos/seed/b1/500/400" alt="Corps"><div class="svc-num">05</div></div>
+      <div class="svc-body">
+        <span class="svc-cat">Corps</span>
         <h3>Enveloppement Corps</h3>
-        <p>Argile rose et huiles botaniques, suivi d'un massage drainant. Silhouette affinée, peau nourrie en profondeur.</p>
-        <div class="service-meta">
-          <div class="service-price">420 MAD<small>80 minutes</small></div>
-          <button class="btn-book-service" onclick="openBooking('Enveloppement Corps — 420 MAD')">Réserver</button>
+        <p>Argile rose et huiles botaniques suivies d'un drainage. Silhouette affinée, peau nourrie.</p>
+        <div class="svc-footer">
+          <div class="svc-price">420 MAD<small>80 minutes</small></div>
+          <button class="svc-btn" onclick="openBooking('Enveloppement Corps — 420 MAD')">Réserver</button>
         </div>
       </div>
-      <div class="service-hover-line"></div>
+      <div class="svc-line"></div>
     </div>
-    <div class="service-card reveal" style="transition-delay:.4s">
-      <div class="service-img">
-        <img src="https://picsum.photos/seed/hair1/500/350" alt="Coiffure">
-        <div class="service-img-overlay"></div>
-        <div class="service-number">06</div>
-      </div>
-      <div class="service-body">
-        <span class="service-tag">Beauté</span>
+    <div class="svc rv" style="transition-delay:.4s">
+      <div class="svc-img"><img src="https://picsum.photos/seed/c1/500/400" alt="Coiffure"><div class="svc-num">06</div></div>
+      <div class="svc-body">
+        <span class="svc-cat">Beauté</span>
         <h3>Coiffure & Style</h3>
-        <p>De la coupe à la couleur, nos stylistes experts subliment votre chevelure avec des produits haut de gamme.</p>
-        <div class="service-meta">
-          <div class="service-price">220 MAD<small>60 minutes</small></div>
-          <button class="btn-book-service" onclick="openBooking('Coiffure & Style — 220 MAD')">Réserver</button>
+        <p>De la coupe à la couleur, nos stylistes experts subliment votre chevelure avec des produits premium.</p>
+        <div class="svc-footer">
+          <div class="svc-price">220 MAD<small>60 minutes</small></div>
+          <button class="svc-btn" onclick="openBooking('Coiffure & Style — 220 MAD')">Réserver</button>
         </div>
       </div>
-      <div class="service-hover-line"></div>
+      <div class="svc-line"></div>
     </div>
   </div>
 </section>
 
 <!-- BOOKING -->
 <section id="booking">
-  <div class="booking-layout">
-    <div class="booking-info reveal-l">
-      <div class="section-tag" style="justify-content:flex-start"><span style="border:none;letter-spacing:5px;font-size:.65rem;color:var(--gold);text-transform:uppercase;font-weight:500">Réservation</span></div>
+  <div class="s-head rv">
+    <div class="s-tag">Réservation</div>
+    <h2>Votre <em>Rendez-vous</em></h2>
+    <div class="gold-divider"><i class="fas fa-calendar-check"></i></div>
+  </div>
+  <div class="booking-grid">
+    <div class="bk-info rv-l">
       <h3>Votre Moment de<br><em>Bien-être</em> Commence Ici</h3>
-      <div class="gold-line" style="justify-content:flex-start;margin-left:0"><i class="fas fa-spa"></i></div>
-      <p style="margin-top:1.5rem">Réservez votre soin en quelques instants. Notre équipe vous contactera pour confirmer votre rendez-vous dans les plus brefs délais.</p>
-      <div class="booking-perks">
-        <div class="perk">
-          <div class="perk-icon"><i class="fas fa-shield-alt"></i></div>
-          <div class="perk-text"><strong>Réservation Sécurisée</strong><span>Confirmation par email & SMS</span></div>
-        </div>
-        <div class="perk">
-          <div class="perk-icon"><i class="fas fa-undo"></i></div>
-          <div class="perk-text"><strong>Annulation Gratuite</strong><span>Jusqu'à 24h avant le rendez-vous</span></div>
-        </div>
-        <div class="perk">
-          <div class="perk-icon"><i class="fas fa-gift"></i></div>
-          <div class="perk-text"><strong>Première Visite</strong><span>-15% sur votre premier soin</span></div>
-        </div>
+      <p>Réservez en quelques instants. Notre équipe vous contactera pour confirmer dans les plus brefs délais.</p>
+      <div class="bk-perks">
+        <div class="bk-perk"><div class="bk-perk-icon"><i class="fas fa-shield-alt"></i></div><div><strong>Réservation Sécurisée</strong><span>Confirmation email & SMS immédiate</span></div></div>
+        <div class="bk-perk"><div class="bk-perk-icon"><i class="fas fa-undo"></i></div><div><strong>Annulation Gratuite</strong><span>Jusqu'à 24h avant le rendez-vous</span></div></div>
+        <div class="bk-perk"><div class="bk-perk-icon"><i class="fas fa-gift"></i></div><div><strong>Première Visite</strong><span>−15% sur votre premier soin</span></div></div>
       </div>
     </div>
-    <div class="booking-form-card reveal-r">
-      <div id="form-success">
+    <div class="bk-card rv-r">
+      <div id="f-success">
         <i class="fas fa-check-circle"></i>
-        <h3>Réservation Confirmée !</h3>
-        <p>Nous vous contacterons sous 2h pour finaliser votre rendez-vous.<br>À très bientôt au Lys d'Or.</p>
+        <h3>Réservation Envoyée !</h3>
+        <p>Nous vous confirmons votre rendez-vous sous 2h.<br>À très bientôt au Lys d'Or.</p>
       </div>
       <form id="bookingForm" onsubmit="submitBooking(event)">
         <div class="form-grid">
-          <div class="form-group"><label>Prénom & Nom</label><input type="text" placeholder="Votre nom complet" required></div>
-          <div class="form-group"><label>Email</label><input type="email" placeholder="votre@email.com" required></div>
-          <div class="form-group"><label>Téléphone</label><input type="tel" placeholder="+212 6XX XXX XXX" required></div>
-          <div class="form-group"><label>Service souhaité</label>
-            <select id="serviceSelect" required>
+          <div class="fg"><label>Prénom & Nom</label><input type="text" placeholder="Votre nom complet" required></div>
+          <div class="fg"><label>Email</label><input type="email" placeholder="votre@email.com" required></div>
+          <div class="fg"><label>Téléphone</label><input type="tel" placeholder="+212 6XX XXX XXX" required></div>
+          <div class="fg"><label>Service souhaité</label>
+            <select id="svcSelect" required>
               <option value="">— Choisir un soin —</option>
               <option>Massage Signature — 350 MAD</option>
               <option>Soin Visage Or — 480 MAD</option>
@@ -645,20 +852,18 @@ footer{background:#080603;padding:5rem 5% 2rem;}
               <option>Coiffure & Style — 220 MAD</option>
             </select>
           </div>
-          <div class="form-group"><label>Date souhaitée</label><input type="date" id="dateInput" required></div>
-          <div class="form-group"><label>Heure préférée</label>
+          <div class="fg"><label>Date</label><input type="date" id="dateIn" required></div>
+          <div class="fg"><label>Heure</label>
             <select required>
-              <option value="">— Choisir —</option>
+              <option value="">— Heure —</option>
               <option>09:00</option><option>10:00</option><option>11:00</option>
               <option>12:00</option><option>14:00</option><option>15:00</option>
               <option>16:00</option><option>17:00</option><option>18:00</option>
             </select>
           </div>
-          <div class="form-group full"><label>Message & demandes spéciales</label><textarea placeholder="Allergies, occasions spéciales, préférences..."></textarea></div>
+          <div class="fg full"><label>Message</label><textarea placeholder="Allergies, occasions spéciales, préférences..."></textarea></div>
         </div>
-        <div class="form-submit">
-          <button type="submit" class="btn-primary"><i class="fas fa-calendar-check"></i> &nbsp;Confirmer la Réservation</button>
-        </div>
+        <div class="f-submit"><button type="submit" class="btn-primary"><i class="fas fa-calendar-check"></i>&nbsp; Confirmer la Réservation</button></div>
       </form>
     </div>
   </div>
@@ -666,334 +871,270 @@ footer{background:#080603;padding:5rem 5% 2rem;}
 
 <!-- GALLERY -->
 <section id="gallery">
-  <div class="section-header reveal">
-    <div class="section-tag">Galerie</div>
-    <h2 style="color:var(--white)">Notre <em style="color:var(--gold-light)">Univers</em></h2>
-    <div class="gold-line"><i class="fas fa-camera"></i></div>
+  <div class="s-head rv">
+    <div class="s-tag">Galerie</div>
+    <h2 style="color:#fff">Notre <em style="color:var(--gold-light)">Univers</em></h2>
+    <div class="gold-divider"><i class="fas fa-camera"></i></div>
   </div>
-  <div class="gallery-masonry">
-    <div class="g-item reveal"><img src="https://picsum.photos/seed/g1/800/600" alt=""><div class="g-overlay"><h4>Espace Détente</h4><span>Zen & Luxe</span></div><div class="g-corner"></div></div>
-    <div class="g-item reveal"><img src="https://picsum.photos/seed/g2/400/300" alt=""><div class="g-overlay"><h4>Soins Visage</h4><span>Anti-Âge</span></div><div class="g-corner"></div></div>
-    <div class="g-item reveal"><img src="https://picsum.photos/seed/g3/400/600" alt=""><div class="g-overlay"><h4>Massages</h4><span>Deep Tissue</span></div><div class="g-corner"></div></div>
-    <div class="g-item reveal"><img src="https://picsum.photos/seed/g4/400/300" alt=""><div class="g-overlay"><h4>Hammam</h4><span>Rituel Marocain</span></div><div class="g-corner"></div></div>
-    <div class="g-item reveal"><img src="https://picsum.photos/seed/g5/400/300" alt=""><div class="g-overlay"><h4>Produits</h4><span>100% Naturels</span></div><div class="g-corner"></div></div>
-    <div class="g-item reveal"><img src="https://picsum.photos/seed/g6/800/300" alt=""><div class="g-overlay"><h4>Ambiance</h4><span>Sérénité</span></div><div class="g-corner"></div></div>
-    <div class="g-item reveal"><img src="https://picsum.photos/seed/g7/400/300" alt=""><div class="g-overlay"><h4>Beauté</h4><span>Manucure</span></div><div class="g-corner"></div></div>
+  <div class="gal-grid">
+    <div class="gi rv"><img src="https://picsum.photos/seed/g10/800/600" alt=""><div class="gi-ov"><h4>Espace Détente</h4><span>Zen & Luxe</span></div></div>
+    <div class="gi rv"><img src="https://picsum.photos/seed/g11/400/300" alt=""><div class="gi-ov"><h4>Soins Visage</h4><span>Anti-Âge</span></div></div>
+    <div class="gi rv"><img src="https://picsum.photos/seed/g12/400/600" alt=""><div class="gi-ov"><h4>Massages</h4><span>Deep Tissue</span></div></div>
+    <div class="gi rv"><img src="https://picsum.photos/seed/g13/400/300" alt=""><div class="gi-ov"><h4>Hammam</h4><span>Rituel Marocain</span></div></div>
+    <div class="gi rv"><img src="https://picsum.photos/seed/g14/400/300" alt=""><div class="gi-ov"><h4>Produits</h4><span>100% Naturels</span></div></div>
+    <div class="gi rv"><img src="https://picsum.photos/seed/g15/800/300" alt=""><div class="gi-ov"><h4>Ambiance</h4><span>Sérénité</span></div></div>
+    <div class="gi rv"><img src="https://picsum.photos/seed/g16/400/300" alt=""><div class="gi-ov"><h4>Manucure</h4><span>Beauté</span></div></div>
   </div>
 </section>
 
 <!-- TESTIMONIALS -->
-<section id="testimonials">
-  <div class="section-header reveal">
-    <div class="section-tag">Témoignages</div>
+<section id="testi">
+  <div class="s-head rv">
+    <div class="s-tag">Témoignages</div>
     <h2>Ce Que Disent <em>Nos Clientes</em></h2>
-    <div class="gold-line"><i class="fas fa-heart"></i></div>
+    <div class="gold-divider"><i class="fas fa-heart"></i></div>
   </div>
-  <div class="testimonials-container">
-    <div class="testimonials-bg-text">AVIS</div>
-    <div style="overflow:hidden">
-      <div class="testimonials-track" id="testimonialTrack">
-        <div class="testimonial">
-          <div class="t-stars">★★★★★</div>
-          <span class="quote-icon">"</span>
-          <blockquote>Une expérience absolument divine. Le massage signature m'a transportée dans un état de relaxation profonde que je n'avais jamais connu. L'équipe est d'un professionnalisme remarquable.</blockquote>
-          <div class="t-author"><img src="https://picsum.photos/seed/w1/100/100" alt=""><div class="t-author-info"><strong>Samia Benali</strong><span>Cliente fidèle — 3 ans</span></div></div>
-        </div>
-        <div class="testimonial">
-          <div class="t-stars">★★★★★</div>
-          <span class="quote-icon">"</span>
-          <blockquote>Le soin visage à l'or 24k est tout simplement exceptionnel. Ma peau n'a jamais été aussi lumineuse et ferme. Lys d'Or est devenu mon sanctuaire personnel — je ne peux plus m'en passer !</blockquote>
-          <div class="t-author"><img src="https://picsum.photos/seed/w2/100/100" alt=""><div class="t-author-info"><strong>Nadia Chraibi</strong><span>Cliente VIP</span></div></div>
-        </div>
-        <div class="testimonial">
-          <div class="t-stars">★★★★★</div>
-          <span class="quote-icon">"</span>
-          <blockquote>J'ai offert un hammam royal à ma mère pour son anniversaire et elle en parle encore trois mois après ! L'accueil est chaleureux, les soins irréprochables. Un vrai luxe accessible.</blockquote>
-          <div class="t-author"><img src="https://picsum.photos/seed/w3/100/100" alt=""><div class="t-author-info"><strong>Fatima Zahrae</strong><span>Nouvelle cliente</span></div></div>
-        </div>
+  <div class="testi-wrap">
+    <div class="testi-bg">AVIS</div>
+    <div class="testi-slider">
+      <div class="testi-track" id="testiTrack">
+        <div class="testi"><div class="t-stars">★★★★★</div><span class="t-quote">"</span><blockquote>Une expérience absolument divine. Le massage signature m'a transportée dans un état de relaxation profonde que je n'avais jamais connu. L'équipe est d'un professionnalisme remarquable.</blockquote><div class="t-auth"><img src="https://picsum.photos/seed/p1/100/100" alt=""><div class="t-author-info"><strong style="display:block;font-size:.83rem;color:var(--dark)">Samia Benali</strong><span style="font-size:.6rem;letter-spacing:2px;text-transform:uppercase;color:var(--gold)">Cliente fidèle — 3 ans</span></div></div></div>
+        <div class="testi"><div class="t-stars">★★★★★</div><span class="t-quote">"</span><blockquote>Le soin visage à l'or 24k est tout simplement exceptionnel. Ma peau n'a jamais été aussi lumineuse. Lys d'Or est devenu mon sanctuaire personnel — je ne peux plus m'en passer !</blockquote><div class="t-auth"><img src="https://picsum.photos/seed/p2/100/100" alt=""><div class="t-author-info"><strong style="display:block;font-size:.83rem;color:var(--dark)">Nadia Chraibi</strong><span style="font-size:.6rem;letter-spacing:2px;text-transform:uppercase;color:var(--gold)">Cliente VIP</span></div></div></div>
+        <div class="testi"><div class="t-stars">★★★★★</div><span class="t-quote">"</span><blockquote>J'ai offert un hammam royal à ma mère et elle en parle encore trois mois après ! L'accueil est chaleureux, les soins irréprochables. Un vrai luxe accessible.</blockquote><div class="t-auth"><img src="https://picsum.photos/seed/p3/100/100" alt=""><div class="t-author-info"><strong style="display:block;font-size:.83rem;color:var(--dark)">Fatima Zahrae</strong><span style="font-size:.6rem;letter-spacing:2px;text-transform:uppercase;color:var(--gold)">Nouvelle cliente</span></div></div></div>
       </div>
     </div>
-    <div class="slider-nav">
-      <button class="nav-arrow" onclick="changeSlide(-1)"><i class="fas fa-chevron-left"></i></button>
-      <div class="slider-dots" id="sliderDots">
-        <button class="dot active" onclick="goToSlide(0)"></button>
-        <button class="dot" onclick="goToSlide(1)"></button>
-        <button class="dot" onclick="goToSlide(2)"></button>
+    <div class="t-nav">
+      <button class="t-arrow" onclick="tChange(-1)"><i class="fas fa-chevron-left"></i></button>
+      <div class="t-dots">
+        <button class="tdot a" onclick="tGo(0)"></button>
+        <button class="tdot" onclick="tGo(1)"></button>
+        <button class="tdot" onclick="tGo(2)"></button>
       </div>
-      <button class="nav-arrow" onclick="changeSlide(1)"><i class="fas fa-chevron-right"></i></button>
+      <button class="t-arrow" onclick="tChange(1)"><i class="fas fa-chevron-right"></i></button>
     </div>
   </div>
 </section>
 
 <!-- TEAM -->
 <section id="team">
-  <div class="section-header reveal">
-    <div class="section-tag">Notre Équipe</div>
-    <h2 style="color:var(--white)">Des Expertes <em style="color:var(--gold-light)">Passionnées</em></h2>
-    <div class="gold-line"><i class="fas fa-users"></i></div>
+  <div class="s-head rv">
+    <div class="s-tag">Notre Équipe</div>
+    <h2 style="color:#fff">Des Expertes <em style="color:var(--gold-light)">Passionnées</em></h2>
+    <div class="gold-divider"><i class="fas fa-users"></i></div>
   </div>
   <div class="team-grid">
-    <div class="team-card reveal">
-      <div class="team-img"><img src="https://picsum.photos/seed/t1/300/300" alt=""></div>
-      <h3>Yasmine Alaoui</h3>
-      <span class="team-role">Directrice & Fondatrice</span>
-      <p>15 ans d'expertise, formée à Paris & Dubaï. Visionnaire du bien-être.</p>
-      <div class="team-social"><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-linkedin"></i></a></div>
-    </div>
-    <div class="team-card reveal" style="transition-delay:.1s">
-      <div class="team-img"><img src="https://picsum.photos/seed/t2/300/300" alt=""></div>
-      <h3>Khadija Mansouri</h3>
-      <span class="team-role">Thérapeute Senior</span>
-      <p>Spécialiste en massages thérapeutiques et médecine douce orientale.</p>
-      <div class="team-social"><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-linkedin"></i></a></div>
-    </div>
-    <div class="team-card reveal" style="transition-delay:.2s">
-      <div class="team-img"><img src="https://picsum.photos/seed/t3/300/300" alt=""></div>
-      <h3>Sara Benjelloun</h3>
-      <span class="team-role">Esthéticienne</span>
-      <p>Experte en soins du visage et techniques anti-âge de dernière génération.</p>
-      <div class="team-social"><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-linkedin"></i></a></div>
-    </div>
-    <div class="team-card reveal" style="transition-delay:.3s">
-      <div class="team-img"><img src="https://picsum.photos/seed/t4/300/300" alt=""></div>
-      <h3>Houda Tazi</h3>
-      <span class="team-role">Styliste & Coloriste</span>
-      <p>Certifiée L'Oréal Professionnel. Créatrice de looks sublimes et tendance.</p>
-      <div class="team-social"><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-linkedin"></i></a></div>
-    </div>
+    <div class="tc rv"><div class="tc-img"><img src="https://picsum.photos/seed/t10/300/300" alt=""></div><h3>Yasmine Alaoui</h3><span class="tc-role">Directrice & Fondatrice</span><p>15 ans d'expertise, formée à Paris & Dubaï.</p><div class="tc-soc"><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-linkedin"></i></a></div></div>
+    <div class="tc rv" style="transition-delay:.1s"><div class="tc-img"><img src="https://picsum.photos/seed/t11/300/300" alt=""></div><h3>Khadija Mansouri</h3><span class="tc-role">Thérapeute Senior</span><p>Spécialiste massages thérapeutiques & médecine douce.</p><div class="tc-soc"><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-linkedin"></i></a></div></div>
+    <div class="tc rv" style="transition-delay:.2s"><div class="tc-img"><img src="https://picsum.photos/seed/t12/300/300" alt=""></div><h3>Sara Benjelloun</h3><span class="tc-role">Esthéticienne</span><p>Experte soins visage & techniques anti-âge.</p><div class="tc-soc"><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-linkedin"></i></a></div></div>
+    <div class="tc rv" style="transition-delay:.3s"><div class="tc-img"><img src="https://picsum.photos/seed/t13/300/300" alt=""></div><h3>Houda Tazi</h3><span class="tc-role">Styliste & Coloriste</span><p>Certifiée L'Oréal Pro. Créatrice de looks sublimes.</p><div class="tc-soc"><a href="#"><i class="fab fa-instagram"></i></a><a href="#"><i class="fab fa-linkedin"></i></a></div></div>
   </div>
 </section>
 
 <!-- PACKAGES -->
 <section id="packages">
-  <div class="section-header reveal">
-    <div class="section-tag">Forfaits</div>
+  <div class="s-head rv">
+    <div class="s-tag">Forfaits</div>
     <h2>Nos <em>Offres Exclusives</em></h2>
-    <div class="gold-line"><i class="fas fa-gift"></i></div>
+    <div class="gold-divider"><i class="fas fa-gift"></i></div>
   </div>
-  <div class="packages-grid">
-    <div class="pkg-card reveal">
-      <h3>Évasion</h3>
-      <span class="pkg-subtitle">Pour commencer</span>
-      <div class="pkg-price">590 <small>MAD</small></div>
-      <ul class="pkg-features">
-        <li><i class="fas fa-check"></i> Massage relaxant 60 min</li>
-        <li><i class="fas fa-check"></i> Soin visage basique</li>
-        <li><i class="fas fa-check"></i> Accès espace détente</li>
-        <li><i class="fas fa-check"></i> Tisane de bienvenue</li>
-      </ul>
-      <a href="#booking" class="btn-primary">Choisir ce forfait</a>
-    </div>
-    <div class="pkg-card featured reveal" style="transition-delay:.1s">
-      <div class="pkg-badge">★ Le Plus Populaire</div>
-      <h3>Lys d'Or</h3>
-      <span class="pkg-subtitle" style="color:var(--gold)">Notre signature</span>
-      <div class="pkg-price">1 200 <small>MAD</small></div>
-      <ul class="pkg-features">
-        <li><i class="fas fa-check"></i> Massage signature 90 min</li>
-        <li><i class="fas fa-check"></i> Soin visage Or 24k</li>
-        <li><i class="fas fa-check"></i> Hammam royal</li>
-        <li><i class="fas fa-check"></i> Manucure prestige</li>
-        <li><i class="fas fa-check"></i> Accès espace VIP</li>
-      </ul>
-      <a href="#booking" class="btn-primary">Choisir ce forfait</a>
-    </div>
-    <div class="pkg-card reveal" style="transition-delay:.2s">
-      <h3>Royale</h3>
-      <span class="pkg-subtitle">Expérience ultime</span>
-      <div class="pkg-price">2 100 <small>MAD</small></div>
-      <ul class="pkg-features">
-        <li><i class="fas fa-check"></i> Journée complète spa</li>
-        <li><i class="fas fa-check"></i> Tous les soins signature</li>
-        <li><i class="fas fa-check"></i> Déjeuner gastronomique</li>
-        <li><i class="fas fa-check"></i> Coiffure & styling</li>
-        <li><i class="fas fa-check"></i> Suite privée dédiée</li>
-      </ul>
-      <a href="#booking" class="btn-primary">Choisir ce forfait</a>
-    </div>
+  <div class="pkg-grid">
+    <div class="pkg rv"><h3>Évasion</h3><span class="pkg-sub">Pour commencer</span><div class="pkg-price">590<small> MAD</small></div><ul class="pkg-list"><li><i class="fas fa-check"></i>Massage relaxant 60 min</li><li><i class="fas fa-check"></i>Soin visage basique</li><li><i class="fas fa-check"></i>Accès espace détente</li><li><i class="fas fa-check"></i>Tisane de bienvenue</li></ul><a href="#booking" class="btn-primary">Choisir</a></div>
+    <div class="pkg featured rv" style="transition-delay:.1s"><div class="pkg-top-badge">★ Plus Populaire</div><h3>Lys d'Or</h3><span class="pkg-sub" style="color:var(--gold)">Notre signature</span><div class="pkg-price">1 200<small> MAD</small></div><ul class="pkg-list"><li><i class="fas fa-check"></i>Massage signature 90 min</li><li><i class="fas fa-check"></i>Soin visage Or 24k</li><li><i class="fas fa-check"></i>Hammam royal</li><li><i class="fas fa-check"></i>Manucure prestige</li><li><i class="fas fa-check"></i>Espace VIP privatif</li></ul><a href="#booking" class="btn-primary">Choisir</a></div>
+    <div class="pkg rv" style="transition-delay:.2s"><h3>Royale</h3><span class="pkg-sub">Expérience ultime</span><div class="pkg-price">2 100<small> MAD</small></div><ul class="pkg-list"><li><i class="fas fa-check"></i>Journée complète spa</li><li><i class="fas fa-check"></i>Tous les soins signature</li><li><i class="fas fa-check"></i>Déjeuner gastronomique</li><li><i class="fas fa-check"></i>Coiffure & styling</li><li><i class="fas fa-check"></i>Suite privée dédiée</li></ul><a href="#booking" class="btn-primary">Choisir</a></div>
   </div>
 </section>
 
 <!-- CONTACT -->
 <section id="contact">
-  <div class="section-header reveal">
-    <div class="section-tag">Nous Trouver</div>
-    <h2 style="color:var(--white)">Contact & <em style="color:var(--gold-light)">Horaires</em></h2>
-    <div class="gold-line"><i class="fas fa-map-marker-alt"></i></div>
+  <div class="s-head rv">
+    <div class="s-tag">Nous Trouver</div>
+    <h2 style="color:#fff">Contact & <em style="color:var(--gold-light)">Horaires</em></h2>
+    <div class="gold-divider"><i class="fas fa-map-marker-alt"></i></div>
   </div>
   <div class="contact-grid">
-    <div class="contact-left reveal-l">
+    <div class="c-left rv-l">
       <h3>Venez nous rendre visite</h3>
-      <div class="c-item">
-        <div class="c-icon"><i class="fas fa-map-marker-alt"></i></div>
-        <div><h4>Adresse</h4><p>123 Boulevard Mohammed V<br>Casablanca 20250, Maroc</p></div>
-      </div>
-      <div class="c-item">
-        <div class="c-icon"><i class="fas fa-phone"></i></div>
-        <div><h4>Téléphone</h4><p>+212 5 22 XX XX XX<br>+212 6 XX XX XX XX (WhatsApp)</p></div>
-      </div>
-      <div class="c-item">
-        <div class="c-icon"><i class="fas fa-envelope"></i></div>
-        <div><h4>Email</h4><p>contact@lysdor-spa.ma</p></div>
-      </div>
-      <div class="c-item">
-        <div class="c-icon"><i class="fas fa-clock"></i></div>
-        <div>
-          <h4>Horaires d'ouverture</h4>
-          <div class="hours-table">
-            <span class="day">Lun – Ven</span><span class="time">09:00 – 20:00</span>
-            <span class="day">Samedi</span><span class="time">09:00 – 19:00</span>
-            <span class="day">Dimanche</span><span class="time">10:00 – 17:00</span>
-          </div>
-        </div>
-      </div>
+      <div class="c-item"><div class="c-icon"><i class="fas fa-map-marker-alt"></i></div><div><h4>Adresse</h4><p>123 Boulevard Mohammed V<br>Casablanca 20250, Maroc</p></div></div>
+      <div class="c-item"><div class="c-icon"><i class="fas fa-phone"></i></div><div><h4>Téléphone</h4><p>+212 5 22 XX XX XX<br>+212 6 XX XX XX XX (WhatsApp)</p></div></div>
+      <div class="c-item"><div class="c-icon"><i class="fas fa-envelope"></i></div><div><h4>Email</h4><p>contact@lysdor-spa.ma</p></div></div>
+      <div class="c-item"><div class="c-icon"><i class="fas fa-clock"></i></div><div><h4>Horaires</h4><div class="hrs"><span class="d">Lun – Ven</span><span class="t">09:00 – 20:00</span><span class="d">Samedi</span><span class="t">09:00 – 19:00</span><span class="d">Dimanche</span><span class="t">10:00 – 17:00</span></div></div></div>
     </div>
-    <div class="map-box reveal-r">
+    <div class="c-map rv-r">
       <i class="fas fa-map-marked-alt"></i>
       <p>123 Boulevard Mohammed V, Casablanca</p>
-      <a href="#" class="btn-primary" style="font-size:.72rem;padding:.7rem 1.8rem"><i class="fas fa-directions"></i> &nbsp;Itinéraire</a>
+      <a href="#" class="btn-primary" style="font-size:.68rem;padding:.7rem 1.8rem"><i class="fas fa-directions"></i>&nbsp; Itinéraire</a>
     </div>
   </div>
 </section>
 
 <!-- NEWSLETTER -->
-<div class="newsletter-section">
-  <div class="newsletter-bg"></div>
-  <div class="newsletter-content reveal">
-    <div class="section-tag" style="color:rgba(255,255,255,.7)">Newsletter</div>
-    <h2>Offres & Actualités <em style="font-style:italic;color:rgba(255,255,255,.7)">Exclusives</em></h2>
-    <p>Abonnez-vous et recevez nos promotions en avant-première ainsi que nos conseils beauté personnalisés</p>
+<div class="nl">
+  <div class="nl-bg"></div>
+  <div class="nl-inner rv">
+    <div class="s-tag" style="color:rgba(255,255,255,.6)">Newsletter</div>
+    <h2>Offres <em style="font-style:italic;color:rgba(255,255,255,.7)">Exclusives</em></h2>
+    <p>Abonnez-vous et recevez nos promotions en avant-première</p>
     <div class="nl-form">
       <input type="email" placeholder="votre@email.com">
-      <button type="button"><i class="fas fa-paper-plane"></i> &nbsp;S'abonner</button>
+      <button type="button"><i class="fas fa-paper-plane"></i>&nbsp; S'abonner</button>
     </div>
   </div>
 </div>
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-top">
-    <div class="footer-brand">
-      <span class="footer-brand-logo">Lys d'Or</span>
-      <p>Votre centre de spa & beauté haut de gamme à Casablanca. Un espace dédié à votre bien-être, votre sérénité et votre beauté.</p>
-      <div class="footer-social">
+  <div class="ft">
+    <div class="ft-brand">
+      <span class="ft-logo">Lys d'Or</span>
+      <p>Votre centre spa & beauté haut de gamme à Casablanca. Un espace dédié à votre bien-être et sérénité.</p>
+      <div class="ft-soc">
         <a href="#"><i class="fab fa-instagram"></i></a>
         <a href="#"><i class="fab fa-facebook-f"></i></a>
         <a href="#"><i class="fab fa-tiktok"></i></a>
         <a href="#"><i class="fab fa-whatsapp"></i></a>
       </div>
     </div>
-    <div class="footer-col">
-      <h4>Services</h4>
-      <ul>
-        <li><a href="#">Massages</a></li>
-        <li><a href="#">Soins Visage</a></li>
-        <li><a href="#">Hammam</a></li>
-        <li><a href="#">Manucure</a></li>
-        <li><a href="#">Coiffure</a></li>
-        <li><a href="#">Enveloppements</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Navigation</h4>
-      <ul>
-        <li><a href="#">À Propos</a></li>
-        <li><a href="#">Notre Équipe</a></li>
-        <li><a href="#">Galerie</a></li>
-        <li><a href="#">Forfaits</a></li>
-        <li><a href="#">Carte Cadeau</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Infos</h4>
-      <ul>
-        <li><a href="#">FAQ</a></li>
-        <li><a href="#">Programme Fidélité</a></li>
-        <li><a href="#">Blog Beauté</a></li>
-        <li><a href="#">CGV</a></li>
-        <li><a href="#">Confidentialité</a></li>
-      </ul>
-    </div>
+    <div class="ft-col"><h4>Services</h4><ul><li><a href="#">Massages</a></li><li><a href="#">Soins Visage</a></li><li><a href="#">Hammam</a></li><li><a href="#">Manucure</a></li><li><a href="#">Coiffure</a></li></ul></div>
+    <div class="ft-col"><h4>Navigation</h4><ul><li><a href="#">À Propos</a></li><li><a href="#">Équipe</a></li><li><a href="#">Galerie</a></li><li><a href="#">Forfaits</a></li><li><a href="#">Carte Cadeau</a></li></ul></div>
+    <div class="ft-col"><h4>Infos</h4><ul><li><a href="#">FAQ</a></li><li><a href="#">Programme Fidélité</a></li><li><a href="#">Blog Beauté</a></li><li><a href="#">CGV</a></li><li><a href="#">Confidentialité</a></li></ul></div>
   </div>
-  <div class="footer-bottom">
+  <div class="ft-bottom">
     <span>© 2025 Lys d'Or — Tous droits réservés</span>
     <span>Conçu avec <span style="color:var(--gold)">♥</span> à Casablanca</span>
   </div>
 </footer>
 
 <script>
-// Loader
+/* ── LOADER ── */
 window.addEventListener('load', () => {
-  setTimeout(() => document.getElementById('loader').classList.add('hide'), 1800);
+  setTimeout(() => document.getElementById('loader').classList.add('out'), 2000);
 });
 
-// Custom cursor
-const cursor = document.getElementById('cursor');
-const ring = document.getElementById('cursorRing');
+/* ── CUSTOM CURSOR ── */
+const cur = document.getElementById('cur');
+const ring = document.getElementById('cur-ring');
 let mx = 0, my = 0, rx = 0, ry = 0;
-document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; cursor.style.transform = `translate(${mx-5}px,${my-5}px)`; });
-function animateRing() {
-  rx += (mx - rx) * .12; ry += (my - ry) * .12;
-  ring.style.transform = `translate(${rx-18}px,${ry-18}px)`;
-  requestAnimationFrame(animateRing);
-}
-animateRing();
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cur.style.transform = `translate(${mx - 4}px,${my - 4}px)`;
+});
+(function animRing() {
+  rx += (mx - rx) * .1; ry += (my - ry) * .1;
+  ring.style.transform = `translate(${rx - 16}px,${ry - 16}px)`;
+  requestAnimationFrame(animRing);
+})();
 document.querySelectorAll('a,button').forEach(el => {
-  el.addEventListener('mouseenter', () => { cursor.style.transform += ' scale(2)'; ring.style.opacity = '0'; });
-  el.addEventListener('mouseleave', () => { cursor.style.transform = cursor.style.transform.replace(' scale(2)', ''); ring.style.opacity = '.6'; });
+  el.addEventListener('mouseenter', () => { ring.style.transform += ' scale(1.8)'; ring.style.opacity = '.3'; });
+  el.addEventListener('mouseleave', () => { ring.style.opacity = '.6'; });
 });
 
-// Navbar
+/* ── NAVBAR ── */
 window.addEventListener('scroll', () => {
-  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60);
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 50);
 });
 
-// Mobile menu
+/* ── MOBILE MENU ── */
 function toggleMenu() {
   document.getElementById('navLinks').classList.toggle('open');
 }
 document.querySelectorAll('.nav-links a').forEach(a => a.addEventListener('click', () => document.getElementById('navLinks').classList.remove('open')));
 
-// Scroll reveal
-const obs = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('v'); });
-}, { threshold: 0.1 });
-document.querySelectorAll('.reveal,.reveal-l,.reveal-r,.reveal-s').forEach(el => obs.observe(el));
+/* ══════════════════════════════════════════
+   DOOR OPENING SCROLL ANIMATION
+══════════════════════════════════════════ */
+const heroWrap    = document.getElementById('hero-wrap');
+const doorL       = document.getElementById('doorL');
+const doorR       = document.getElementById('doorR');
+const heroContent = document.getElementById('heroContent');
+const scrollHint  = document.getElementById('scrollHint');
+const doorGlow    = document.getElementById('doorGlow');
+const lightRays   = document.getElementById('lightRays');
+const heroInterior= document.getElementById('heroInterior');
 
-// Testimonials
-let cur = 0;
-function goToSlide(n) {
-  cur = n;
-  document.getElementById('testimonialTrack').style.transform = `translateX(-${n * 100}%)`;
-  document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === n));
+function updateDoors() {
+  const rect   = heroWrap.getBoundingClientRect();
+  const total  = heroWrap.offsetHeight - window.innerHeight;
+  const scrolled = -rect.top;
+  // progress: 0 = top, 1 = doors fully open
+  const progress = Math.min(Math.max(scrolled / (total * 0.65), 0), 1);
+
+  // Ease: cubic ease-in-out
+  const ease = progress < .5
+    ? 4 * progress * progress * progress
+    : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+
+  // Doors slide apart (translateX)
+  const maxSlide = 100; // percent
+  doorL.style.transform = `translateX(-${ease * maxSlide}%)`;
+  doorR.style.transform = `translateX(${ease * maxSlide}%)`;
+
+  // Slight perspective tilt as they open
+  doorL.style.transformOrigin = 'left center';
+  doorR.style.transformOrigin = 'right center';
+
+  // Interior zoom out slightly as doors open
+  const zoomScale = 1.05 - ease * 0.05;
+  heroInterior.style.transform = `scale(${zoomScale})`;
+
+  // Glow at seam — peaks at mid-open
+  const glowIntensity = ease < .5 ? ease * 2 : 2 - ease * 2;
+  doorGlow.style.opacity = glowIntensity * 0.7;
+  doorGlow.classList.toggle('on', progress > 0.05);
+
+  // Light rays appear after doors half-open
+  if (ease > .4) {
+    lightRays.classList.add('visible');
+    lightRays.style.opacity = (ease - .4) / .6;
+  } else {
+    lightRays.classList.remove('visible');
+  }
+
+  // Show hero content when doors >70% open
+  if (ease > .7) {
+    heroContent.classList.add('visible');
+  } else {
+    heroContent.classList.remove('visible');
+  }
+
+  // Hide scroll hint after scroll starts
+  scrollHint.classList.toggle('hide', progress > 0.05);
 }
-function changeSlide(d) { goToSlide((cur + d + 3) % 3); }
-setInterval(() => changeSlide(1), 5500);
 
-// Filter buttons
-document.querySelectorAll('.filter-btn').forEach(btn => {
-  btn.addEventListener('click', function() {
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-    this.classList.add('active');
-  });
-});
+window.addEventListener('scroll', updateDoors, { passive: true });
+updateDoors();
 
-// Booking pre-fill
-function openBooking(service) {
-  const sel = document.getElementById('serviceSelect');
-  for (let o of sel.options) { if (o.text === service) { sel.value = o.value; break; } }
+/* ── SCROLL REVEAL ── */
+const revObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('on'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.rv,.rv-l,.rv-r').forEach(el => revObs.observe(el));
+
+/* ── TESTIMONIALS ── */
+let tCur = 0;
+function tGo(n) {
+  tCur = n;
+  document.getElementById('testiTrack').style.transform = `translateX(-${n * 100}%)`;
+  document.querySelectorAll('.tdot').forEach((d, i) => d.classList.toggle('a', i === n));
+}
+function tChange(d) { tGo((tCur + d + 3) % 3); }
+setInterval(() => tChange(1), 5500);
+
+/* ── BOOKING PREFILL ── */
+function openBooking(svc) {
+  const sel = document.getElementById('svcSelect');
+  for (const o of sel.options) { if (o.text === svc) { sel.value = o.value; break; } }
   document.getElementById('booking').scrollIntoView({ behavior: 'smooth' });
 }
 
-// Form submit
+/* ── FORM ── */
 function submitBooking(e) {
   e.preventDefault();
   document.getElementById('bookingForm').style.display = 'none';
-  document.getElementById('form-success').style.display = 'block';
+  document.getElementById('f-success').style.display = 'block';
 }
 
-// Date min
-document.getElementById('dateInput').min = new Date().toISOString().split('T')[0];
+/* ── DATE MIN ── */
+document.getElementById('dateIn').min = new Date().toISOString().split('T')[0];
 </script>
 </body>
 </html>
