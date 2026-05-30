@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Thalès Informatique — Intégrateur ERP & Transformation Digitale</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap');
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cyan:    #00B7F1;
+      --blue:    #0076B6;
+      --navy:    #03111f;
+      --navy2:   #051929;
+      --dark:    #021018;
+      --white:   #f0f6fb;
+      --muted:   #4a7a99;
+      --muted2:  #2a4d66;
+      --card:    rgba(0,183,241,.04);
+      --border:  rgba(0,183,241,.1);
+      --radius:  14px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--dark);
+      color: var(--white);
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    a { text-decoration: none; color: inherit; }
+
+    /* ── CURSOR ─────────────────────────────────────── */
+    .cur-dot  { position:fixed; width:7px;  height:7px;  border-radius:50%; background:var(--cyan); pointer-events:none; z-index:9999; transform:translate(-50%,-50%); mix-blend-mode:screen; }
+    .cur-ring { position:fixed; width:34px; height:34px; border-radius:50%; border:1.5px solid rgba(0,183,241,.45); pointer-events:none; z-index:9998; transform:translate(-50%,-50%); transition:width .2s,height .2s,border-color .2s; mix-blend-mode:screen; }
+
+    /* ── SCANLINES ──────────────────────────────────── */
+    body::after { content:''; position:fixed; inset:0; z-index:9000; pointer-events:none; background:repeating-linear-gradient(to bottom,transparent 0,transparent 3px,rgba(0,0,0,.025) 3px,rgba(0,0,0,.025) 4px); }
+
+    /* ── REVEAL ─────────────────────────────────────── */
+    .rv  { opacity:0; transform:translateY(48px); transition:opacity .8s cubic-bezier(.22,1,.36,1),transform .8s cubic-bezier(.22,1,.36,1); }
+    .rl  { opacity:0; transform:translateX(-64px); transition:opacity .8s cubic-bezier(.22,1,.36,1),transform .8s cubic-bezier(.22,1,.36,1); }
+    .rr  { opacity:0; transform:translateX(64px);  transition:opacity .8s cubic-bezier(.22,1,.36,1),transform .8s cubic-bezier(.22,1,.36,1); }
+    .rs  { opacity:0; transform:scale(.87);         transition:opacity .7s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1); }
+    .rv.on,.rl.on,.rr.on,.rs.on { opacity:1; transform:none; }
+    .d1{transition-delay:.05s}.d2{transition-delay:.13s}.d3{transition-delay:.21s}
+    .d4{transition-delay:.29s}.d5{transition-delay:.37s}.d6{transition-delay:.45s}.d7{transition-delay:.53s}
+
+    /* ── NAV ────────────────────────────────────────── */
+    nav {
+      position:fixed; top:0; left:0; right:0; z-index:500;
+      display:flex; align-items:center; justify-content:space-between;
+      padding:0 5vw; height:72px;
+      transition:background .4s,border-color .4s;
+      border-bottom:1px solid transparent;
+    }
+    nav.scrolled { background:rgba(2,16,24,.9); backdrop-filter:blur(20px); border-color:var(--border); }
+
+    /* Logo CSS */
+    .nav-logo { display:flex; flex-direction:column; line-height:1; }
+    .logo-word { display:flex; align-items:center; gap:0; }
+    .logo-th  { font-size:1.35rem; font-weight:900; letter-spacing:-.5px; color:var(--blue); }
+    .logo-les { font-size:1.35rem; font-weight:900; letter-spacing:-.5px; color:var(--blue); }
+    .logo-a-svg { width:18px; height:22px; margin:0 1px; }
+    .logo-sub { font-size:.58rem; font-weight:600; letter-spacing:3.5px; text-transform:uppercase; color:var(--cyan); margin-top:1px; padding-left:1px; }
+
+    .nav-links { display:flex; gap:2rem; font-size:.88rem; font-weight:500; color:var(--muted); }
+    .nav-links a { transition:color .2s; position:relative; }
+    .nav-links a::after { content:''; position:absolute; bottom:-2px; left:0; width:0; height:1px; background:var(--cyan); transition:width .3s; }
+    .nav-links a:hover { color:var(--cyan); }
+    .nav-links a:hover::after { width:100%; }
+
+    .nav-right { display:flex; gap:.75rem; align-items:center; }
+    .nav-btn { padding:.48rem 1.2rem; border-radius:8px; font-size:.85rem; font-weight:600; font-family:inherit; cursor:none; transition:all .2s; }
+    .nav-btn.ghost { border:1px solid var(--border); color:var(--white); background:transparent; }
+    .nav-btn.ghost:hover { border-color:var(--cyan); color:var(--cyan); }
+    .nav-btn.fill { background:var(--cyan); color:var(--dark); border:none; }
+    .nav-btn.fill:hover { background:#33c5f4; box-shadow:0 0 22px rgba(0,183,241,.45); }
+
+    /* ── HERO ───────────────────────────────────────── */
+    .hero { min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:110px 5vw 80px; position:relative; overflow:hidden; }
+    #heroCanvas { position:absolute; inset:0; width:100%; height:100%; }
+    .hero-glow { position:absolute; width:800px; height:500px; background:radial-gradient(ellipse,rgba(0,183,241,.07) 0%,rgba(0,118,182,.05) 50%,transparent 70%); top:50%; left:50%; transform:translate(-50%,-50%); animation:glowPulse 5s ease-in-out infinite; pointer-events:none; }
+    @keyframes glowPulse { 0%,100%{opacity:.8;transform:translate(-50%,-50%) scale(1)} 50%{opacity:1;transform:translate(-50%,-50%) scale(1.1)} }
+
+    .hero-content { position:relative; z-index:2; max-width:920px; }
+
+    .hero-chip { display:inline-flex; align-items:center; gap:.5rem; border:1px solid rgba(0,183,241,.3); background:rgba(0,183,241,.06); color:var(--cyan); padding:.35rem 1rem; border-radius:999px; font-size:.72rem; font-weight:600; letter-spacing:.8px; text-transform:uppercase; margin-bottom:2rem; backdrop-filter:blur(8px); }
+    .chip-dot { width:6px; height:6px; border-radius:50%; background:var(--cyan); animation:chipPulse 1.8s ease-in-out infinite; }
+    @keyframes chipPulse { 0%,100%{box-shadow:0 0 0 0 rgba(0,183,241,.6)} 50%{box-shadow:0 0 0 5px rgba(0,183,241,0)} }
+
+    .hero-h1 { font-size:clamp(2.6rem,6vw,4.4rem); font-weight:800; line-height:1.1; letter-spacing:-2px; color:var(--white); }
+    .hero-accent {
+      background:linear-gradient(135deg, var(--cyan) 0%, #0099d4 60%, var(--blue) 100%);
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+      position:relative; display:inline-block;
+    }
+    /* glitch */
+    .hero-accent::before,.hero-accent::after { content:attr(data-text); position:absolute; top:0; left:0; background:linear-gradient(135deg,var(--cyan),var(--blue)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+    .hero-accent::before { animation:glT 5s infinite; clip-path:polygon(0 0,100% 0,100% 30%,0 30%); }
+    .hero-accent::after  { animation:glB 5s infinite .12s; clip-path:polygon(0 68%,100% 68%,100% 100%,0 100%); }
+    @keyframes glT { 0%,91%,100%{transform:none;filter:none} 92%{transform:translateX(-5px);filter:hue-rotate(40deg)} 94%{transform:translateX(4px)} 96%{transform:none;filter:none} }
+    @keyframes glB { 0%,89%,100%{transform:none;filter:none} 90%{transform:translateX(5px);filter:hue-rotate(-40deg)} 92%{transform:translateX(-3px)} 94%{transform:none;filter:none} }
+
+    .hero-sub { margin-top:1.25rem; font-size:1.15rem; min-height:1.8em; display:flex; justify-content:center; align-items:center; color:var(--muted); }
+    .tw-text { color:var(--cyan); font-weight:600; }
+    .tw-cur { display:inline-block; width:2px; height:1.1em; background:var(--cyan); margin-left:2px; animation:blink .7s step-end infinite; vertical-align:text-bottom; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+    .hero-desc { margin:1.25rem auto 0; max-width:560px; font-size:1rem; color:var(--muted); line-height:1.75; }
+
+    .hero-actions { display:flex; gap:1rem; margin-top:2.5rem; flex-wrap:wrap; justify-content:center; }
+    .btn-mag { position:relative; padding:.9rem 2.2rem; border-radius:12px; font-family:inherit; font-weight:700; font-size:.97rem; cursor:none; display:inline-block; transition:all .25s; overflow:hidden; }
+    .btn-mag.primary { background:linear-gradient(135deg,var(--cyan),#0099d4); color:var(--dark); border:none; }
+    .btn-mag.primary:hover { box-shadow:0 0 40px rgba(0,183,241,.5),0 0 80px rgba(0,183,241,.2); transform:translateY(-2px); }
+    .btn-mag.outline { border:1px solid rgba(0,183,241,.35); color:var(--cyan); background:rgba(0,183,241,.04); }
+    .btn-mag.outline:hover { border-color:var(--cyan); background:rgba(0,183,241,.1); box-shadow:0 0 24px rgba(0,183,241,.2); transform:translateY(-2px); }
+
+    /* ── HERO STATS ─────────────────────────────────── */
+    .hero-stats { display:flex; gap:2.5rem; margin-top:4rem; flex-wrap:wrap; justify-content:center; position:relative; z-index:2; }
+    .h-stat { text-align:center; }
+    .h-stat-num { font-size:2.1rem; font-weight:800; line-height:1; color:var(--white); }
+    .h-stat-num em { font-style:normal; color:var(--cyan); }
+    .h-stat-lbl { font-size:.75rem; color:var(--muted); margin-top:.3rem; letter-spacing:.4px; }
+    .h-sep { width:1px; background:var(--border); }
+
+    /* ── TERMINAL CARD ──────────────────────────────── */
+    .hero-terminal { position:relative; z-index:2; margin-top:4.5rem; width:100%; max-width:880px; perspective:1200px; }
+    .term-3d {
+      background:rgba(2,16,24,.95); border:1px solid rgba(0,183,241,.2);
+      border-radius:16px; overflow:hidden;
+      box-shadow:0 0 0 1px rgba(0,183,241,.08),0 40px 80px rgba(0,0,0,.8),0 0 80px rgba(0,183,241,.04);
+      transform:rotateX(16deg) rotateY(-3deg);
+      transition:transform .8s cubic-bezier(.22,1,.36,1);
+    }
+    .hero-terminal:hover .term-3d { transform:rotateX(3deg) rotateY(0deg); }
+    .term-bar { display:flex; align-items:center; gap:.5rem; padding:.75rem 1.25rem; background:rgba(0,183,241,.04); border-bottom:1px solid var(--border); }
+    .t-dot { width:11px; height:11px; border-radius:50%; }
+    .t-title { flex:1; font-family:'JetBrains Mono',monospace; font-size:.72rem; color:var(--muted); text-align:center; }
+    .term-body { padding:1.5rem; display:flex; gap:1rem; }
+    .t-side { width:140px; flex-shrink:0; border-right:1px solid var(--border); padding-right:1rem; display:flex; flex-direction:column; gap:.45rem; }
+    .t-nav { padding:.38rem .6rem; border-radius:6px; font-family:'JetBrains Mono',monospace; font-size:.7rem; color:var(--muted); display:flex; align-items:center; gap:.45rem; }
+    .t-nav.on { background:rgba(0,183,241,.1); color:var(--cyan); border:1px solid rgba(0,183,241,.2); }
+    .t-nd { width:5px; height:5px; border-radius:50%; }
+    .t-main { flex:1; display:flex; flex-direction:column; gap:1rem; }
+    .t-kpis { display:flex; gap:.75rem; }
+    .t-kpi { flex:1; padding:.75rem; background:rgba(0,183,241,.04); border:1px solid var(--border); border-radius:10px; }
+    .t-kv { font-size:1.05rem; font-weight:700; font-family:'JetBrains Mono',monospace; }
+    .t-kl { font-size:.67rem; color:var(--muted); margin-top:.2rem; }
+    .t-chart { background:rgba(0,183,241,.03); border:1px solid var(--border); border-radius:10px; padding:1rem; }
+    .t-chart-hd { display:flex; justify-content:space-between; margin-bottom:.75rem; }
+    .t-ct { font-size:.72rem; color:var(--muted); font-family:'JetBrains Mono',monospace; }
+    .t-cb { font-size:.67rem; color:var(--cyan); background:rgba(0,183,241,.1); border:1px solid rgba(0,183,241,.2); padding:.1rem .5rem; border-radius:999px; }
+    .t-bars { display:flex; align-items:flex-end; gap:.3rem; height:78px; }
+    .t-bar { flex:1; border-radius:3px 3px 0 0; }
+    .t-log { display:flex; flex-direction:column; gap:.35rem; }
+    .t-logrow { display:flex; align-items:center; gap:.5rem; font-size:.68rem; font-family:'JetBrains Mono',monospace; }
+    .t-ld { width:5px; height:5px; border-radius:50%; flex-shrink:0; }
+    .t-lt { color:var(--muted); flex:1; }
+    .t-ltime { color:rgba(255,255,255,.18); font-size:.63rem; }
+
+    /* ── TICKER ─────────────────────────────────────── */
+    .ticker { padding:2.5rem 0; border-top:1px solid var(--border); border-bottom:1px solid var(--border); overflow:hidden; position:relative; }
+    .ticker::before,.ticker::after { content:''; position:absolute; top:0; bottom:0; width:100px; z-index:2; }
+    .ticker::before { left:0; background:linear-gradient(to right,var(--dark),transparent); }
+    .ticker::after  { right:0; background:linear-gradient(to left,var(--dark),transparent); }
+    .ticker-track { display:flex; width:max-content; animation:tickerScroll 28s linear infinite; }
+    @keyframes tickerScroll { to { transform:translateX(-50%); } }
+    .ticker-item { display:inline-flex; align-items:center; gap:.5rem; padding:0 2.5rem; font-size:.82rem; font-weight:600; color:var(--muted); white-space:nowrap; }
+    .ticker-item span { width:4px; height:4px; border-radius:50%; background:var(--cyan); }
+
+    /* ── SECTION HEADER ─────────────────────────────── */
+    .sh { text-align:center; max-width:640px; margin:0 auto 3.5rem; }
+    .sh-tag { font-family:'JetBrains Mono',monospace; font-size:.72rem; font-weight:600; letter-spacing:1.2px; text-transform:uppercase; color:var(--cyan); display:block; margin-bottom:.75rem; }
+    .sh h2 { font-size:clamp(1.9rem,3.5vw,2.7rem); font-weight:800; letter-spacing:-.5px; line-height:1.2; }
+    .sh h2 em { font-style:normal; background:linear-gradient(135deg,var(--cyan),var(--blue)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+    .sh p { margin-top:.75rem; color:var(--muted); font-size:.97rem; line-height:1.7; }
+
+    /* ── SOLUTIONS ──────────────────────────────────── */
+    .solutions { padding:8rem 5vw; }
+    .sol-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1px; background:var(--border); border:1px solid var(--border); border-radius:20px; overflow:hidden; }
+    .sol-card {
+      background:var(--dark); padding:2.25rem; position:relative; overflow:hidden;
+      transition:background .3s; cursor:none;
+    }
+    .sol-card::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse 180px 180px at var(--mx,50%) var(--my,50%),rgba(0,183,241,.08),transparent); opacity:0; transition:opacity .4s; }
+    .sol-card:hover::before { opacity:1; }
+    .sol-card:hover { background:rgba(0,183,241,.025); }
+    /* animated top border on hover */
+    .sol-card::after { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,var(--cyan),transparent); transform:translateX(-100%); transition:transform .5s; }
+    .sol-card:hover::after { transform:translateX(0); }
+    .sol-icon { width:50px; height:50px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:1.45rem; margin-bottom:1.25rem; position:relative; z-index:1; }
+    .sol-card h3 { font-size:1.02rem; font-weight:700; margin-bottom:.45rem; position:relative; z-index:1; }
+    .sol-card p { font-size:.88rem; color:var(--muted); line-height:1.65; position:relative; z-index:1; }
+    .sol-link { margin-top:1rem; font-size:.8rem; color:var(--cyan); opacity:0; transform:translateX(-6px); transition:opacity .3s,transform .3s; position:relative; z-index:1; display:flex; align-items:center; gap:.3rem; }
+    .sol-card:hover .sol-link { opacity:1; transform:translateX(0); }
+
+    /* ── CHIFFRES CLÉS ──────────────────────────────── */
+    .chiffres {
+      padding:6rem 5vw;
+      background:linear-gradient(180deg,var(--navy2) 0%,var(--dark) 100%);
+      position:relative; overflow:hidden;
+    }
+    .chiffres::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse 80% 50% at 50% 0%,rgba(0,183,241,.07),transparent); pointer-events:none; }
+
+    /* triangle A watermark */
+    .chiffres-bg-a {
+      position:absolute; right:-60px; top:50%; transform:translateY(-50%);
+      opacity:.03; pointer-events:none;
+    }
+
+    .chiffres-grid { display:flex; flex-wrap:wrap; justify-content:center; gap:0; max-width:960px; margin:0 auto; position:relative; z-index:1; }
+    .ch-item { flex:1; min-width:200px; text-align:center; padding:2.5rem 1.5rem; border-right:1px solid var(--border); }
+    .ch-item:last-child { border-right:none; }
+    .ch-num { font-size:3.4rem; font-weight:900; line-height:1; font-family:'JetBrains Mono',monospace; color:var(--cyan); text-shadow:0 0 40px rgba(0,183,241,.5); }
+    .ch-lbl { font-size:.82rem; color:var(--muted); margin-top:.5rem; line-height:1.4; }
+    .ch-sub { font-size:.72rem; color:var(--muted2); margin-top:.2rem; font-family:'JetBrains Mono',monospace; }
+
+    /* ── SAGE PARTNER ───────────────────────────────── */
+    .sage-section { padding:8rem 5vw; }
+    .sage-inner { display:flex; gap:5rem; align-items:center; max-width:1100px; margin:0 auto; }
+    .sage-text { flex:1; }
+    .sage-text .sh-tag { text-align:left; }
+    .sage-text h2 { font-size:clamp(1.9rem,3vw,2.6rem); font-weight:800; letter-spacing:-.5px; margin:.5rem 0 1rem; }
+    .sage-text h2 em { font-style:normal; background:linear-gradient(135deg,var(--cyan),var(--blue)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+    .sage-text p { color:var(--muted); line-height:1.75; margin-bottom:1.25rem; font-size:.97rem; }
+    .sage-checks { list-style:none; display:flex; flex-direction:column; gap:.6rem; margin-bottom:2rem; }
+    .sage-checks li { font-size:.9rem; display:flex; gap:.6rem; align-items:flex-start; }
+    .sage-checks li::before { content:'▶'; color:var(--cyan); font-size:.5rem; flex-shrink:0; margin-top:.4rem; }
+    .sage-visual { flex:1; perspective:1100px; }
+    .sage-card-3d {
+      background:linear-gradient(145deg,rgba(0,183,241,.06),rgba(0,118,182,.04));
+      border:1px solid rgba(0,183,241,.15); border-radius:20px; padding:2rem;
+      box-shadow:0 30px 60px rgba(0,0,0,.5),0 0 60px rgba(0,183,241,.04);
+      transform:rotateY(-12deg) rotateX(4deg);
+      transition:transform .6s cubic-bezier(.22,1,.36,1);
+    }
+    .sage-visual:hover .sage-card-3d { transform:rotateY(0) rotateX(0); }
+    .sc-inner { display:flex; flex-direction:column; gap:1rem; }
+    .sc-metric { background:rgba(0,183,241,.08); border:1px solid rgba(0,183,241,.2); border-radius:10px; padding:.75rem 1rem; display:flex; justify-content:space-between; align-items:center; }
+    .sc-metric-num { font-size:1.6rem; font-weight:800; color:var(--white); font-family:'JetBrains Mono',monospace; }
+    .sc-metric-lbl { font-size:.75rem; color:var(--muted); }
+    .sc-metric-badge { font-size:.72rem; color:#34d399; background:rgba(52,211,153,.12); border:1px solid rgba(52,211,153,.2); padding:.18rem .6rem; border-radius:999px; }
+    .sc-row { display:flex; align-items:center; gap:.75rem; }
+    .sc-icon { width:34px; height:34px; border-radius:9px; background:rgba(0,183,241,.15); display:flex; align-items:center; justify-content:center; font-size:.9rem; flex-shrink:0; }
+    .sc-bar-wrap { flex:1; }
+    .sc-bar-lbl { height:7px; border-radius:4px; background:rgba(255,255,255,.4); margin-bottom:.4rem; }
+    .sc-bar-track { height:5px; background:rgba(255,255,255,.07); border-radius:3px; overflow:hidden; }
+    .sc-bar-fill { height:100%; border-radius:3px; background:linear-gradient(90deg,var(--cyan),var(--blue)); }
+    .sc-chart-row { display:flex; gap:.35rem; align-items:flex-end; height:72px; }
+    .sc-bar-c { flex:1; border-radius:3px 3px 0 0; }
+
+    /* ── EXPERTISE SECTION ──────────────────────────── */
+    .expertise { padding:8rem 5vw; background:var(--navy2); }
+    .exp-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:1.25rem; }
+    .exp-card {
+      border:1px solid var(--border); border-radius:var(--radius); padding:1.75rem;
+      background:var(--card); position:relative; overflow:hidden;
+      transition:border-color .3s,transform .3s,box-shadow .3s; cursor:none;
+    }
+    .exp-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:var(--cyan); transform:scaleX(0); transform-origin:left; transition:transform .4s; }
+    .exp-card:hover::before { transform:scaleX(1); }
+    .exp-card:hover { border-color:rgba(0,183,241,.25); transform:translateY(-4px); box-shadow:0 16px 40px rgba(0,0,0,.5); }
+    .exp-num { font-size:2.2rem; font-weight:900; color:var(--cyan); font-family:'JetBrains Mono',monospace; text-shadow:0 0 20px rgba(0,183,241,.35); line-height:1; margin-bottom:.4rem; }
+    .exp-card h3 { font-size:.97rem; font-weight:700; margin-bottom:.4rem; }
+    .exp-card p { font-size:.85rem; color:var(--muted); line-height:1.6; }
+    .exp-tag { display:inline-block; margin-top:.75rem; font-size:.68rem; font-family:'JetBrains Mono',monospace; color:var(--cyan); background:rgba(0,183,241,.08); border:1px solid rgba(0,183,241,.15); padding:.18rem .55rem; border-radius:4px; }
+
+    /* ── WHY THALES ─────────────────────────────────── */
+    .why { padding:8rem 5vw; }
+    .why-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:1.5rem; max-width:1100px; margin:0 auto; }
+    .why-card {
+      border:1px solid var(--border); border-radius:var(--radius); padding:2rem;
+      background:var(--card); transition:border-color .3s,box-shadow .3s,transform .3s;
+      position:relative; overflow:hidden;
+    }
+    .why-card::before { content:''; position:absolute; inset:0; background:radial-gradient(circle at var(--tx,50%) var(--ty,50%),rgba(0,183,241,.06),transparent 60%); opacity:0; transition:opacity .4s; }
+    .why-card:hover::before { opacity:1; }
+    .why-card:hover { border-color:rgba(0,183,241,.25); box-shadow:0 0 40px rgba(0,183,241,.06); transform:translateY(-3px); }
+    .why-icon { font-size:1.8rem; margin-bottom:1rem; }
+    .why-card h3 { font-size:1.02rem; font-weight:700; margin-bottom:.5rem; }
+    .why-card p { font-size:.87rem; color:var(--muted); line-height:1.65; }
+
+    /* ── CTA ────────────────────────────────────────── */
+    .cta {
+      margin:0 5vw 8rem; border-radius:24px; padding:5.5rem 5vw; text-align:center;
+      position:relative; overflow:hidden;
+      border:1px solid rgba(0,183,241,.18);
+      background:linear-gradient(135deg,rgba(0,183,241,.05) 0%,rgba(0,118,182,.05) 100%);
+    }
+    .cta-grid { position:absolute; inset:0; background-image:linear-gradient(rgba(0,183,241,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(0,183,241,.07) 1px,transparent 1px); background-size:44px 44px; mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 30%,transparent 100%); }
+
+    /* animated triangle watermark */
+    .cta-tri { position:absolute; right:8%; top:50%; transform:translateY(-50%); opacity:.04; animation:triFloat 6s ease-in-out infinite; pointer-events:none; }
+    @keyframes triFloat { 0%,100%{transform:translateY(-50%) rotate(0deg)} 50%{transform:translateY(calc(-50% - 20px)) rotate(5deg)} }
+
+    .cta > *:not(.cta-grid):not(.cta-tri) { position:relative; z-index:1; }
+    .cta h2 { font-size:clamp(1.9rem,3.5vw,2.7rem); font-weight:800; max-width:640px; margin:0 auto; }
+    .cta h2 em { font-style:normal; background:linear-gradient(135deg,var(--cyan),var(--blue)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+    .cta p { margin:.75rem auto 0; color:var(--muted); max-width:520px; font-size:.97rem; }
+    .cta-actions { display:flex; gap:1rem; margin-top:2.5rem; flex-wrap:wrap; justify-content:center; }
+
+    /* ── FOOTER ─────────────────────────────────────── */
+    footer { background:#010b12; border-top:1px solid var(--border); padding:4.5rem 5vw 2rem; }
+    .footer-top { display:grid; grid-template-columns:2.2fr repeat(3,1fr); gap:3rem; margin-bottom:3rem; }
+    .footer-brand .ft-logo { display:flex; flex-direction:column; line-height:1; margin-bottom:.9rem; }
+    .footer-brand p { font-size:.86rem; color:var(--muted); line-height:1.75; max-width:270px; }
+    .footer-brand address { font-style:normal; margin-top:1rem; font-size:.8rem; color:var(--muted2); line-height:1.7; }
+    .footer-brand address span { display:block; }
+    .footer-col h4 { font-family:'JetBrains Mono',monospace; font-size:.7rem; font-weight:600; text-transform:uppercase; letter-spacing:1px; color:var(--cyan); margin-bottom:1rem; }
+    .footer-col ul { list-style:none; display:flex; flex-direction:column; gap:.55rem; }
+    .footer-col li { font-size:.86rem; color:var(--muted); }
+    .footer-col a { transition:color .2s; }
+    .footer-col a:hover { color:var(--white); }
+    .footer-bottom { border-top:1px solid var(--border); padding-top:1.5rem; display:flex; justify-content:space-between; flex-wrap:wrap; gap:1rem; font-size:.78rem; color:var(--muted); }
+    .footer-bottom a:hover { color:var(--white); }
+
+    /* ── RESPONSIVE ─────────────────────────────────── */
+    @media(max-width:900px) { .sage-inner{flex-direction:column;gap:3rem} .sage-visual{width:100%} .sage-card-3d{transform:none} }
+    @media(max-width:768px) { .nav-links{display:none} .footer-top{grid-template-columns:1fr 1fr} .t-side{display:none} body{cursor:auto} .cur-dot,.cur-ring{display:none} .ch-item{border-right:none;border-bottom:1px solid var(--border)} }
+    @media(max-width:520px) { .footer-top{grid-template-columns:1fr} }
+  </style>
+</head>
+<body>
+
+<div class="cur-dot" id="curDot"></div>
+<div class="cur-ring" id="curRing"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-logo">
+    <div class="logo-word">
+      <span class="logo-th">TH</span>
+      <svg class="logo-a-svg" viewBox="0 0 22 28" fill="none">
+        <path d="M11 2 L20 26" stroke="#00B7F1" stroke-width="3.2" stroke-linecap="round"/>
+        <path d="M11 2 L2 26"  stroke="#00B7F1" stroke-width="3.2" stroke-linecap="round"/>
+        <path d="M5.5 18 L16.5 18" stroke="#00B7F1" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M9 10 L13 10" stroke="#0076B6" stroke-width="2" stroke-linecap="round" opacity=".7"/>
+      </svg>
+      <span class="logo-les">LES</span>
+    </div>
+    <div class="logo-sub">Informatique</div>
+  </div>
+  <div class="nav-links">
+    <a href="#solutions">Solutions</a>
+    <a href="#sage">Partenaire Sage</a>
+    <a href="#chiffres">Chiffres</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <div class="nav-right">
+    <button class="nav-btn ghost">Espace client</button>
+    <button class="nav-btn fill btn-mag">Demander une démo</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <canvas id="heroCanvas"></canvas>
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div class="hero-chip"><div class="chip-dot"></div>Partenaire Sage certifié · Casablanca, Maroc</div>
+    <h1 class="hero-h1">
+      L'ERP qui propulse<br/>
+      <span class="hero-accent" data-text="votre entreprise">votre entreprise</span><br/>
+      vers le sommet
+    </h1>
+    <div class="hero-sub">
+      <span class="tw-text" id="typewriter"></span><span class="tw-cur"></span>
+    </div>
+    <p class="hero-desc">Fort de 30 ans d'expertise, Thalès Informatique accompagne les PME et grandes entreprises marocaines dans leur transformation digitale avec les solutions Sage.</p>
+    <div class="hero-actions">
+      <a href="#solutions" class="btn-mag primary">Découvrir nos solutions →</a>
+      <a href="#contact" class="btn-mag outline">Prendre rendez-vous</a>
+    </div>
+    <div class="hero-stats">
+      <div class="h-stat"><div class="h-stat-num"><em>+30</em> ans</div><div class="h-stat-lbl">d'expertise</div></div>
+      <div class="h-sep"></div>
+      <div class="h-stat"><div class="h-stat-num"><em>+500</em></div><div class="h-stat-lbl">clients actifs</div></div>
+      <div class="h-sep"></div>
+      <div class="h-stat"><div class="h-stat-num"><em>+21</em></div><div class="h-stat-lbl">consultants certifiés</div></div>
+      <div class="h-sep"></div>
+      <div class="h-stat"><div class="h-stat-num"><em>100%</em></div><div class="h-stat-lbl">dédié au support</div></div>
+    </div>
+  </div>
+
+  <!-- Terminal dashboard -->
+  <div class="hero-terminal">
+    <div class="term-3d" id="termCard">
+      <div class="term-bar">
+        <div class="t-dot" style="background:#ff5f57"></div>
+        <div class="t-dot" style="background:#febc2e"></div>
+        <div class="t-dot" style="background:#28c840"></div>
+        <div class="t-title">thalès-informatique · sage-erp · tableau de bord · 2026</div>
+      </div>
+      <div class="term-body">
+        <div class="t-side">
+          <div class="t-nav on"><div class="t-nd" style="background:var(--cyan)"></div>Dashboard</div>
+          <div class="t-nav"><div class="t-nd" style="background:var(--muted)"></div>Finance</div>
+          <div class="t-nav"><div class="t-nd" style="background:var(--muted)"></div>RH & Paie</div>
+          <div class="t-nav"><div class="t-nd" style="background:var(--muted)"></div>Supply</div>
+          <div class="t-nav"><div class="t-nd" style="background:var(--muted)"></div>Reporting</div>
+          <div class="t-nav"><div class="t-nd" style="background:var(--muted)"></div>Audit</div>
+        </div>
+        <div class="t-main">
+          <div class="t-kpis">
+            <div class="t-kpi"><div class="t-kv" style="color:var(--cyan)">12.4M</div><div class="t-kl">CA consolidé · MAD</div></div>
+            <div class="t-kpi"><div class="t-kv" style="color:#34d399">↑ 23%</div><div class="t-kl">vs exercice N-1</div></div>
+            <div class="t-kpi"><div class="t-kv" style="color:var(--blue)">99.98%</div><div class="t-kl">Uptime SLA</div></div>
+          </div>
+          <div class="t-chart">
+            <div class="t-chart-hd">
+              <span class="t-ct">// performance_mensuelle.ts</span>
+              <span class="t-cb">▲ LIVE</span>
+            </div>
+            <div class="t-bars">
+              <div class="t-bar" style="height:44%;background:linear-gradient(to top,#005a8e,#0076B6)"></div>
+              <div class="t-bar" style="height:60%;background:linear-gradient(to top,#005a8e,#0076B6)"></div>
+              <div class="t-bar" style="height:38%;background:linear-gradient(to top,#005a8e,#0076B6)"></div>
+              <div class="t-bar" style="height:75%;background:linear-gradient(to top,#007a9e,#00B7F1)"></div>
+              <div class="t-bar" style="height:52%;background:linear-gradient(to top,#005a8e,#0076B6)"></div>
+              <div class="t-bar" style="height:88%;background:linear-gradient(to top,#007a9e,#00B7F1)"></div>
+              <div class="t-bar" style="height:63%;background:linear-gradient(to top,#005a8e,#0076B6)"></div>
+              <div class="t-bar" style="height:80%;background:linear-gradient(to top,#007a9e,#00B7F1)"></div>
+              <div class="t-bar" style="height:70%;background:linear-gradient(to top,#005a8e,#0076B6)"></div>
+              <div class="t-bar" style="height:93%;background:linear-gradient(to top,#007a9e,#00B7F1)"></div>
+            </div>
+          </div>
+          <div class="t-log">
+            <div class="t-logrow"><div class="t-ld" style="background:#34d399"></div><span class="t-lt">Facture #FAC-3847 rapprochée automatiquement · comptabilité validée</span><span class="t-ltime">3s</span></div>
+            <div class="t-logrow"><div class="t-ld" style="background:var(--cyan)"></div><span class="t-lt">Paie mensuelle traitée · 214 collaborateurs · virement planifié</span><span class="t-ltime">6m</span></div>
+            <div class="t-logrow"><div class="t-ld" style="background:#f59e0b"></div><span class="t-lt">Alerte budget : dépassement détecté · poste Marketing Q3</span><span class="t-ltime">18m</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-track">
+    <span class="ticker-item"><span></span>Sage 100</span>
+    <span class="ticker-item"><span></span>Sage X3</span>
+    <span class="ticker-item"><span></span>Finance & Trésorerie</span>
+    <span class="ticker-item"><span></span>RH & Paie</span>
+    <span class="ticker-item"><span></span>Supply Chain</span>
+    <span class="ticker-item"><span></span>Transformation Digitale</span>
+    <span class="ticker-item"><span></span>Intégrateur Certifié Maroc</span>
+    <span class="ticker-item"><span></span>+30 ans d'expertise</span>
+    <span class="ticker-item"><span></span>Sage 100</span>
+    <span class="ticker-item"><span></span>Sage X3</span>
+    <span class="ticker-item"><span></span>Finance & Trésorerie</span>
+    <span class="ticker-item"><span></span>RH & Paie</span>
+    <span class="ticker-item"><span></span>Supply Chain</span>
+    <span class="ticker-item"><span></span>Transformation Digitale</span>
+    <span class="ticker-item"><span></span>Intégrateur Certifié Maroc</span>
+    <span class="ticker-item"><span></span>+30 ans d'expertise</span>
+  </div>
+</div>
+
+<!-- SOLUTIONS -->
+<section class="solutions" id="solutions">
+  <div class="sh rv">
+    <span class="sh-tag">// nos_solutions</span>
+    <h2>Une suite complète pour<br/><em>chaque métier</em></h2>
+    <p>Chaque module est activable de façon autonome ou dans un système intégré. Configuré pour votre secteur, opérationnel en quelques semaines.</p>
+  </div>
+  <div class="sol-grid">
+    <div class="sol-card rv d1" data-tilt>
+      <div class="sol-icon" style="background:rgba(0,183,241,.1);color:var(--cyan)">💰</div>
+      <h3>Finance & Trésorerie</h3>
+      <p>Gestion financière, comptabilité, pilotage financier, reporting consolidé et trésorerie en temps réel.</p>
+      <div class="sol-link">En savoir plus →</div>
+    </div>
+    <div class="sol-card rv d2" data-tilt>
+      <div class="sol-icon" style="background:rgba(0,118,182,.12);color:#4db8e8">👥</div>
+      <h3>RH & Paie</h3>
+      <p>Digitalisation RH, gestion de la paie, talents, administration du personnel et automatisation des flux.</p>
+      <div class="sol-link">En savoir plus →</div>
+    </div>
+    <div class="sol-card rv d3" data-tilt>
+      <div class="sol-icon" style="background:rgba(52,211,153,.1);color:#34d399">⚙️</div>
+      <h3>Processus Opérationnels</h3>
+      <p>ERP, gestion commerciale, supply chain, production et pilotage opérationnel bout en bout.</p>
+      <div class="sol-link">En savoir plus →</div>
+    </div>
+    <div class="sol-card rv d4" data-tilt>
+      <div class="sol-icon" style="background:rgba(167,139,250,.1);color:#a78bfa">🎯</div>
+      <h3>Conseil & Audit</h3>
+      <p>Accompagnement stratégique, audit de l'existant, transformation digitale et optimisation des processus.</p>
+      <div class="sol-link">En savoir plus →</div>
+    </div>
+    <div class="sol-card rv d5" data-tilt>
+      <div class="sol-icon" style="background:rgba(251,191,36,.1);color:#fbbf24">🔧</div>
+      <h3>Développement Spécifique</h3>
+      <p>Solutions sur mesure, personnalisation ERP, connecteurs métiers et automatisation avancée.</p>
+      <div class="sol-link">En savoir plus →</div>
+    </div>
+    <div class="sol-card rv d6" data-tilt>
+      <div class="sol-icon" style="background:rgba(244,114,182,.1);color:#f472b6">🖥️</div>
+      <h3>Ingénierie IT</h3>
+      <p>Infrastructure, architecture système, réseaux, cybersécurité et solutions cloud.</p>
+      <div class="sol-link">En savoir plus →</div>
+    </div>
+    <div class="sol-card rv d7" data-tilt style="grid-column:span 1">
+      <div class="sol-icon" style="background:rgba(0,183,241,.1);color:var(--cyan)">🛡️</div>
+      <h3>Support & Maintenance</h3>
+      <p>Assistance technique réactive, maintenance corrective et évolutive, support 100% dédié et continu.</p>
+      <div class="sol-link">En savoir plus →</div>
+    </div>
+  </div>
+</section>
+
+<!-- CHIFFRES CLÉS -->
+<section class="chiffres" id="chiffres">
+  <svg class="chiffres-bg-a" width="500" height="600" viewBox="0 0 500 600" fill="none">
+    <path d="M250 20 L470 580 M250 20 L30 580 M100 380 L400 380" stroke="white" stroke-width="18" stroke-linecap="round"/>
+    <path d="M190 230 L310 230" stroke="white" stroke-width="12" stroke-linecap="round" opacity=".6"/>
+  </svg>
+  <div class="sh rv" style="position:relative;z-index:1">
+    <span class="sh-tag">// chiffres_clés</span>
+    <h2>30 ans d'excellence au service<br/><em>des entreprises marocaines</em></h2>
+  </div>
+  <div class="chiffres-grid">
+    <div class="ch-item rv d1">
+      <div class="ch-num">+<span data-target="30">0</span></div>
+      <div class="ch-lbl">Années d'expertise</div>
+      <div class="ch-sub">// depuis 1994</div>
+    </div>
+    <div class="ch-item rv d2">
+      <div class="ch-num">+<span data-target="500">0</span></div>
+      <div class="ch-lbl">Clients actifs</div>
+      <div class="ch-sub">// PME & grandes entreprises</div>
+    </div>
+    <div class="ch-item rv d3">
+      <div class="ch-num">+<span data-target="21">0</span></div>
+      <div class="ch-lbl">Consultants certifiés</div>
+      <div class="ch-sub">// experts Sage & ERP</div>
+    </div>
+    <div class="ch-item rv d4">
+      <div class="ch-num"><span data-target="100">0</span>%</div>
+      <div class="ch-lbl">Dédié au support</div>
+      <div class="ch-sub">// réactivité garantie</div>
+    </div>
+  </div>
+</section>
+
+<!-- SAGE PARTNER -->
+<section class="sage-section" id="sage">
+  <div class="sage-inner">
+    <div class="sage-text rl">
+      <span class="sh-tag">// partenaire_sage_maroc</span>
+      <h2>Revendeur Sage officiel<br/><em>au Maroc</em></h2>
+      <p>En tant qu'intégrateur certifié Sage, Thalès Informatique vous garantit une expertise métier approfondie, une implémentation rigoureuse et un support réactif sur l'ensemble des solutions Sage 100 et Sage X3.</p>
+      <ul class="sage-checks">
+        <li>Intégration Sage 100 et Sage X3 clé en main</li>
+        <li>Paramétrage adapté à votre secteur d'activité</li>
+        <li>Formation et accompagnement au changement</li>
+        <li>Support technique dédié post-déploiement</li>
+        <li>Développements spécifiques et connecteurs sur mesure</li>
+      </ul>
+      <a href="#contact" class="btn-mag primary">Contacter un expert Sage</a>
+    </div>
+    <div class="sage-visual rr">
+      <div class="sage-card-3d">
+        <div class="sc-inner">
+          <div class="sc-metric">
+            <div><div class="sc-metric-num">500+</div><div class="sc-metric-lbl">Déploiements Sage réalisés</div></div>
+            <div class="sc-metric-badge">✓ Certifié</div>
+          </div>
+          <div class="sc-row">
+            <div class="sc-icon">📊</div>
+            <div class="sc-bar-wrap">
+              <div class="sc-bar-lbl" style="width:60%"></div>
+              <div class="sc-bar-track"><div class="sc-bar-fill" style="width:78%"></div></div>
+            </div>
+          </div>
+          <div class="sc-row">
+            <div class="sc-icon">👥</div>
+            <div class="sc-bar-wrap">
+              <div class="sc-bar-lbl" style="width:72%"></div>
+              <div class="sc-bar-track"><div class="sc-bar-fill" style="width:65%"></div></div>
+            </div>
+          </div>
+          <div class="sc-row">
+            <div class="sc-icon">🔗</div>
+            <div class="sc-bar-wrap">
+              <div class="sc-bar-lbl" style="width:50%"></div>
+              <div class="sc-bar-track"><div class="sc-bar-fill" style="width:92%"></div></div>
+            </div>
+          </div>
+          <div class="sc-chart-row">
+            <div class="sc-bar-c" style="height:38%;background:rgba(0,118,182,.5)"></div>
+            <div class="sc-bar-c" style="height:55%;background:rgba(0,118,182,.5)"></div>
+            <div class="sc-bar-c" style="height:42%;background:rgba(0,118,182,.5)"></div>
+            <div class="sc-bar-c" style="height:70%;background:rgba(0,183,241,.7)"></div>
+            <div class="sc-bar-c" style="height:48%;background:rgba(0,118,182,.5)"></div>
+            <div class="sc-bar-c" style="height:85%;background:rgba(0,183,241,.8)"></div>
+            <div class="sc-bar-c" style="height:60%;background:rgba(0,118,182,.5)"></div>
+            <div class="sc-bar-c" style="height:92%;background:rgba(0,183,241,.9)"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERTISE POINTS -->
+<section class="expertise">
+  <div class="sh rv">
+    <span class="sh-tag">// notre_expertise</span>
+    <h2>Ce qui fait la différence<br/><em>Thalès Informatique</em></h2>
+    <p>Une approche unique, pensée pour les réalités du marché marocain et les exigences des entreprises en croissance.</p>
+  </div>
+  <div class="exp-grid">
+    <div class="exp-card rv d1">
+      <div class="exp-num">30+</div>
+      <h3>Ans d'expérience locale</h3>
+      <p>Une connaissance approfondie du marché marocain, de ses spécificités réglementaires et de ses enjeux sectoriels.</p>
+      <span class="exp-tag">expertise.maroc</span>
+    </div>
+    <div class="exp-card rv d2">
+      <div class="exp-num">21+</div>
+      <h3>Consultants certifiés Sage</h3>
+      <p>Une équipe dédiée, formée et certifiée sur l'ensemble des solutions Sage pour un accompagnement premium.</p>
+      <span class="exp-tag">team.certified</span>
+    </div>
+    <div class="exp-card rv d3">
+      <div class="exp-num">500+</div>
+      <h3>Clients accompagnés</h3>
+      <p>PME, ETI et grands comptes de tous secteurs — industrie, distribution, services, BTP, santé.</p>
+      <span class="exp-tag">clients.actifs</span>
+    </div>
+    <div class="exp-card rv d4">
+      <div class="exp-num">100%</div>
+      <h3>Support réactif et dédié</h3>
+      <p>Un support technique entièrement dédié, avec des délais de réponse garantis et un suivi personnalisé.</p>
+      <span class="exp-tag">support.24h</span>
+    </div>
+  </div>
+</section>
+
+<!-- WHY THALES -->
+<section class="why">
+  <div class="sh rv">
+    <span class="sh-tag">// pourquoi_nous_choisir</span>
+    <h2>Votre transformation digitale<br/><em>mérite le meilleur partenaire</em></h2>
+  </div>
+  <div class="why-grid">
+    <div class="why-card rv d1">
+      <div class="why-icon">🎯</div>
+      <h3>Expertise métier reconnue</h3>
+      <p>Nos consultants maîtrisent les spécificités de votre secteur et configurent la solution à votre réalité opérationnelle.</p>
+    </div>
+    <div class="why-card rv d2">
+      <div class="why-icon">🤝</div>
+      <h3>Proximité et accompagnement</h3>
+      <p>Basés à Casablanca, nous sommes à vos côtés tout au long du projet — avant, pendant et après la mise en production.</p>
+    </div>
+    <div class="why-card rv d3">
+      <div class="why-icon">⚡</div>
+      <h3>Déploiement rapide et maîtrisé</h3>
+      <p>Une méthodologie éprouvée sur 500+ projets pour aller live rapidement, sans dérapage de planning ni de budget.</p>
+    </div>
+    <div class="why-card rv d4">
+      <div class="why-icon">🔒</div>
+      <h3>Fiabilité et continuité</h3>
+      <p>30 ans de présence sur le marché marocain, un track record solide et un engagement long terme vis-à-vis de nos clients.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta rs" id="contact">
+  <div class="cta-grid"></div>
+  <svg class="cta-tri" width="300" height="360" viewBox="0 0 300 360" fill="none">
+    <path d="M150 10 L285 350 M150 10 L15 350 M60 230 L240 230" stroke="white" stroke-width="10" stroke-linecap="round"/>
+    <path d="M115 140 L185 140" stroke="white" stroke-width="7" stroke-linecap="round" opacity=".6"/>
+  </svg>
+  <h2>Prêt à <em>accélérer</em> votre transformation digitale ?</h2>
+  <p>Parlez à l'un de nos experts. Audit gratuit, sans engagement. Nous analysons votre situation et vous proposons la solution adaptée.</p>
+  <div class="cta-actions">
+    <a href="#" class="btn-mag primary">Demander un audit gratuit →</a>
+    <a href="#" class="btn-mag outline">Nous appeler</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="ft-logo">
+        <div class="logo-word">
+          <span class="logo-th">TH</span>
+          <svg class="logo-a-svg" viewBox="0 0 22 28" fill="none">
+            <path d="M11 2 L20 26" stroke="#00B7F1" stroke-width="3.2" stroke-linecap="round"/>
+            <path d="M11 2 L2 26"  stroke="#00B7F1" stroke-width="3.2" stroke-linecap="round"/>
+            <path d="M5.5 18 L16.5 18" stroke="#00B7F1" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+          <span class="logo-les">LES</span>
+        </div>
+        <div class="logo-sub">Informatique</div>
+      </div>
+      <p>Intégrateur de solutions ERP et partenaire de transformation digitale des entreprises marocaines depuis plus de 30 ans.</p>
+      <address>
+        <span>313, rue Omar Riffi</span>
+        <span>Résidence Colombier · 20120 Casablanca</span>
+        <span style="margin-top:.5rem">+212 (0) 661 121 223</span>
+        <span>contact@thales.ma · www.thales.ma</span>
+      </address>
+    </div>
+    <div class="footer-col">
+      <h4>Solutions</h4>
+      <ul>
+        <li><a href="#">Finance & Trésorerie</a></li>
+        <li><a href="#">RH & Paie</a></li>
+        <li><a href="#">Processus Opérationnels</a></li>
+        <li><a href="#">Ingénierie IT</a></li>
+        <li><a href="#">Support & Maintenance</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Entreprise</h4>
+      <ul>
+        <li><a href="#">À propos</a></li>
+        <li><a href="#">Notre équipe</a></li>
+        <li><a href="#">Références clients</a></li>
+        <li><a href="#">Carrières</a></li>
+        <li><a href="#">Actualités</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Ressources</h4>
+      <ul>
+        <li><a href="#">Documentation Sage</a></li>
+        <li><a href="#">Études de cas</a></li>
+        <li><a href="#">Webinaires</a></li>
+        <li><a href="#">Blog & Insights</a></li>
+        <li><a href="#">Espace client</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Thalès Informatique. Tous droits réservés.</span>
+    <div style="display:flex;gap:1.5rem"><a href="#">Mentions légales</a><a href="#">Politique de confidentialité</a><a href="#">Cookies</a></div>
+  </div>
+</footer>
+
+<script>
+// ── CURSOR
+const dot  = document.getElementById('curDot');
+const ring = document.getElementById('curRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;dot.style.left=mx+'px';dot.style.top=my+'px';},{passive:true});
+(function animRing(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing);})();
+
+// ── NAV SCROLL
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>50),{passive:true});
+
+// ── REVEAL
+const revEls=document.querySelectorAll('.rv,.rl,.rr,.rs');
+const revObs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');revObs.unobserve(e.target);}}),{threshold:.1});
+revEls.forEach(el=>revObs.observe(el));
+
+// ── COUNTERS
+const cEls=document.querySelectorAll('[data-target]');
+const cObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(!e.isIntersecting)return;
+    const el=e.target,target=+el.dataset.target,start=performance.now();
+    const run=now=>{const p=Math.min((now-start)/1800,1);el.textContent=Math.floor((1-Math.pow(1-p,3))*target).toLocaleString();if(p<1)requestAnimationFrame(run);else el.textContent=target.toLocaleString();};
+    requestAnimationFrame(run);cObs.unobserve(el);
+  });
+},{threshold:.5});
+cEls.forEach(el=>cObs.observe(el));
+
+// ── TYPEWRITER
+const phrases=['Accélérez votre transformation digitale','Pilotez votre performance en temps réel','Optimisez vos processus métiers','Une expertise ERP au service de votre croissance','Votre partenaire Sage certifié au Maroc'];
+let pi=0,ci=0,del=false;
+const tw=document.getElementById('typewriter');
+function type(){const p=phrases[pi];tw.textContent=del?p.slice(0,ci-1):p.slice(0,ci+1);del?ci--:ci++;if(!del&&ci===p.length){setTimeout(()=>{del=true;},2400);setTimeout(type,80);return;}if(del&&ci===0){del=false;pi=(pi+1)%phrases.length;}setTimeout(type,del?40:70);}
+setTimeout(type,1200);
+
+// ── HERO CANVAS — Neural Network
+const canvas=document.getElementById('heroCanvas'),ctx=canvas.getContext('2d');
+let W,H,nodes=[];
+function resize(){W=canvas.width=canvas.offsetWidth;H=canvas.height=canvas.offsetHeight;}
+resize();window.addEventListener('resize',()=>{resize();initNodes();});
+function initNodes(){nodes=[];const n=Math.floor(W*H/13000);for(let i=0;i<n;i++)nodes.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,r:Math.random()*2+1.2});}
+initNodes();
+let hx=W/2,hy=H/2;
+canvas.addEventListener('mousemove',e=>{const r=canvas.getBoundingClientRect();hx=e.clientX-r.left;hy=e.clientY-r.top;},{passive:true});
+(function draw(){ctx.clearRect(0,0,W,H);
+  nodes.forEach(n=>{n.x+=n.vx;n.y+=n.vy;if(n.x<0||n.x>W)n.vx*=-1;if(n.y<0||n.y>H)n.vy*=-1;const dx=n.x-hx,dy=n.y-hy,d=Math.sqrt(dx*dx+dy*dy);if(d<110){n.x+=dx/d*.9;n.y+=dy/d*.9;}});
+  for(let i=0;i<nodes.length;i++)for(let j=i+1;j<nodes.length;j++){const a=nodes[i],b=nodes[j],dx=a.x-b.x,dy=a.y-b.y,d=Math.sqrt(dx*dx+dy*dy);if(d<130){ctx.beginPath();ctx.strokeStyle=`rgba(0,183,241,${(1-d/130)*.3})`;ctx.lineWidth=.7;ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();}}
+  nodes.forEach(n=>{ctx.beginPath();ctx.arc(n.x,n.y,n.r,0,Math.PI*2);ctx.fillStyle='rgba(0,183,241,.65)';ctx.shadowBlur=8;ctx.shadowColor='rgba(0,183,241,.5)';ctx.fill();ctx.shadowBlur=0;});
+  requestAnimationFrame(draw);
+})();
+
+// ── 3D TILT
+document.querySelectorAll('[data-tilt]').forEach(c=>{
+  c.addEventListener('mousemove',e=>{const r=c.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;c.style.transform=`perspective(700px) rotateY(${x*15}deg) rotateX(${-y*11}deg) scale(1.03)`;c.style.setProperty('--mx',((e.clientX-r.left)/r.width*100)+'%');c.style.setProperty('--my',((e.clientY-r.top)/r.height*100)+'%');});
+  c.addEventListener('mouseleave',()=>{c.style.transform='';});
+});
+
+// ── TERMINAL PARALLAX
+const termCard=document.getElementById('termCard');
+document.addEventListener('mousemove',e=>{const x=(e.clientX/innerWidth-.5)*9,y=(e.clientY/innerHeight-.5)*7;termCard.style.transform=`rotateX(${16-y}deg) rotateY(${-3+x}deg)`;},{passive:true});
+
+// ── MAGNETIC BUTTONS
+document.querySelectorAll('.btn-mag').forEach(b=>{
+  b.addEventListener('mousemove',e=>{const r=b.getBoundingClientRect(),x=e.clientX-r.left-r.width/2,y=e.clientY-r.top-r.height/2;b.style.transform=`translate(${x*.22}px,${y*.3}px)`;});
+  b.addEventListener('mouseleave',()=>{b.style.transform='';});
+});
+
+// ── TESTI SPOTLIGHT
+document.querySelectorAll('.why-card').forEach(c=>{c.addEventListener('mousemove',e=>{const r=c.getBoundingClientRect();c.style.setProperty('--tx',((e.clientX-r.left)/r.width*100)+'%');c.style.setProperty('--ty',((e.clientY-r.top)/r.height*100)+'%');});});
+</script>
+</body>
+</html>
