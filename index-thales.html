@@ -69,11 +69,67 @@
     .logo-a-svg { width:18px; height:22px; margin:0 1px; }
     .logo-sub { font-size:.58rem; font-weight:600; letter-spacing:3.5px; text-transform:uppercase; color:var(--cyan); margin-top:1px; padding-left:1px; }
 
-    .nav-links { display:flex; gap:2rem; font-size:.88rem; font-weight:500; color:var(--muted); }
+    .nav-links { display:flex; gap:2rem; font-size:.88rem; font-weight:500; color:var(--muted); align-items:center; }
     .nav-links a { transition:color .2s; position:relative; }
     .nav-links a::after { content:''; position:absolute; bottom:-2px; left:0; width:0; height:1px; background:var(--cyan); transition:width .3s; }
     .nav-links a:hover { color:var(--cyan); }
     .nav-links a:hover::after { width:100%; }
+
+    /* ── DROPDOWN ───────────────────────────────────── */
+    .nav-dd { position:relative; }
+    .nd-trigger {
+      display:flex; align-items:center; gap:.35rem;
+      cursor:none; color:var(--muted); font-size:.88rem; font-weight:500;
+      transition:color .2s; user-select:none; padding:4px 0;
+    }
+    .nd-trigger:hover { color:var(--cyan); }
+    .nd-arrow { font-size:.6rem; transition:transform .25s; display:inline-block; line-height:1; }
+    .nav-dd:hover .nd-arrow,
+    .nav-dd.open .nd-arrow { transform:rotate(180deg); }
+
+    .nd-panel {
+      position:absolute; top:calc(100% + 16px); left:50%;
+      transform:translateX(-50%) translateY(-10px);
+      background:rgba(2,16,24,.97); backdrop-filter:blur(24px);
+      border:1px solid rgba(0,183,241,.15); border-radius:16px;
+      padding:.6rem; min-width:260px;
+      opacity:0; visibility:hidden;
+      transition:opacity .25s cubic-bezier(.22,1,.36,1), transform .25s cubic-bezier(.22,1,.36,1), visibility .25s;
+      z-index:300;
+      box-shadow:0 24px 60px rgba(0,0,0,.7), 0 0 0 1px rgba(0,183,241,.04), 0 0 40px rgba(0,183,241,.04);
+    }
+    /* arrow tip */
+    .nd-panel::before {
+      content:''; position:absolute; top:-6px; left:50%; transform:translateX(-50%) rotate(45deg);
+      width:11px; height:11px; background:rgba(2,16,24,.97);
+      border-left:1px solid rgba(0,183,241,.15); border-top:1px solid rgba(0,183,241,.15);
+    }
+    .nav-dd:hover .nd-panel,
+    .nav-dd.open .nd-panel {
+      opacity:1; visibility:visible; transform:translateX(-50%) translateY(0);
+    }
+
+    .nd-item {
+      display:flex; align-items:center; gap:.85rem;
+      padding:.75rem .9rem; border-radius:10px;
+      color:var(--white); transition:background .2s, transform .15s;
+      cursor:none;
+    }
+    .nd-item:hover { background:rgba(255,255,255,.05); transform:translateX(3px); }
+    .nd-icon {
+      width:38px; height:38px; border-radius:10px; flex-shrink:0;
+      display:flex; align-items:center; justify-content:center; font-size:1rem;
+    }
+    .nd-info-name { font-size:.87rem; font-weight:700; }
+    .nd-info-desc { font-size:.7rem; color:var(--muted); margin-top:.1rem; }
+    .nd-sep { height:1px; background:rgba(0,183,241,.1); margin:.35rem .4rem; }
+    .nd-all {
+      display:flex; align-items:center; justify-content:center; gap:.4rem;
+      padding:.55rem; border-radius:8px; font-size:.78rem; font-weight:600;
+      color:var(--cyan); transition:background .2s; cursor:none;
+    }
+    .nd-all:hover { background:rgba(0,183,241,.08); }
+    #sage-100, #sage-x3, #sage-frp1000 { scroll-margin-top: 88px; }
 
     .nav-right { display:flex; gap:.75rem; align-items:center; }
     .nav-btn { padding:.48rem 1.2rem; border-radius:8px; font-size:.85rem; font-weight:600; font-family:inherit; cursor:none; transition:all .2s; }
@@ -484,7 +540,25 @@
     <div class="logo-sub">Informatique</div>
   </div>
   <div class="nav-links">
-    <a href="#produits">Produits Sage</a>
+    <div class="nav-dd">
+      <span class="nd-trigger">Produits Sage <span class="nd-arrow">▾</span></span>
+      <div class="nd-panel">
+        <a href="#sage-100" class="nd-item">
+          <div class="nd-icon" style="background:rgba(245,158,11,.12);color:#f59e0b">📊</div>
+          <div><div class="nd-info-name">Sage 100</div><div class="nd-info-desc">ERP PME &amp; TPE · modulaire</div></div>
+        </a>
+        <a href="#sage-x3" class="nd-item">
+          <div class="nd-icon" style="background:rgba(167,139,250,.12);color:#a78bfa">🏢</div>
+          <div><div class="nd-info-name">Sage X3</div><div class="nd-info-desc">ERP ETI &amp; Grands comptes</div></div>
+        </a>
+        <a href="#sage-frp1000" class="nd-item">
+          <div class="nd-icon" style="background:rgba(244,114,182,.12);color:#f472b6">💰</div>
+          <div><div class="nd-info-name">Sage FRP1000</div><div class="nd-info-desc">Finance avancée · Groupes</div></div>
+        </a>
+        <div class="nd-sep"></div>
+        <a href="#produits" class="nd-all">Voir tous les produits →</a>
+      </div>
+    </div>
     <a href="#solutions">Services</a>
     <a href="#sage">Partenaire Sage</a>
     <a href="#chiffres">Chiffres clés</a>
@@ -612,7 +686,7 @@
   <div class="produits-grid">
 
     <!-- SAGE 100 -->
-    <div class="prod-card prod-sage100 rv d1" data-tilt>
+    <div id="sage-100" class="prod-card prod-sage100 rv d1" data-tilt>
       <div class="prod-head">
         <div class="prod-tag">PME · TPE</div>
         <div class="prod-name">Sage 100</div>
@@ -634,7 +708,7 @@
     </div>
 
     <!-- SAGE X3 -->
-    <div class="prod-card prod-sagex3 rv d2" data-tilt>
+    <div id="sage-x3" class="prod-card prod-sagex3 rv d2" data-tilt>
       <div class="prod-head">
         <div class="prod-tag">ETI · Grands comptes</div>
         <div class="prod-name">Sage X3</div>
@@ -657,7 +731,7 @@
     </div>
 
     <!-- SAGE FRP1000 -->
-    <div class="prod-card prod-frp rv d3" data-tilt>
+    <div id="sage-frp1000" class="prod-card prod-frp rv d3" data-tilt>
       <div class="prod-head">
         <div class="prod-tag">Finance avancée · Groupes</div>
         <div class="prod-name">Sage FRP<span style="font-size:1.6rem">1000</span></div>
@@ -1179,6 +1253,19 @@ document.querySelectorAll('.btn-mag').forEach(b=>{
 
 // ── TESTI SPOTLIGHT
 document.querySelectorAll('.why-card').forEach(c=>{c.addEventListener('mousemove',e=>{const r=c.getBoundingClientRect();c.style.setProperty('--tx',((e.clientX-r.left)/r.width*100)+'%');c.style.setProperty('--ty',((e.clientY-r.top)/r.height*100)+'%');});});
+
+// ── DROPDOWN MOBILE TOGGLE
+document.querySelectorAll('.nd-trigger').forEach(t=>{
+  t.addEventListener('click',()=>{
+    const dd=t.closest('.nav-dd');
+    const isOpen=dd.classList.contains('open');
+    document.querySelectorAll('.nav-dd.open').forEach(d=>d.classList.remove('open'));
+    if(!isOpen) dd.classList.add('open');
+  });
+});
+document.addEventListener('click',e=>{if(!e.target.closest('.nav-dd'))document.querySelectorAll('.nav-dd.open').forEach(d=>d.classList.remove('open'));});
+// Close dropdown when an item is clicked
+document.querySelectorAll('.nd-item,.nd-all').forEach(a=>{a.addEventListener('click',()=>{document.querySelectorAll('.nav-dd.open').forEach(d=>d.classList.remove('open'));});});
 </script>
 </body>
 </html>
