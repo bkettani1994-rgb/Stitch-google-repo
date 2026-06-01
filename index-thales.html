@@ -320,8 +320,145 @@
     .footer-bottom { border-top:1px solid var(--border); padding-top:1.5rem; display:flex; justify-content:space-between; flex-wrap:wrap; gap:1rem; font-size:.78rem; color:var(--muted); }
     .footer-bottom a:hover { color:var(--white); }
 
+    /* ── PRODUITS SAGE ──────────────────────────────── */
+    .produits { padding: 8rem 5vw; background: var(--navy2); }
+
+    .produits-grid {
+      display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem;
+      max-width: 1200px; margin: 0 auto;
+    }
+
+    .prod-card {
+      border-radius: 20px; overflow: hidden;
+      border: 1px solid; position: relative;
+      display: flex; flex-direction: column;
+      transition: transform .35s cubic-bezier(.22,1,.36,1), box-shadow .35s;
+      cursor: none;
+    }
+    .prod-card:hover { transform: translateY(-8px); }
+
+    /* ── card header band ── */
+    .prod-head {
+      padding: 2rem 2rem 1.5rem;
+      position: relative; overflow: hidden;
+    }
+    .prod-head::after {
+      content: ''; position: absolute;
+      right: -30px; top: -30px;
+      width: 160px; height: 160px; border-radius: 50%;
+      background: radial-gradient(circle, var(--pc) 0%, transparent 70%);
+      opacity: .12; pointer-events: none;
+    }
+    .prod-tag {
+      font-family: 'JetBrains Mono', monospace; font-size: .65rem;
+      font-weight: 600; letter-spacing: 1.2px; text-transform: uppercase;
+      color: var(--pc); margin-bottom: .6rem;
+      display: flex; align-items: center; gap: .4rem;
+    }
+    .prod-tag::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--pc); flex-shrink: 0; animation: chipPulse 2s ease-in-out infinite; }
+    .prod-name {
+      font-size: 2.4rem; font-weight: 900; letter-spacing: -1.5px;
+      color: var(--pc); line-height: 1;
+      text-shadow: 0 0 30px rgba(var(--pcr),0.3);
+    }
+    .prod-tagline { font-size: .85rem; color: rgba(240,246,251,.65); margin-top: .6rem; line-height: 1.5; }
+    .prod-target {
+      margin-top: 1rem; display: inline-flex; align-items: center; gap: .4rem;
+      background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08);
+      border-radius: 6px; padding: .3rem .7rem;
+      font-size: .72rem; font-family: 'JetBrains Mono', monospace; color: var(--muted);
+    }
+    .prod-target::before { content: '👥'; font-size: .7rem; }
+
+    /* ── modules list ── */
+    .prod-modules {
+      padding: 1.25rem 2rem; flex: 1;
+      border-top: 1px solid rgba(255,255,255,.05);
+      background: rgba(0,0,0,.2);
+      display: flex; flex-direction: column; gap: .45rem;
+    }
+    .prod-modules-label {
+      font-family: 'JetBrains Mono', monospace; font-size: .63rem;
+      letter-spacing: 1px; text-transform: uppercase; color: var(--muted);
+      margin-bottom: .4rem; padding-bottom: .5rem;
+      border-bottom: 1px solid rgba(255,255,255,.05);
+    }
+    .prod-mod {
+      display: flex; align-items: center; gap: .6rem;
+      padding: .45rem .6rem; border-radius: 8px;
+      border: 1px solid rgba(255,255,255,.04);
+      background: rgba(255,255,255,.02);
+      transition: background .2s, transform .2s, border-color .2s;
+    }
+    .prod-mod:hover { background: rgba(255,255,255,.06); transform: translateX(4px); border-color: rgba(255,255,255,.08); }
+    .prod-mod-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--pc); flex-shrink: 0; }
+    .prod-mod-name { font-size: .8rem; font-weight: 600; flex: 1; }
+    .prod-mod-badge {
+      font-size: .6rem; font-family: 'JetBrains Mono', monospace;
+      padding: .1rem .4rem; border-radius: 4px;
+      border: 1px solid; border-color: var(--pc); color: var(--pc);
+      opacity: .6; white-space: nowrap;
+    }
+
+    /* ── footer CTA ── */
+    .prod-footer {
+      padding: 1.25rem 2rem 1.5rem;
+      border-top: 1px solid rgba(255,255,255,.05);
+      display: flex; gap: .75rem; flex-direction: column;
+    }
+    .prod-btn {
+      display: block; width: 100%; text-align: center;
+      padding: .75rem; border-radius: 10px;
+      font-family: inherit; font-weight: 700; font-size: .88rem;
+      cursor: none; transition: all .2s; border: none;
+    }
+    .prod-btn.fill { background: var(--pc); color: var(--dark); }
+    .prod-btn.fill:hover { filter: brightness(1.1); box-shadow: 0 0 24px rgba(var(--pcr),.4); transform: translateY(-1px); }
+    .prod-btn.ghost { border: 1px solid; border-color: var(--pc); color: var(--pc); background: transparent; }
+    .prod-btn.ghost:hover { background: rgba(var(--pcr),.08); }
+
+    /* ── per-product colors ── */
+    .prod-sage100 { border-color: rgba(245,158,11,.25); --pc:#f59e0b; --pcr:245,158,11; }
+    .prod-sage100:hover { box-shadow: 0 24px 56px rgba(245,158,11,.15); border-color: rgba(245,158,11,.4); }
+    .prod-sage100 .prod-head { background: linear-gradient(160deg, rgba(245,158,11,.1) 0%, rgba(245,158,11,.03) 100%); }
+
+    .prod-sagex3 { border-color: rgba(167,139,250,.25); --pc:#a78bfa; --pcr:167,139,250; }
+    .prod-sagex3:hover { box-shadow: 0 24px 56px rgba(167,139,250,.15); border-color: rgba(167,139,250,.4); }
+    .prod-sagex3 .prod-head { background: linear-gradient(160deg, rgba(167,139,250,.1) 0%, rgba(167,139,250,.03) 100%); }
+
+    .prod-frp { border-color: rgba(244,114,182,.25); --pc:#f472b6; --pcr:244,114,182; }
+    .prod-frp:hover { box-shadow: 0 24px 56px rgba(244,114,182,.15); border-color: rgba(244,114,182,.4); }
+    .prod-frp .prod-head { background: linear-gradient(160deg, rgba(244,114,182,.1) 0%, rgba(244,114,182,.03) 100%); }
+
+    /* ── COMPARATIF TABLE ───────────────────────────── */
+    .comparatif { padding: 4rem 5vw 8rem; }
+    .comp-table-wrap { max-width: 1000px; margin: 0 auto; overflow-x: auto; }
+    .comp-table { width: 100%; border-collapse: collapse; }
+    .comp-table th {
+      padding: 1rem 1.25rem; font-size: .78rem; font-weight: 700;
+      text-align: center; border-bottom: 1px solid var(--border);
+    }
+    .comp-table th.feat-col { text-align: left; color: var(--muted); font-family: 'JetBrains Mono', monospace; letter-spacing: .5px; text-transform: uppercase; font-size: .68rem; }
+    .comp-table th.s100 { color: #f59e0b; }
+    .comp-table th.sx3  { color: #a78bfa; }
+    .comp-table th.frp  { color: #f472b6; }
+    .comp-table td { padding: .75rem 1.25rem; border-bottom: 1px solid rgba(255,255,255,.04); font-size: .85rem; text-align: center; }
+    .comp-table td.feat-col { text-align: left; color: var(--muted); font-size: .82rem; }
+    .comp-table tr:hover td { background: rgba(0,183,241,.03); }
+    .comp-table .sect-row td { background: rgba(0,183,241,.04); font-weight: 700; font-size: .78rem; color: var(--cyan); text-transform: uppercase; letter-spacing: .5px; font-family: 'JetBrains Mono', monospace; border-top: 1px solid var(--border); padding: .6rem 1.25rem; text-align: left; }
+    .check { color: #34d399; font-size: 1rem; }
+    .partial { color: #f59e0b; font-size: .75rem; }
+    .cross { color: var(--muted2); }
+    .target-badge { display: inline-block; font-size: .68rem; padding: .18rem .6rem; border-radius: 999px; font-weight: 700; font-family: 'JetBrains Mono', monospace; }
+    .tb-100 { background: rgba(245,158,11,.15); color: #f59e0b; border: 1px solid rgba(245,158,11,.3); }
+    .tb-x3  { background: rgba(167,139,250,.15); color: #a78bfa; border: 1px solid rgba(167,139,250,.3); }
+    .tb-frp { background: rgba(244,114,182,.15); color: #f472b6; border: 1px solid rgba(244,114,182,.3); }
+
     /* ── RESPONSIVE ─────────────────────────────────── */
-    @media(max-width:900px) { .sage-inner{flex-direction:column;gap:3rem} .sage-visual{width:100%} .sage-card-3d{transform:none} }
+    @media(max-width:900px) {
+      .sage-inner{flex-direction:column;gap:3rem} .sage-visual{width:100%} .sage-card-3d{transform:none}
+      .produits-grid{grid-template-columns:1fr}
+    }
     @media(max-width:768px) { .nav-links{display:none} .footer-top{grid-template-columns:1fr 1fr} .t-side{display:none} body{cursor:auto} .cur-dot,.cur-ring{display:none} .ch-item{border-right:none;border-bottom:1px solid var(--border)} }
     @media(max-width:520px) { .footer-top{grid-template-columns:1fr} }
   </style>
@@ -347,9 +484,10 @@
     <div class="logo-sub">Informatique</div>
   </div>
   <div class="nav-links">
-    <a href="#solutions">Solutions</a>
+    <a href="#produits">Produits Sage</a>
+    <a href="#solutions">Services</a>
     <a href="#sage">Partenaire Sage</a>
-    <a href="#chiffres">Chiffres</a>
+    <a href="#chiffres">Chiffres clés</a>
     <a href="#contact">Contact</a>
   </div>
   <div class="nav-right">
@@ -462,6 +600,226 @@
     <span class="ticker-item"><span></span>+30 ans d'expertise</span>
   </div>
 </div>
+
+<!-- PRODUITS SAGE -->
+<section class="produits" id="produits">
+  <div class="sh rv">
+    <span class="sh-tag">// nos_produits_sage</span>
+    <h2>Choisissez la solution Sage<br/><em>adaptée à votre entreprise</em></h2>
+    <p>Thalès Informatique est revendeur certifié Sage au Maroc. Nous intégrons Sage 100, Sage X3 et Sage FRP1000 selon votre taille, votre secteur et vos ambitions.</p>
+  </div>
+
+  <div class="produits-grid">
+
+    <!-- SAGE 100 -->
+    <div class="prod-card prod-sage100 rv d1" data-tilt>
+      <div class="prod-head">
+        <div class="prod-tag">PME · TPE</div>
+        <div class="prod-name">Sage 100</div>
+        <div class="prod-tagline">L'ERP modulaire de référence pour les PME marocaines — simple, complet et évolutif</div>
+        <div class="prod-target">Jusqu'à 250 utilisateurs</div>
+      </div>
+      <div class="prod-modules">
+        <div class="prod-modules-label">Modules disponibles</div>
+        <div class="prod-mod"><div class="prod-mod-dot"></div><div class="prod-mod-name">Comptabilité & Finance</div><span class="prod-mod-badge">core</span></div>
+        <div class="prod-mod"><div class="prod-mod-dot"></div><div class="prod-mod-name">Gestion Commerciale</div><span class="prod-mod-badge">core</span></div>
+        <div class="prod-mod"><div class="prod-mod-dot"></div><div class="prod-mod-name">Paie & RH</div><span class="prod-mod-badge">module</span></div>
+        <div class="prod-mod"><div class="prod-mod-dot"></div><div class="prod-mod-name">Immobilisations</div><span class="prod-mod-badge">module</span></div>
+        <div class="prod-mod"><div class="prod-mod-dot"></div><div class="prod-mod-name">Production & Stocks</div><span class="prod-mod-badge">module</span></div>
+      </div>
+      <div class="prod-footer">
+        <a href="/solutions/sage-100" class="prod-btn fill">Découvrir Sage 100 →</a>
+        <a href="/solutions/sage-100/tarifs" class="prod-btn ghost">Demander un devis</a>
+      </div>
+    </div>
+
+    <!-- SAGE X3 -->
+    <div class="prod-card prod-sagex3 rv d2" data-tilt>
+      <div class="prod-head">
+        <div class="prod-tag">ETI · Grands comptes</div>
+        <div class="prod-name">Sage X3</div>
+        <div class="prod-tagline">ERP complet pour les entreprises en forte croissance — finance, supply chain, production</div>
+        <div class="prod-target">Multi-sites · Multi-pays · Multi-devises</div>
+      </div>
+      <div class="prod-modules">
+        <div class="prod-modules-label">Modules disponibles</div>
+        <div class="prod-mod"><div class="prod-mod-dot"></div><div class="prod-mod-name">Finance & Contrôle de gestion</div><span class="prod-mod-badge">core</span></div>
+        <div class="prod-mod"><div class="prod-mod-dot"></div><div class="prod-mod-name">Distribution & Supply Chain</div><span class="prod-mod-badge">core</span></div>
+        <div class="prod-mod"><div class="prod-mod-dot"></div><div class="prod-mod-name">Production & Manufacturing</div><span class="prod-mod-badge">module</span></div>
+        <div class="prod-mod"><div class="prod-mod-dot"></div><div class="prod-mod-name">CRM & Relation client</div><span class="prod-mod-badge">module</span></div>
+        <div class="prod-mod"><div class="prod-mod-dot"></div><div class="prod-mod-name">Décisionnel & BI</div><span class="prod-mod-badge">module</span></div>
+        <div class="prod-mod"><div class="prod-mod-dot"></div><div class="prod-mod-name">RH & Paie avancée</div><span class="prod-mod-badge">module</span></div>
+      </div>
+      <div class="prod-footer">
+        <a href="/solutions/sage-x3" class="prod-btn fill">Découvrir Sage X3 →</a>
+        <a href="/solutions/sage-x3/tarifs" class="prod-btn ghost">Demander une démo</a>
+      </div>
+    </div>
+
+    <!-- SAGE FRP1000 -->
+    <div class="prod-card prod-frp rv d3" data-tilt>
+      <div class="prod-head">
+        <div class="prod-tag">Finance avancée · Groupes</div>
+        <div class="prod-name">Sage FRP<span style="font-size:1.6rem">1000</span></div>
+        <div class="prod-tagline">Solution financière haut de gamme — trésorerie, consolidation multi-entités et reporting IFRS</div>
+        <div class="prod-target">Groupes · Holdings · Multi-entités</div>
+      </div>
+      <div class="prod-modules">
+        <div class="prod-modules-label">Modules disponibles</div>
+        <div class="prod-mod"><div class="prod-mod-dot"></div><div class="prod-mod-name">Finance & Trésorerie</div><span class="prod-mod-badge">core</span></div>
+        <div class="prod-mod"><div class="prod-mod-dot"></div><div class="prod-mod-name">Consolidation multi-entités</div><span class="prod-mod-badge">core</span></div>
+        <div class="prod-mod"><div class="prod-mod-dot"></div><div class="prod-mod-name">Reporting & Normes IFRS</div><span class="prod-mod-badge">core</span></div>
+        <div class="prod-mod"><div class="prod-mod-dot"></div><div class="prod-mod-name">Budget & Prévisionnel</div><span class="prod-mod-badge">module</span></div>
+        <div class="prod-mod"><div class="prod-mod-dot"></div><div class="prod-mod-name">Analyse & Décisionnel</div><span class="prod-mod-badge">module</span></div>
+      </div>
+      <div class="prod-footer">
+        <a href="/solutions/sage-frp1000" class="prod-btn fill">Découvrir FRP1000 →</a>
+        <a href="/solutions/sage-frp1000/demo" class="prod-btn ghost">Demander une démo</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- COMPARATIF PRODUITS -->
+<section class="comparatif">
+  <div class="sh rv">
+    <span class="sh-tag">// comparatif_sage</span>
+    <h2>Quelle solution Sage<br/><em>choisir ?</em></h2>
+    <p>Un tableau comparatif pour vous aider à identifier la solution la plus adaptée à votre entreprise.</p>
+  </div>
+  <div class="comp-table-wrap rv">
+    <table class="comp-table">
+      <thead>
+        <tr>
+          <th class="feat-col">Critère</th>
+          <th class="s100">Sage 100</th>
+          <th class="sx3">Sage X3</th>
+          <th class="frp">Sage FRP1000</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="sect-row"><td colspan="4">Cible & Contexte</td></tr>
+        <tr>
+          <td class="feat-col">Profil entreprise cible</td>
+          <td><span class="target-badge tb-100">PME · TPE</span></td>
+          <td><span class="target-badge tb-x3">ETI · Grands comptes</span></td>
+          <td><span class="target-badge tb-frp">Groupes · Holdings</span></td>
+        </tr>
+        <tr>
+          <td class="feat-col">Nombre d'utilisateurs</td>
+          <td>Jusqu'à 250</td>
+          <td>Illimité</td>
+          <td>Illimité</td>
+        </tr>
+        <tr>
+          <td class="feat-col">Multi-sites / Multi-pays</td>
+          <td><span class="partial">Partiel</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+        </tr>
+        <tr>
+          <td class="feat-col">Multi-devises</td>
+          <td><span class="partial">Limité</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+        </tr>
+
+        <tr class="sect-row"><td colspan="4">Finance & Comptabilité</td></tr>
+        <tr>
+          <td class="feat-col">Comptabilité générale</td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+        </tr>
+        <tr>
+          <td class="feat-col">Trésorerie avancée</td>
+          <td><span class="partial">Basique</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓ Avancé</span></td>
+        </tr>
+        <tr>
+          <td class="feat-col">Consolidation multi-entités</td>
+          <td><span class="cross">—</span></td>
+          <td><span class="partial">Partiel</span></td>
+          <td><span class="check">✓ Natif</span></td>
+        </tr>
+        <tr>
+          <td class="feat-col">Reporting IFRS / GAAP</td>
+          <td><span class="cross">—</span></td>
+          <td><span class="partial">Partiel</span></td>
+          <td><span class="check">✓ Natif</span></td>
+        </tr>
+        <tr>
+          <td class="feat-col">Budget & Prévisionnel</td>
+          <td><span class="partial">Basique</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓ Avancé</span></td>
+        </tr>
+
+        <tr class="sect-row"><td colspan="4">Opérations & Supply Chain</td></tr>
+        <tr>
+          <td class="feat-col">Gestion commerciale</td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="cross">—</span></td>
+        </tr>
+        <tr>
+          <td class="feat-col">Supply Chain & Stocks</td>
+          <td><span class="partial">Basique</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="cross">—</span></td>
+        </tr>
+        <tr>
+          <td class="feat-col">Production & Manufacturing</td>
+          <td><span class="partial">Module opt.</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="cross">—</span></td>
+        </tr>
+        <tr>
+          <td class="feat-col">CRM & Ventes</td>
+          <td><span class="cross">—</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="cross">—</span></td>
+        </tr>
+
+        <tr class="sect-row"><td colspan="4">RH & Paie</td></tr>
+        <tr>
+          <td class="feat-col">Gestion de la paie</td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="cross">—</span></td>
+        </tr>
+        <tr>
+          <td class="feat-col">Gestion des talents</td>
+          <td><span class="partial">Basique</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="cross">—</span></td>
+        </tr>
+
+        <tr class="sect-row"><td colspan="4">Technologie & Intégration</td></tr>
+        <tr>
+          <td class="feat-col">API & Connecteurs</td>
+          <td><span class="partial">Limité</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+        </tr>
+        <tr>
+          <td class="feat-col">Cloud / SaaS</td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓</span></td>
+        </tr>
+        <tr>
+          <td class="feat-col">Business Intelligence</td>
+          <td><span class="partial">Basique</span></td>
+          <td><span class="check">✓</span></td>
+          <td><span class="check">✓ Avancé</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
 
 <!-- SOLUTIONS -->
 <section class="solutions" id="solutions">
